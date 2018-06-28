@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import IndexCom from '@/pages/index/index';
 // index children
 import HomeCom from '@/pages/index/home/home';
+import ProjectDetails from '@/pages/index/home/details';
 import UserDetailCom from '@/pages/index/user-detail';
 import PublicAccountCom from '@/pages/index/public-account';
 
@@ -32,6 +33,11 @@ export default new Router({
                     component: HomeCom,
                 },
                 {
+                    path: 'projectDetails',
+                    name: 'projectDetails',
+                    component: ProjectDetails,
+                },
+                {
                     path: 'bulletin',
                     name: 'bulletin',
                     component: BulletinCom,
@@ -47,7 +53,7 @@ export default new Router({
                     component: UserDetailCom,
                 },
             ],
-        },
+        },	
         {
             path: '/tikindex',
             name: 'tikindex',

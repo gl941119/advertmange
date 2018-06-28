@@ -1,28 +1,30 @@
 @import './variable.scss';
 .bierinc-header {
     background: $basicColor;
-    border: 1px solid #3e474d;
     &-left {
         height: 100%;
     }
+    color: rgba(16, 16, 16, 1);
 }
+
 .bierinc-logo-content {
     display: flex;
     align-items: center;
     height: 100%;
-    & > div {
+    &>div {
         margin-left: 10px;
         line-height: 36px;
         color: #fff;
         font-size: 22px;
     }
 }
+
 .bierinc-lanuage {
     height: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    &-icon > img {
+    &-icon>img {
         width: 30px;
         margin-right: 20px;
     }
@@ -35,6 +37,7 @@
         }
     }
 }
+
 .active {
     display: none;
 }
@@ -46,32 +49,33 @@
         height: 100%;
         &-menu {
             height: 100%;
-            background: #393d49;
-
+            background: #ffffff;
+            border: 1px solid rgba(187, 187, 187, 1);
             &-li {
                 text-align: center;
-                height: 56px;
-                line-height: 56px;
-                padding: 0 20px;
+                height: 40px;
+                line-height: 40px;
                 cursor: pointer;
+                color: rgba(16, 16, 16, 1);
+                font-size: 14px;
+                border-bottom: 1px solid rgba(187, 187, 187, 1);
                 transition: border-color 0.3s, background-color 0.3s, color 0.3s;
                 box-sizing: border-box;
-                color: rgb(196, 197, 201);
-                &:hover {
-                    background-color: rgb(46, 49, 58);
-                }
-                &.router-link-active {
-                    background-color: rgb(46, 49, 58);
-                    color: #fff;
-                    & i.el-icon-menu {
-                        color: #2ec991;
-                    }
-                }
+//              &:hover {
+//                  background-color: rgb(46, 49, 58);
+//              }
+//              &.router-link-active {
+//                  background-color: rgb(46, 49, 58);
+//                  color: #fff;
+//                  & i.el-icon-menu {
+//                      color: #2ec991;
+//                  }
+//              }
             }
         }
     }
     &-view {
-        background: #edf0f5;
+        background: #ffffff;
     }
 }
 
@@ -101,10 +105,9 @@
 
 // table header
 .el-table .custom-header {
-    background-color: $activeColor;
-    color: #fff;
+    background-color: #ffffff;
+    color: rgba(16, 16, 16, 1);
 }
-
 // data management analysis
 .data-analysis {
     &-header {
@@ -114,7 +117,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        &-item{
+        &-item {
             padding: 10px 30px;
             border-right: 1px solid #ccc;
             width: 25%;
@@ -124,18 +127,18 @@
             align-items: center;
             flex-direction: column;
             justify-content: center;
-            &>span:first-child{
+            &>span:first-child {
                 font-size: 28px;
                 color: #60C6DF;
             }
-            &:last-child{
+            &:last-child {
                 border-right: none;
             }
         }
     }
-    &-body{
+    &-body {
         margin-bottom: 20px;
-        &-text{
+        &-text {
             font-size: 20px;
             color: $textColor;
             font-weight: bold;

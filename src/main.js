@@ -12,7 +12,7 @@ import Cache from './utils/cache';
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 
-router.beforeEach((to, from, next) => {
+/*router.beforeEach((to, from, next) => {
     let token = Cache.getSession('bier_token');
 
     if (to.matched.some(record => record.meta.requiresAuth)) {
@@ -24,7 +24,7 @@ router.beforeEach((to, from, next) => {
     } else {
         next();
     }
-});
+});*/
 
 /* eslint-disable no-new */
 new Vue({
