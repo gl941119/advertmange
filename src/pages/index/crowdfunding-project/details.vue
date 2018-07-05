@@ -19,7 +19,7 @@
 					<label class="project_review_details_item_li_label">核心团队成员</label>
 				</li>
 				<div class="project_review_details_item_li_info">
-					<el-table :show-header=false border :data="details.advertTeamMemberResults" style="width: 100%">
+					<el-table :show-header=false border :data="details.CrowdTeamMemberResult" style="width: 100%">
 						<el-table-column prop="name" label="日期" width="180">
 						</el-table-column>
 						<el-table-column prop="title" label="姓名" width="180">
@@ -32,7 +32,7 @@
 					<label class="project_review_details_item_li_label">顾问团队</label>
 				</li>
 				<div class="project_review_details_item_li_info">
-					<el-table :show-header=false border :data="details.advertTeamConsultantsResults" style="width: 100%">
+					<el-table :show-header=false border :data="details.CrowdTeamConsultantsResult" style="width: 100%">
 						<el-table-column prop="name" label="日期" width="180">
 						</el-table-column>
 						<el-table-column prop="title" label="姓名" width="180">
@@ -90,7 +90,46 @@
 			</ul>
 		</div>
 		<div class="project_review_details_project">
-			<div class="project_review_details_title">相关链接</div>
+			<div class="project_review_details_title">本轮众筹标题</div>
+			<ul class="project_review_details_item">
+				<li class="project_review_details_item_li">
+					<label class="project_review_details_item_li_label">发行总量</label>
+					<div class="project_review_details_item_li_intro">{{details.circulation}}</div>
+				</li>
+				<li class="project_review_details_item_li">
+					<label class="project_review_details_item_li_label">众筹总量</label>
+					<div class="project_review_details_item_li_intro">{{details.totalCrowdfund}}</div>
+				</li>
+				<li class="project_review_details_item_li">
+					<label class="project_review_details_item_li_label">本轮次发行量</label>
+					<div class="project_review_details_item_li_intro">{{details.currCirculation}}</div>
+				</li>
+				<li class="project_review_details_item_li">
+					<label class="project_review_details_item_li_label">众筹价格</label>
+					<div class="project_review_details_item_li_intro">{{details.price}}</div>
+				</li>
+				<li class="project_review_details_item_li">
+					<label class="project_review_details_item_li_label">目标货币</label>
+					<div class="project_review_details_item_li_intro">{{details.targetCurrency}}</div>
+				</li>
+				<li class="project_review_details_item_li">
+					<label class="project_review_details_item_li_label">发行硬顶</label>
+					<div class="project_review_details_item_li_intro">{{details.lowLimit }}</div>
+				</li>
+				<li class="project_review_details_item_li">
+					<label class="project_review_details_item_li_label">发行软顶</label>
+					<div class="project_review_details_item_li_intro">{{details.topLimit}}</div>
+				</li>
+				<li class="project_review_details_item_li">
+					<label class="project_review_details_item_li_label">本轮众筹时间</label>
+					<div class="project_review_details_item_li_intro">
+						<span>{{details.startTime}}</span> ~ <span>{{details.endTime}}</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="project_review_details_project">
+			<div class="project_review_details_title">相关链接与文件</div>
 			<ul class="project_review_details_item">
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">官方网站</label>
@@ -100,43 +139,17 @@
 					<label class="project_review_details_item_li_label">白皮书</label>
 					<div class="project_review_details_item_li_intro">{{details.whitePaper}}</div>
 				</li>
-				<li class="project_review_details_item_li" v-if="details.customWebsite1 || details.customAddress1">
-					<label class="project_review_details_item_li_label">{{details.customWebsite1}}</label>
-					<span style="margin-right: 20px;">{{details.customAddress1}}</span>
-				</li>
-				<li class="project_review_details_item_li" v-if="details.customWebsite2 || details.customAddress2">
-					<label class="project_review_details_item_li_label">{{details.customWebsite2}}</label>
-					<span style="margin-right: 20px;">{{details.customAddress2}}</span>
-				</li>
-				<li class="project_review_details_item_li" v-if="details.customWebsite3 || details.customAddress3">
-					<label class="project_review_details_item_li_label">{{details.customWebsite3}}</label>
-					<span style="margin-right: 20px;">{{details.customAddress3}}</span>
-				</li>
-				<li class="project_review_details_item_li" v-if="details.customWebsite4 || details.customAddress4">
-					<label class="project_review_details_item_li_label">{{details.customWebsite4}}</label>
-					<span style="margin-right: 20px;">{{details.customAddress4}}</span>
-				</li>
-				<li class="project_review_details_item_li" v-if="details.customWebsite5 || details.customAddress5">
-					<label class="project_review_details_item_li_label">{{details.customWebsite5}}</label>
-					<span style="margin-right: 20px;">{{details.customAddress5}}</span>
-				</li>
-				<li class="project_review_details_item_li" v-if="details.customWebsite6 || details.customAddress6">
-					<label class="project_review_details_item_li_label">{{details.customWebsite6}}</label>
-					<span style="margin-right: 20px;">{{details.customAddress6}}</span>
-				</li>
-				<li class="project_review_details_item_li" v-if="details.customWebsite7 || details.customAddress7">
-					<label class="project_review_details_item_li_label">{{details.customWebsite7}}</label>
-					<span style="margin-right: 20px;">{{details.customAddress7}}</span>
-				</li>
-				<li class="project_review_details_item_li" v-if="details.customWebsite8 || details.customAddress8">
-					<label class="project_review_details_item_li_label">{{details.customWebsite8}}</label>
-					<span style="margin-right: 20px;">{{details.customAddress8}}</span>
+				<li class="project_review_details_item_li">
+					<label class="project_review_details_item_li_label">合规性文件</label>
+					<a v-if="details.license"
+                           :href="details.license"
+                           download>下载</a>
 				</li>
 			</ul>
 		</div>
 		<button class="check" @click="passed">审核通过</button>
 		<button class="check" @click="notPassed">审核不通过</button>
-		
+		<p>请在众筹合约部署完成后点击通过</p>
 	</div>
 </template>
 
@@ -146,9 +159,19 @@
 	export default {
 		data() {
 			return {
+				coreTeamMembers: [{
+					a: '1111',
+					b: '2222',
+					c: '3333'
+				}],
+				consultantTeam: [{
+					a: '1111',
+					b: '2222',
+					c: '3333'
+				}],
 				details:{
 					
-				},
+				}
 			};
 		},
 		mounted(){
@@ -158,7 +181,7 @@
 			queryDetails(page = Config.pageStart) {
 				var id = this.$route.params.id;
 				let params = {
-					url: 'QueryDetails',
+					url: 'QueryCrowdfundingDetails',
 					data: {
 						id:id
 					},
@@ -166,13 +189,13 @@
 				}
 				Request.requestHandle(params, res => {
 					this.details = res.data;
-					console.log(this.details)
+					console.log(res)
 				});
 			},
 			passed(){
 				var id = this.$route.params.id;
 				let params = {
-					url: 'QueryPass',
+					url: 'QueryCrowdfundingPass',
 					data: {
 						id:id
 					},
@@ -187,7 +210,7 @@
 			notPassed(){
 				var id = this.$route.params.id;
 				let params = {
-					url: 'QueryNotPass',
+					url: 'QueryCrowdfundingNotpass',
 					data: {
 						id:id
 					},

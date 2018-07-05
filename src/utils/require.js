@@ -13,10 +13,10 @@ async function ajaxRequest(url = '', data = {}, type = 'POST', isJson = false) {
     type = type.toUpperCase();
     let platformType = Cache.getSession('platform_type') || store.state.type;
     url = indexURL[url];
+    let token = store.state.token || Cache.getSession('bier_token');
     if (type === 'GET') {
-        return axios.get(url, {params: data});
+    	return axios.get(url, {headers:{token},params: data});
     } else if (type === 'POST') {
-        let token = store.state.token || Cache.getSession('bier_token');
 
         if (isJson) {
             return axios.post(url, data, {

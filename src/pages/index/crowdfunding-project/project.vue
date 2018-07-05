@@ -13,15 +13,15 @@
 				<el-button @click="getDataInfo">搜索</el-button>
 			</div>
 		</div>
-		<el-table ref="multipleTable" :data="bulletinListData" @row-click="openDetails" tooltip-effect="dark" border stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%;margin-top: 20px;">
+		<el-table ref="multipleTable" :data="projectData" @row-click="openDetails" tooltip-effect="dark" border stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%;margin-top: 20px;">
 			<el-table-column prop="accountId" label="UID" align="center">
 			</el-table-column>
-			<el-table-column prop="proName" label="项目名称" align="center">
-			</el-table-column>
-			<el-table-column prop="company" label="代币信息" align="center">
+			<el-table-column label="代币信息" align="center">
 				<template slot-scope="scope">
 					<div>{{scope.row.shotEnName}}/{{scope.row.shotCnName}}/{{scope.row.fullEnName}}</div>
 				</template>
+			</el-table-column>
+			<el-table-column prop="title" label="本轮众筹标题" align="center">
 			</el-table-column>
 			<el-table-column prop="teamName" label="团队名称" align="center">
 			</el-table-column>
@@ -31,9 +31,11 @@
 			</el-table-column>
 			<el-table-column prop="status" label="状态" align="center">
 				<template slot-scope="scope">
-					<div v-if="scope.row.isCheck == 0">待审核</div>
-					<div v-if="scope.row.isCheck == 1">已上架</div>
-					<div v-if="scope.row.isCheck == 2">修改中</div>
+					<div>
+						<div v-if="scope.row.isCheck == 0">待审核</div>
+						<div v-if="scope.row.isCheck == 1">已上架</div>
+						<div v-if="scope.row.isCheck == 2">修改中</div>
+					</div>
 				</template>
 			</el-table-column>
 			<el-table-column label="操作" align="center" min-width="100" show-overflow-tooltip>
@@ -55,11 +57,12 @@
 <script>
 	import Config from '../../../utils/config';
 	import Request from '../../../utils/require';
+	import Cache from '../../../utils/cache';
 	export default {
 		data() {
 			return {
 				pageSize: Config.pageSize,
-				bulletinListData: [],
+				projectData: [],
 				options: [{
 					value: '-1',
 					label: '全部',
@@ -84,7 +87,7 @@
 			openDetails(row) {
 				console.log(row.id);
 				this.$router.push({
-					path: 'projectDetails/' + row.id ,
+					path: 'crowdfundingDetail/'+ row.id,
 					params: {
 						id: row.id,
 					}
@@ -92,7 +95,7 @@
 			},
 			getDataInfo(page = Config.pageStart) {
 				let params = {
-					url: 'QueryHome',
+					url: 'QueryCrowdfunding',
 					data: {
 						page,
 						pagesize: this.pageSize,
@@ -102,7 +105,8 @@
 					type: 'get',
 				}
 				Request.requestHandle(params, res => {
-					this.bulletinListData = res.data;
+					console.log(res)
+					this.projectData = res.data;
 				});
 			},
 			showDevice(item) {

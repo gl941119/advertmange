@@ -1,16 +1,26 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+
+import LoginCom from '@/pages/login/login';
 import IndexCom from '@/pages/index/index';
-// index children
+// index children广告项目管理
 import HomeCom from '@/pages/index/home/home';
 import ProjectDetails from '@/pages/index/home/details';
-import UserDetailCom from '@/pages/index/user-detail';
-import PublicAccountCom from '@/pages/index/public-account';
+//众筹项目管理
+import CrowdfundingCom from '@/pages/index/crowdfunding-project/project';
+import CrowdfundingDetail from '@/pages/index/crowdfunding-project/details';
+//广告位管理
+import AdvertisingCom from '@/pages/index/advertising-space/index';
+//身份认证审核
+import AuthenticationCom from '@/pages/index/authentication/index';
+//概念标签管理
+import ConceptnCom from '@/pages/index/conceptLabel/concept';
 
+
+import PublicAccountCom from '@/pages/index/public-account';
 import BulletinCom from '@/pages/index/material/bulletin';
 import FeedbackCom from '@/pages/index/material/feedback';
-import LoginCom from '@/pages/login/login';
 
 Vue.use(Router);
 
@@ -19,6 +29,11 @@ export default new Router({
         {
             path: '/',
             redirect: {name: 'login'},
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: LoginCom,
         },
         {
             path: '/index',
@@ -33,66 +48,36 @@ export default new Router({
                     component: HomeCom,
                 },
                 {
-                    path: 'projectDetails',
+                    path: 'projectDetails/:id',
                     name: 'projectDetails',
                     component: ProjectDetails,
                 },
                 {
-                    path: 'bulletin',
-                    name: 'bulletin',
-                    component: BulletinCom,
+                    path: 'crowdfunding',
+                    name: 'crowdfunding',
+                    component: CrowdfundingCom ,
                 },
                 {
-                    path: 'feedback',
-                    name: 'feedback',
-                    component: FeedbackCom,
+                    path: 'crowdfundingDetail/:id',
+                    name: 'crowdfundingDetail',
+                    component: CrowdfundingDetail,
                 },
                 {
-                    path: 'userdetail',
-                    name: 'userdetail',
-                    component: UserDetailCom,
+                    path: 'advertising',
+                    name: 'advertising',
+                    component: AdvertisingCom,
                 },
+                {
+                    path: 'authentication',
+                    name: 'authentication',
+                    component: AuthenticationCom,
+                },
+                {
+                    path: 'concept',
+                    name: 'concept',
+                    component: ConceptnCom,
+                }
             ],
         },	
-        {
-            path: '/tikindex',
-            name: 'tikindex',
-            meta: {requiresAuth: true},
-            component: IndexCom,
-            redirect: {name: 'tikhome'},
-            children: [
-                {
-                    path: 'tikhome',
-                    name: 'tikhome',
-                    component: HomeCom,
-                },
-                {
-                    path: 'tikbulletin',
-                    name: 'tikbulletin',
-                    component: BulletinCom,
-                },
-                {
-                    path: 'tikfeedback',
-                    name: 'tikfeedback',
-                    component: FeedbackCom,
-                },
-                {
-                    path: 'tikuserdetail',
-                    name: 'tikuserdetail',
-                    component: UserDetailCom,
-                },
-                {
-                    path: 'tikpublic',
-                    name: 'tikpublic',
-                    component: PublicAccountCom,
-                },
-            ],
-        },
-        {
-            path: '/login',
-            name: 'login',
-            component: LoginCom,
-        },
-        {path: '*', redirect: '/'},
     ],
 });

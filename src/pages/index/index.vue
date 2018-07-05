@@ -8,8 +8,12 @@
 				<el-col :span="8" :offset="8" class="bierinc-lanuage">
 					<el-dropdown class="bierinc-lanuage-drop" @command="handleCommand">
 						<span class="el-dropdown-link">
-                            <span>管理员账号</span>
+                            你好，
+                            <span>{{userName}}</span>
 						</span>
+						<el-dropdown-menu slot="dropdown">
+							<el-dropdown-item command="out">退出</el-dropdown-item>
+						</el-dropdown-menu>
 					</el-dropdown>
 				</el-col>
 			</el-row>
@@ -17,12 +21,11 @@
 		<el-container class="bierinc-main-container">
 			<el-aside width="200px" class="bierinc-main-container-aside">
 				<ul class="bierinc-main-container-aside-menu">
-					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name: platform==='amazon'?'home':'tikhome' }">项目审核</router-link>
-					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name: platform==='amazon'?'bulletin':'tikbulletin' }">广告审核</router-link>
-					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name: platform==='amazon'?'feedback':'tikfeedback' }">众筹项目</router-link>
-					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name: platform==='amazon'?'feedback':'tikfeedback' }">广告位管理</router-link>
-					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name: platform==='amazon'?'feedback':'tikfeedback' }">身份认证审核</router-link>
-					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name: platform==='amazon'?'feedback':'tikfeedback' }">概念标签管理</router-link>
+					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'home' }">广告项目审核</router-link>
+					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'crowdfunding'}">众筹项目审核</router-link>
+					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'advertising'}">广告位管理</router-link>
+					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'authentication'}">身份认证审核</router-link>
+					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'concept'}">概念标签管理</router-link>
 				</ul>
 			</el-aside>
 			<el-main class="bierinc-main-container-view">
@@ -37,9 +40,8 @@
 	export default {
 		data() {
 			return {
-				id: this.$store.state.id || Cache.getSession('bier_userid'),
-				token: this.$store.state.token || Cache.getSession('bier_token'),
-				platform: Cache.getSession('platform_type') || this.$store.state.type,
+				uid: this.$store.state.id || Cache.getSession('bier_userid'),
+				token: this.$store.state.token || Cache.getSession('bier_token')
 			};
 		},
 		computed: {
@@ -50,67 +52,26 @@
 				return(
 					this.$store.state.username || Cache.getSession('bier_username')
 				);
-			},
-		},
-		filters: {
-			showPlatformType(type) {
-				switch(type) {
-					case 'amazon':
-						return 'Amazon';
-						break;
-					case 'tiktokv':
-						return '抖音';
-						break;
-				}
-			},
+			}
 		},
 		methods: {
 			handleCommand(command) {
-				switch(command) {
-					case 'out':
-						{
-							let params = {
-								url: 'SignOut',
-								data: {
-									id: this.id,
-									token: this.token
-								}
-							};
-							Cache.removeSession('bier_username');
-							Cache.removeSession('bier_token');
-							Cache.removeSession('platform_type');
-							Request.requestHandle(params, res => {
-								this.$router.push({
-									name: 'login'
-								});
-							});
-							break;
+				if(command === 'out') {
+					let params = {
+						url: 'SignOut',
+						data: {
+							uid: this.userid,
+							token: this.token
 						}
-					case 'amazon':
-						{
-							this.platform = command;
-							this.$router.push({
-								name: 'index'
-							})
-							this.handleInfo('setPlatformType', command)
-							break;
-						}
-					case 'tiktokv':
-						{
-							this.platform = command;
-							this.$router.push({
-								name: 'tikindex'
-							})
-							this.handleInfo('setPlatformType', command)
-							break;
-						}
-					default:
-						break;
+					};
+					Cache.removeSession('bier_username');
+					Cache.removeSession('bier_token');
+					Request.requestHandle(params, res => {
+						this.$router.push({
+							name: 'login'
+						});
+					});
 				}
-			},
-			handleInfo(type, val) {
-				this.$store.commit(type, val);
-				Cache.setSession('platform_type', val);
 			}
 		}
 	};

@@ -1,25 +1,21 @@
 // const ajaxURL
 export default {
-    Login: 'supermange/super/adminuser/superlogin',
-    SignOut: 'supermange/super/adminuser/loginout',
-    // user management
-    QueryAccountInfo: 'supermange/amazon/adminuserprimary/selectaccountprimary',
-    AddAccountInfo: 'supermange/amazon/adminuserprimary/addaccountprimary',
-    UpdateAccountInfo: 'supermange/amazon/adminuserprimary/updateaccountprimary',
-    FrozenAndInitialUser: 'supermange/amazon/adminuserprimary/updatestatus',
-    // user detail
-    QueryBindDevice: 'supermange/amazon/devices/selectdevicebyuserid',
-    QueryUnBindDevice: 'supermange/amazon/devices/selectdevicenobind',
-    BindDevice: 'supermange/amazon/devices/binddevices',
-    DeleteBindDevice: 'supermange/amazon/devices/deldevicesbyuserpid',
-    // bulletin management
-    QueryBulletin: 'supermange/amazon/pagehome/selectpagehome',
-    QueryBulletinById: 'supermange/amazon/pagehome/selectbyid',
-    AddBulletin: 'supermange/amazon/pagehome/addpagehome',
-    UpdateBulletin: 'supermange/amazon/pagehome/updatepagehome',
-    DeleteBulletin: 'supermange/amazon/pagehome/deletepagehome',
-    // feedback management
-    QueryFeedback: 'supermange/amazon/feedback/selectfeedback',
-    QueryFeedbackById: 'supermange/amazon/feedback/selectfeedbackbyid',
-    ReplyFeedback: 'supermange/amazon/feedback/updatefeedback',
+    Login: 'advertmange/mange-user/login',
+    SignOut: 'advertmange/mange-user/signout',
+    //广告项目审核
+    QueryHome: 'advertmange/advertservice/advert/all',
+    QueryDetails: 'advertmange/advertservice/advert/advert-id',
+    QueryPass: 'advertmange/advertservice/advert/pass',
+    QueryNotPass: 'advertmange/advertservice/advert/nopass',
+    //众筹项目审核
+    QueryCrowdfunding: 'advertmange/crowd-funding/all',
+    QueryCrowdfundingDetails: 'advertmange/crowd-funding/crowd-id',
+    QueryCrowdfundingPass: 'advertmange/crowd-funding/pass',
+    QueryCrowdfundingNotpass: 'advertmange/crowd-funding/nopass',
+    //身份认证
+    QueryAuthentication: 'advertmange/idAuthentication/findApplyAuth',
+    ChangeRefuseOrPass: 'advertmange/idAuthentication/modifyAuthState',
+    // 概念标签管理
+    QueryConcept: 'advertmange/concept/findConcept',
+    QueryChangeConceptName: 'advertmange/concept/modifyConceptName',
 };
