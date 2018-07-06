@@ -29,6 +29,12 @@ async function ajaxRequest(url = '', data = {}, type = 'POST', isJson = false) {
         return axios.post(url, qs.stringify(data), {
             headers: {token},
         });
+    } else if (type === 'PUT') {
+        return axios.put(url, data, {
+            headers: {'Content-Type': 'application/json', token},
+        });
+    } else if (type === 'DELETE') {
+        return axios.delete(url, {headers:{token}, params: data});
     }
 }
 

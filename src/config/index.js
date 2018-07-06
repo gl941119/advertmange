@@ -8,14 +8,13 @@ export default {
     QueryDetails: 'advertmange/advertservice/advert/advert-id',
     QueryPass: 'advertmange/advertservice/advert/pass',
     QueryNotPass: 'advertmange/advertservice/advert/nopass',
-    //众筹项目审核
+    // 众筹项目审核
     QueryCrowdfunding: 'advertmange/crowd-funding/all',
     QueryCrowdfundingDetails: 'advertmange/crowd-funding/crowd-id',
     QueryCrowdfundingPass: 'advertmange/crowd-funding/pass',
     QueryCrowdfundingNotpass: 'advertmange/crowd-funding/nopass',
     AddCoreMember: 'advertmange/crowd-team-member',
     DeletedCoreMember: 'advertmange/crowd-team-member',
-    //身份认证
     QueryAuthentication: 'advertmange/idAuthentication/findApplyAuth',
     ChangeRefuseOrPass: 'advertmange/idAuthentication/modifyAuthState',
     // 概念标签管理
