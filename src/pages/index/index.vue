@@ -40,7 +40,7 @@
 	export default {
 		data() {
 			return {
-				uid: this.$store.state.id || Cache.getSession('bier_userid'),
+				userid: this.$store.state.userid || Cache.getSession('bier_userid'),
 				token: this.$store.state.token || Cache.getSession('bier_token')
 			};
 		},
@@ -60,9 +60,11 @@
 					let params = {
 						url: 'SignOut',
 						data: {
-							uid: this.userid,
+							userid: this.userid,
 							token: this.token
-						}
+						},
+						type:'get',
+						flag:true,
 					};
 					Cache.removeSession('bier_username');
 					Cache.removeSession('bier_token');

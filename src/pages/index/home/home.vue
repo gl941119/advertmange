@@ -13,7 +13,7 @@
 				<el-button @click="getDataInfo">搜索</el-button>
 			</div>
 		</div>
-		<el-table ref="multipleTable" :data="bulletinListData" @row-click="openDetails" tooltip-effect="dark" border stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%;margin-top: 20px;">
+		<el-table ref="multipleTable" :data="bulletinListData" tooltip-effect="dark" border stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%;margin-top: 20px;">
 			<el-table-column prop="accountId" label="UID" align="center">
 			</el-table-column>
 			<el-table-column prop="proName" label="项目名称" align="center">
@@ -39,10 +39,8 @@
 			<el-table-column label="操作" align="center" min-width="100" show-overflow-tooltip>
 				<template slot-scope="scope">
 					<div>
-						<el-button size="mini" v-if="scope.row.isModify == 1" @click="showDevice()">允许修改</el-button>
-						<el-button size="mini" v-if="scope.row.isModify == 0" @click="editUserInfo()">不允许修改</el-button>
-						<el-button size="mini" v-if="scope.row.isCheck == 1" @click="showDevice()">查看</el-button>
-						<el-button size="mini" v-if="scope.row.isCheck == 0" @click="editUserInfo()">审核</el-button>
+						<el-button size="mini" v-if="scope.row.isCheck == 1" @click="openDetails(scope.row.id,1)">编辑</el-button>
+						<el-button size="mini" v-if="scope.row.isCheck == 0" @click="openDetails(scope.row.id,2)">审核</el-button>
 						<el-button size="mini" v-if="scope.row.isCheck == 2" disabled>审核</el-button>
 					</div>
 				</template>
@@ -50,6 +48,8 @@
 			<el-table-column prop="updateTime" label="时间" align="center">
 			</el-table-column>
 		</el-table>
+		<el-pagination background layout="prev, pager, next" prev-text="上一页" next-text="下一页" :page-size="pageSize" @current-change="queryCurrentPageList" :total="pageTotal">
+		</el-pagination>
 	</div>
 </template>
 <script>
@@ -58,6 +58,7 @@
 	export default {
 		data() {
 			return {
+				pageTotal: 0,
 				pageSize: Config.pageSize,
 				bulletinListData: [],
 				options: [{
@@ -81,12 +82,12 @@
 			this.getDataInfo();
 		},
 		methods: {
-			openDetails(row) {
+			openDetails(id,value) {
 				console.log(row.id);
 				this.$router.push({
-					path: 'projectDetails/' + row.id ,
+					path: 'projectDetails/' + id,
 					params: {
-						id: row.id,
+						id: id,
 					}
 				});
 			},
@@ -103,10 +104,15 @@
 				}
 				Request.requestHandle(params, res => {
 					this.bulletinListData = res.data;
+					this.pageTotal = res.total;
 				});
 			},
 			showDevice(item) {
 
+			},
+			queryCurrentPageList(page) {
+				this.currPage = page;
+				this.getDataInfo(page);
 			},
 			showPublicAccount(item) {
 				this.$router.push({

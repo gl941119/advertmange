@@ -179,7 +179,7 @@
 					type: 'get',
 				}
 				Request.requestHandle(params, res => {
-					if(res.data.success){
+					if(res.success){
 						this.$message('操作成功');
 					}
 				});
@@ -194,7 +194,7 @@
 					type: 'get',
 				}
 				Request.requestHandle(params, res => {
-					if(res.data.success){
+					if(res.success){
 						this.$message('操作成功');
 					}
 				});

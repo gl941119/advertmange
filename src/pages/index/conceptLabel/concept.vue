@@ -20,6 +20,14 @@
 				</template>
 			</el-table-column>
 		</el-table>
+		<el-pagination background
+                       layout="prev, pager, next"
+                       prev-text="上一页"
+                       next-text="下一页"
+                       :page-size="pageSize"
+                       @current-change="queryCurrentPageList"
+                       :total="pageTotal">
+        </el-pagination>
 	</div>
 </template>
 <script>
@@ -29,6 +37,7 @@
 		data() {
 			return {
 				conceptListData: [],
+				pageTotal: 0,
 				pageSize: Config.pageSize,
 			};
 		},
@@ -53,8 +62,13 @@
 				}
 				Request.requestHandle(params, res => {
 					this.conceptListData = res.data;
+					this.pageTotal = res.total;
 					console.log(res)
 				});
+			},
+			queryCurrentPageList(page) {
+				this.currPage = page;
+				this.getDataInfo(page);
 			},
 			confirm(value,id) {
 				let params = {

@@ -27,6 +27,8 @@
 					</template>
 				</el-table-column>
 			</el-table>
+			<el-pagination background layout="prev, pager, next" prev-text="上一页" next-text="下一页" :page-size="pageSize" @current-change="queryCurrentPageList" :total="pageTotal">
+			</el-pagination>
 		</div>
 	</div>
 </template>
@@ -39,6 +41,8 @@
 				authenticationData: [{
 
 				}],
+				pageTotal: 0,
+				pageSize: Config.pageSize,
 			}
 		},
 		created() {
@@ -57,19 +61,24 @@
 				Request.requestHandle(params, res => {
 					console.log(res);
 					this.authenticationData = res.data;
+					this.pageTotal = res.total;
 				});
 			},
-			isPass(id,value) {
+			queryCurrentPageList(page) {
+				this.currPage = page;
+				this.getDataInfo(page);
+			},
+			isPass(id, value) {
 				let params = {
 					url: 'ChangeRefuseOrPass',
 					data: {
 						authStatus: value,
 						id: id
 					},
-					flag:true,
+					flag: true,
 				}
 				Request.requestHandle(params, res => {
-					if(res.data.success == 1){
+					if(res.success == 1) {
 						this.$message('修改成功');
 						this.getDataInfo();
 					}
