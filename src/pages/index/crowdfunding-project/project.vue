@@ -81,7 +81,7 @@
 			}
 		},
 		created() {
-			this.getDataInfo();
+            this.getDataInfo();
 		},
 		methods: {
 			openDetails(row) {

@@ -64,7 +64,7 @@
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">技术</label>
 					<span style="margin-right: 20px;" v-if="details.technology1">{{details.technology1}}</span>
-					<span style="margin-right: 20px;" v-if="details.technology2">{{details.technology2}}</span> 
+					<span style="margin-right: 20px;" v-if="details.technology2">{{details.technology2}}</span>
 				</li>
 			</ul>
 		</div>
@@ -136,7 +136,7 @@
 		</div>
 		<button class="check" @click="passed">审核通过</button>
 		<button class="check" @click="notPassed">审核不通过</button>
-		
+
 	</div>
 </template>
 
@@ -147,12 +147,12 @@
 		data() {
 			return {
 				details:{
-					
+
 				},
 			};
 		},
 		mounted(){
-			this.queryDetails();
+            this.queryDetails();
 		},
 		methods:{
 			queryDetails(page = Config.pageStart) {
