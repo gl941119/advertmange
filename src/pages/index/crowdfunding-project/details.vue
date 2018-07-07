@@ -268,8 +268,8 @@
 				concept: false,
 				technology: false,
 				conceptDatas: '',
-				technologyDatas:'',
-				checkeData:[],
+				technologyDatas: '',
+				checkeData: [],
 			};
 		},
 		components: {
@@ -298,11 +298,13 @@
 						concept4Id,
 					} = res.data;
 					this.conceptDatas = [concept1Id, concept2Id, concept3Id, concept4Id].join('-');
-					let {
-						technology1,
-						technology2
-					} = res.data;
-					this.technologyDatas = [technology1, technology2].join('-');
+					if(res.data.technology1) {
+						technologyArr.push(res.data.technology1);
+					}
+					if(res.data.technology2) {
+						technologyArr.push(res.data.technology2);
+					}
+					this.technologyDatas = technologyArr.join('-');
 				});
 			},
 			passed() {
@@ -422,7 +424,7 @@
 			},
 			listenCondept(checkedData) {
 				var newCheckedData = [];
-				checkedData.forEach(function(item,index){
+				checkedData.forEach(function(item, index) {
 					newCheckedData.push(item.value);
 				})
 				this.conceptDatas = newCheckedData.join('-');

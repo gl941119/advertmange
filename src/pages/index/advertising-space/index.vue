@@ -198,6 +198,7 @@
 				Request.requestHandle(params, res => {
 					if(res.success){
 						this.$message('添加成功');
+						this.getBanner();
 					}
 				});
 			},
@@ -247,6 +248,10 @@
 				}
 				Request.requestHandle(params, res => {
 					console.log(res);
+					if(res.success){
+						this.$message('保存成功');
+						this.getBanner();
+					}
 				});
 			},
 			focus(value) {
@@ -254,7 +259,6 @@
 				this.id = value.id;
 			},
 			change(value) {
-				console.log(value.advertSort);
 				this.advertSort =  value.advertSort;
 				this.advertProjId = value.advertProjId;
 			},
