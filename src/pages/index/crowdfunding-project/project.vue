@@ -23,6 +23,8 @@
 			</el-table-column>
 			<el-table-column prop="title" label="本轮众筹标题" align="center">
 			</el-table-column>
+			<el-table-column prop="contractId" label="合约地址" align="center">
+			</el-table-column>
 			<el-table-column prop="teamName" label="团队名称" align="center">
 			</el-table-column>
 			<el-table-column prop="teamContact" label="联系方式" align="center">
@@ -44,20 +46,15 @@
 						<el-button size="mini" v-if="scope.row.isCheck == 1" @click="openDetails(scope.row.id,1)">编辑</el-button>
 						<el-button size="mini" v-if="scope.row.isCheck == 0" @click="openDetails(scope.row.id,2)">审核</el-button>
 						<el-button size="mini" v-if="scope.row.isCheck == 2" disabled>审核</el-button>
+						<el-button size="mini" v-if="scope.row.isCheck == 1" @click="contractAddress(scope.row.id)">绑定合约地址</el-button>
 					</div>
 				</template>
 			</el-table-column>
 			<el-table-column prop="updateTime" label="时间" align="center">
 			</el-table-column>
 		</el-table>
-		<el-pagination background
-                       layout="prev, pager, next"
-                       prev-text="上一页"
-                       next-text="下一页"
-                       :page-size="pageSize"
-                       @current-change="queryCurrentPageList"
-                       :total="pageTotal">
-        </el-pagination>
+		<el-pagination background layout="prev, pager, next" prev-text="上一页" next-text="下一页" :page-size="pageSize" @current-change="queryCurrentPageList" :total="pageTotal">
+		</el-pagination>
 	</div>
 </template>
 <script>
@@ -88,14 +85,45 @@
 			}
 		},
 		created() {
-            this.getDataInfo();
+			this.getDataInfo();
 		},
 		methods: {
-			openDetails(id,value) {
+			bindContractAddress(id,value){
+				let params = {
+					url: 'bindContractAddress',
+					data: {
+						id: id,
+						address: value,
+					},
+					type: 'get',
+				}
+				Request.requestHandle(params, res => {
+					console.log(res)
+					this.projectData = res.data;
+					this.pageTotal = res.total;
+				});
+			},
+			contractAddress(id) {
+				this.$prompt('请输入合約地址', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+				}).then(({
+					value
+				}) => {
+					this.bindContractAddress(id,value);
+				}).catch(() => {
+					this.$message({
+						type: 'info',
+						message: '取消输入'
+					});
+				});
+			},
+			openDetails(id, value) {
 				this.$router.push({
-					path: 'crowdfundingDetail/' + id,
+					path: 'crowdfundingDetail/' + id + '/' + value,
 					params: {
 						id: id,
+						value: value,
 					}
 				});
 			},
@@ -121,7 +149,7 @@
 				this.getDataInfo(page);
 			},
 			showDevice() {
-				
+
 			},
 			showPublicAccount(item) {
 				this.$router.push({

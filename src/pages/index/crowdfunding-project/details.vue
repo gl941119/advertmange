@@ -17,11 +17,11 @@
 				</li>
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">核心团队成员</label>
-					<el-button type="text" @click="centerDialogVisible = true">点击打开 核心团队成员</el-button>
+					<el-button type="text" @click="centerDialogVisible = true">点击打开核心团队成员</el-button>
 				</li>
 				<div class="project_review_details_item_li_info">
 					<el-dialog title="核心团队成员" :visible.sync="centerDialogVisible" size="small">
-						<el-table :data="coreTeam" border class="tForm" ref="multipleTable" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+						<el-table :data="details.memberResults" border class="tForm" ref="multipleTable" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 							<el-table-column type="selection" width="55">
 							</el-table-column>
 							<el-table-column property="year" align="center" label="全名">
@@ -54,16 +54,48 @@
 				</div>
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">顾问团队</label>
+					<el-button type="text" @click="CrowdTeamDialogVisible = true">点击打开顾问团队成员</el-button>
 				</li>
 				<div class="project_review_details_item_li_info">
-					<el-table :show-header=false border :data="details.CrowdTeamConsultantsResult" style="width: 100%">
+					<!--<el-table :show-header=false border :data="details.CrowdTeamConsultantsResult" style="width: 100%">
 						<el-table-column prop="name" label="日期" width="180">
 						</el-table-column>
 						<el-table-column prop="title" label="姓名" width="180">
 						</el-table-column>
 						<el-table-column prop="desc" label="地址">
 						</el-table-column>
-					</el-table>
+					</el-table>-->
+					<el-dialog title="顾问团队成员" :visible.sync="CrowdTeamDialogVisible" size="small">
+						<el-table :data="details.consultantsResults" border class="tForm" ref="multipleTable" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+							<el-table-column type="selection" width="55">
+							</el-table-column>
+							<el-table-column property="year" align="center" label="全名">
+								<template slot-scope="scope">
+									<el-input :disabled="disabled" v-model="scope.row.name"></el-input>
+								</template>
+							</el-table-column>
+							<el-table-column property="name" align="center" label="头衔" width="200">
+								<template slot-scope="scope">
+									<el-input :disabled="disabled" v-model="scope.row.title"></el-input>
+								</template>
+							</el-table-column>
+							<el-table-column property="address" align="center" label="简介">
+								<template slot-scope="scope">
+									<el-input :disabled="disabled" v-model="scope.row.desc"></el-input>
+								</template>
+							</el-table-column>
+							<el-table-column property="address" align="center" label="操作">
+								<template slot-scope="scope">
+									<el-button :disabled="disabled" @click="addConsultant">添加</el-button>
+									<el-button :disabled="disabled" @click="deletedConsultant(scope.$index)">删除</el-button>
+								</template>
+							</el-table-column>
+						</el-table>
+						<div slot="footer" class="dialog-footer">
+							<el-button :disabled="disabled" @click="addLinkConsultant">添加</el-button>
+							<el-button :disabled="disabled" @click="deletedLinkConsultant">删除</el-button>
+						</div>
+					</el-dialog>
 				</div>
 			</ul>
 		</div>
@@ -80,30 +112,18 @@
 				</li>
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">概念</label>
-					<div v-if="disabled" class="project_review_details_item_li_intro">
-						<el-input v-model="conceptDatas" placeholder="请输入内容">
+					<div class="project_review_details_item_li_intro" style="position: relative;">
+						<el-input v-model="conceptDatas" :disabled="disabled" placeholder="请输入内容">
 						</el-input>
-					</div>
-					<div v-if="!disabled" class="project_review_details_item_li_intro" style="position: relative;">
-						<el-input v-model="conceptDatas" placeholder="请输入内容">
-						</el-input>
-						<i class="el-icon-circle-plus" style="position: absolute;top: 14px;right: 15px;" @click="conceptFun"></i>
+						<i class="el-icon-circle-plus" v-if="!disabled" style="position: absolute;top: 14px;right: 15px;" @click="conceptFun"></i>
 					</div>
 				</li>
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">技术</label>
-					<!--<div>
-						<span style="margin-right: 20px;" v-if="details.technology1">{{details.technology1}}</span>
-						<span style="margin-right: 20px;" v-if="details.technology2">{{details.technology2}}</span>
-					</div>-->
-					<div class="project_review_details_item_li_intro">
-						<el-input v-model="technologyDatas" placeholder="请输入内容">
-						</el-input>
-					</div>
 					<div class="project_review_details_item_li_intro" style="position: relative;">
-						<el-input v-model="technologyDatas" placeholder="请输入内容">
+						<el-input v-model="technologyDatas" :disabled="disabled" placeholder="请输入内容">
 						</el-input>
-						<i class="el-icon-circle-plus" style="position: absolute;top: 14px;right: 15px;" @click="technologyFun"></i>
+						<i class="el-icon-circle-plus" v-if="!disabled" style="position: absolute;top: 14px;right: 15px;" @click="technologyFun"></i>
 					</div>
 				</li>
 			</ul>
@@ -186,10 +206,10 @@
 				</li>
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">本轮众筹时间</label>
-					<div v-if="!disabled" class="project_review_details_item_li_intro">
+					<div v-if="disabled" class="project_review_details_item_li_intro">
 						<span>{{details.startTime}}</span> ~ <span>{{details.endTime}}</span>
 					</div>
-					<div v-if="disabled" class="project_review_details_item_li_intro">
+					<div v-if="!disabled" class="project_review_details_item_li_intro">
 						<el-date-picker v-if="disabled" v-model="timeInterval" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
 						</el-date-picker>
 					</div>
@@ -209,8 +229,8 @@
 				</li>-->
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">相关牌照</label>
-					<a v-if="details.license" :href="details.license" download>下载</a>
-					<div v-if="disabled">
+					<a v-if="disabled && details.license" :href="details.license" download>下载</a>
+					<div v-if="!disabled">
 						<el-upload class="upload-demo" action="" :on-change="getFile" multiple>
 							<el-button size="small">上传</el-button>
 						</el-upload>
@@ -218,9 +238,11 @@
 				</li>
 			</ul>
 		</div>
-		<button class="check" @click="passed">审核通过</button>
-		<button class="check" @click="notPassed">审核不通过</button>
-		<p>请在众筹合约部署完成后点击通过</p>
+		<div v-if="disabled">
+			<button class="check" @click="passed">审核通过</button>
+			<button class="check" @click="notPassed">审核不通过</button>
+			<p>请在众筹合约部署完成后点击通过</p>
+		</div>
 	</div>
 </template>
 
@@ -262,6 +284,7 @@
 				},
 				disabled: false,
 				centerDialogVisible: false,
+				CrowdTeamDialogVisible:false,
 				accountId: this.$store.state.id || Cache.getSession('bier_userid'),
 				multipleSelection: [],
 				timeInterval: [],
@@ -281,6 +304,13 @@
 		methods: {
 			queryDetails(page = Config.pageStart) {
 				var id = this.$route.params.id;
+				var value = this.$route.params.value;
+				console.log(this.$route);
+				if(value == 1){
+					this.disabled = false;
+				}else{
+					this.disabled = true;
+				}
 				let params = {
 					url: 'QueryCrowdfundingDetails',
 					data: {
@@ -298,6 +328,7 @@
 						concept4Id,
 					} = res.data;
 					this.conceptDatas = [concept1Id, concept2Id, concept3Id, concept4Id].join('-');
+					var technologyArr = [];
 					if(res.data.technology1) {
 						technologyArr.push(res.data.technology1);
 					}
@@ -403,6 +434,42 @@
 					this.consultantTeam.splice(value, 1);
 				}
 			},
+			addLinkConsultant() {
+				var id = this.$route.params.id;
+				let params = {
+					url: 'AddCoreMember',
+					data: {
+						accountId: this.accountId,
+						crowdId: this.details.id,
+						desc: this.multipleSelection[0].desc,
+						name: this.multipleSelection[0].name,
+						title: this.multipleSelection[0].title
+					},
+					flag: true,
+				}
+				Request.requestHandle(params, res => {
+					console.log(res);
+					if(res.success == 1) {
+						this.$message('添加成功');
+					}
+				});
+			},
+			deletedLinkConsultant() {
+				var id = this.$route.params.id;
+				let params = {
+					url: 'DeletedCoreMember',
+					data: {
+						accountId: this.accountId,
+						crowdId: this.details.id,
+						desc: this.multipleSelection[0].desc,
+						name: this.multipleSelection[0].name,
+						title: this.multipleSelection[0].title
+					},
+				}
+				Request.requestHandle(params, res => {
+					console.log(res);
+				});
+			},
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
 			},
@@ -421,6 +488,14 @@
 			},
 			technologyFun() {
 				this.technology = !this.technology;
+				var technologyArr = [];
+				if(this.details.technology1) {
+					technologyArr.push(this.details.technology1);
+				}
+				if(this.details.technology2) {
+					technologyArr.push(this.details.technology2);
+				}
+				this.technologyDatas = technologyArr.join('-');
 			},
 			listenCondept(checkedData) {
 				var newCheckedData = [];

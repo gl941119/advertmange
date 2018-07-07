@@ -8,7 +8,7 @@
 			<el-table ref="multipleTable" :data="bannerListData" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%">
 				<el-table-column label="位次" align="center">
 					<template slot-scope="scope">
-						<el-select v-model="scope.row.advertSort" @focus="focus(scope.row)" @change="change(scope.row)"  placeholder="请选择">
+						<el-select v-model="scope.row.advertSort" @change="change(scope.row)"  placeholder="请选择">
 							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 							</el-option>
 						</el-select>
@@ -160,7 +160,6 @@
 				pageSize: 5,
 				imageUrl: '',
 				accountId: this.$store.state.userid || Cache.getSession('bier_userid'),
-				oldAdvertSort:'',
 				id:'',
 				advertProjId:'',
 				advertSort:'',
@@ -241,7 +240,6 @@
 						advertSort: this.advertSort,
 						banner: this.banner,
 						id: this.id,
-						oldAdvertSort: this.oldAdvertSort
 					},
 					type: 'post',
 					flag:true,
@@ -254,13 +252,10 @@
 					}
 				});
 			},
-			focus(value) {
-				this.oldAdvertSort = value.advertSort;
-				this.id = value.id;
-			},
 			change(value) {
 				this.advertSort =  value.advertSort;
 				this.advertProjId = value.advertProjId;
+				this.id = value.id;
 			},
 			getImg(file) {
 				this.banner = file.url;

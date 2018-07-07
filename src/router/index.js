@@ -58,7 +58,7 @@ export default new Router({
                     component: CrowdfundingCom ,
                 },
                 {
-                    path: 'crowdfundingDetail/:id',
+                    path: 'crowdfundingDetail/:id/:value',
                     name: 'crowdfundingDetail',
                     component: CrowdfundingDetail,
                 },

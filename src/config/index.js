@@ -13,10 +13,13 @@ export default {
     QueryCrowdfundingDetails: 'advertmange/crowd-funding/crowd-id',
     QueryCrowdfundingPass: 'advertmange/crowd-funding/pass',
     QueryCrowdfundingNotpass: 'advertmange/crowd-funding/nopass',
-    AddCoreMember: 'advertmange/crowd-team-member',
-    DeletedCoreMember: 'advertmange/crowd-team-member',
+    AddCoreMember: 'advertmange/crowd-team-member',//添加核心团队
+    DeletedCoreMember: 'advertmange/crowd-team-member',//删除核心团队
     QueryAuthentication: 'advertmange/idAuthentication/findApplyAuth',
     ChangeRefuseOrPass: 'advertmange/idAuthentication/modifyAuthState',
+    bindContractAddress: 'advertmange/crowd-funding/bindAddress',//绑定合约地址
+    addConsultant: 'advertmange/crowd-team-consultants',//添加顾问团队
+    deletedConsultant: 'advertmange/crowd-funding/bindAddress',//删除顾问团队
     // 概念标签管理
     QueryConcept: 'advertmange/concept/findConcept',
     QueryChangeConceptName: 'advertmange/concept/modifyConceptName',
