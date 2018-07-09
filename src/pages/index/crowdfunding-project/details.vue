@@ -110,7 +110,7 @@
 				</li>
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">项目简介</label>
-					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.teamName"></el-input>
+					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.proDesc"></el-input>
 				</li>
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">概念</label>
@@ -127,6 +127,14 @@
 						</el-input>
 						<i class="el-icon-circle-plus" v-if="!disabled" style="position: absolute;top: 14px;right: 15px;" @click="technologyFun"></i>
 					</div>
+				</li>
+				<li class="project_review_details_item_li">
+					<label class="project_review_details_item_li_label">官网</label>
+					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.website"></el-input>
+				</li>
+				<li class="project_review_details_item_li">
+					<label class="project_review_details_item_li_label">白皮书地址</label>
+					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.whitePaper"></el-input>
 				</li>
 			</ul>
 		</div>
@@ -168,7 +176,7 @@
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">logo</label>
 					<!--<span><img style="width: 50px;height: 50px;" :src="details.logo"/></span>-->
-					<el-upload class="avatar-uploader" action="" :show-file-list="false" :on-change="handleAvatarSuccess">
+					<el-upload class="avatar-uploader" action="" :multiple="false" :show-file-list="false" :auto-upload="false" :before-upload="beforeAvatarUpload" :on-success="handleAvatarSuccess">
 						<img v-if="details.logo" :src="details.logo" class="avatar">
 						<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 					</el-upload>
@@ -212,7 +220,7 @@
 						<span>{{details.startTime}}</span> ~ <span>{{details.endTime}}</span>
 					</div>
 					<div v-if="!disabled" class="project_review_details_item_li_intro">
-						<el-date-picker v-if="disabled" v-model="timeInterval" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+						<el-date-picker v-model="timeInterval" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
 						</el-date-picker>
 					</div>
 				</li>
@@ -225,7 +233,7 @@
 					<label class="project_review_details_item_li_label">相关牌照</label>
 					<a v-if="disabled && details.license" :href="details.license" download>下载</a>
 					<div v-if="!disabled">
-						<el-upload class="upload-demo" action="" :on-change="getFile" multiple>
+						<el-upload class="upload-demo" action="" :auto-upload="false" :on-change="getFile" :multiple="false">
 							<el-button size="small">上传</el-button>
 						</el-upload>
 					</div>
@@ -237,6 +245,9 @@
 			<button class="check" @click="notPassed">审核不通过</button>
 			<p>请在众筹合约部署完成后点击通过</p>
 		</div>
+		<div v-if="!disabled">
+			<button class="check" @click="changeDetails">保存修改</button>
+		</div>
 	</div>
 </template>
 
@@ -245,6 +256,7 @@
 	import conceptCom from '../common/concept.vue';
 	import Cache from '../../../utils/cache';
 	import Request from '../../../utils/require';
+	import Utils from '../../../utils/util.js';
 	export default {
 		data() {
 			return {
@@ -287,6 +299,7 @@
 				conceptDatas: '',
 				technologyDatas: '',
 				checkeData: [],
+				util: new Utils(),
 			};
 		},
 		components: {
@@ -296,7 +309,7 @@
 			this.queryDetails();
 		},
 		methods: {
-			queryDetails(page = Config.pageStart) {
+			queryDetails() {
 				var id = this.$route.params.id;
 				var value = this.$route.params.value;
 				console.log(this.$route);
@@ -332,6 +345,55 @@
 					this.technologyDatas = technologyArr.join('-');
 					this.coreTeam = res.data.memberResults;
 					this.consultantTeam = res.data.consultantsResults;
+					this.timeInterval = [res.data.startTime, res.data.endTime];
+				});
+			},
+			changeDetails() {
+				var startTime = this.util.format(this.timeInterval[0], 'yyyy-MM-dd HH:mm:ss');
+				var endTime = this.util.format(this.timeInterval[1], 'yyyy-MM-dd HH:mm:ss');
+				let params = {
+					url: 'ChangeCrowdfundingDetails',
+					data: {
+						accountId: this.details.accountId,
+						circulation: this.details.circulation,
+						concept1Id: this.details.concept1Id,
+						concept2Id: this.details.concept2Id,
+						concept3Id: this.details.concept3Id,
+						concept4Id: this.details.concept4Id,
+						currCirculation: this.details.currCirculation,
+						endTime: endTime,
+						fullEnName: this.details.fullEnName,
+						id: this.details.id,
+						license: this.details.license,
+						logo: this.details.logo,
+						lowLimit: this.details.lowLimit,
+						mostNumber: this.details.mostNumber,
+						price: this.details.price,
+						proDesc: this.details.proDesc,
+						proName: this.details.proName,
+						shotCnName: this.details.shotCnName,
+						shotEnName: this.details.shotEnName,
+						startTime: startTime,
+						targetCurrency: this.details.targetCurrency,
+						teamContact: this.details.teamContact,
+						teamLocation: this.details.teamLocation,
+						teamName: this.details.teamName,
+						technology1: this.details.technology1,
+						technology2: this.details.technology2,
+						title: this.details.title,
+						topLimit: this.details.topLimit,
+						totalCrowdfund: this.details.totalCrowdfund,
+						website: this.details.website,
+						whitePaper: this.details.whitePaper
+					},
+					type: 'put',
+					flag:true,
+				}
+				Request.requestHandle(params, res => {
+					if(res.success) {
+						this.queryDetails();
+						this.$message('修改成功');
+					}
 				});
 			},
 			passed() {
@@ -346,6 +408,7 @@
 				Request.requestHandle(params, res => {
 					if(res.success == 1) {
 						this.$message('操作成功');
+						this.queryDetails();
 					}
 				});
 			},
@@ -361,6 +424,7 @@
 				Request.requestHandle(params, res => {
 					if(res.success == 1) {
 						this.$message('操作成功');
+						this.queryDetails();
 					}
 				});
 			},
@@ -398,6 +462,7 @@
 					console.log(res);
 					if(res.success == 1) {
 						this.$message('修改成功');
+						this.queryDetails();
 					}
 				});
 			},
@@ -418,6 +483,7 @@
 					console.log(res);
 					if(res.success == 1) {
 						this.$message('添加成功');
+						this.queryDetails();
 					}
 				});
 			},
@@ -433,7 +499,10 @@
 					flag: true,
 				}
 				Request.requestHandle(params, res => {
-					console.log(res);
+					if(res.success == 1) {
+						this.$message('删除成功');
+						this.queryDetails();
+					}
 				});
 			},
 			addConsultant() { //顾问团队
@@ -468,6 +537,7 @@
 					console.log(res);
 					if(res.success == 1) {
 						this.$message('添加成功');
+						this.queryDetails();
 					}
 				});
 			},
@@ -482,11 +552,14 @@
 						name: this.multipleSelection[0].name,
 						title: this.multipleSelection[0].title
 					},
-					type:'DELETE',
-					flag:true,
+					type: 'DELETE',
+					flag: true,
 				}
 				Request.requestHandle(params, res => {
-					console.log(res);
+					if(res.success == 1) {
+						this.$message('删除成功');
+						this.queryDetails();
+					}
 				});
 			},
 			saveLinkConsultant() {
@@ -508,18 +581,21 @@
 					console.log(res);
 					if(res.success == 1) {
 						this.$message('修改成功');
+						this.queryDetails();
 					}
 				});
 			},
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
-				console.log(val)
 			},
-			handleAvatarSuccess(file) {
+			handleAvatarSuccess(res, file) {
+//				this.details.logo = file.url;
 				console.log(file);
-				this.details.logo = file.url;
 			},
-			getFile() {
+			beforeAvatarUpload(file){
+				console.log(file);
+			},
+			getFile(file) {
 				this.details.license = file.url;
 			},
 			conceptFun() { //概念弹出窗

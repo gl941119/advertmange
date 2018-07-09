@@ -175,7 +175,12 @@
 				</li>
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">白皮书</label>
-					<div class="project_review_details_item_li_intro">{{details.whitePaper}}</div>
+					<span style="line-height: 30px;margin-right: 10px;">{{details.whitePaper}}</span>
+					<div v-if="!disabled">
+						<el-upload class="upload-demo" action="" :on-change="getFile" multiple>
+							<el-button size="small">上传</el-button>
+						</el-upload>
+					</div>
 				</li>
 				<div v-if="disabled">
 					<li class="project_review_details_item_li" v-if="details.customWebsite1 || details.customAddress1">
@@ -213,50 +218,66 @@
 				</div>
 				<div v-else>
 					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label"><el-input placeholder="自定义站点名" v-model="siteName1" >
-				</el-input></label>
+						<label class="project_review_details_item_li_label">
+							<el-input placeholder="自定义站点名" v-model="siteName1" >
+							</el-input>
+						</label>
 						<el-input placeholder="自定义站点地址" v-model="siteAddress1">
 						</el-input>
 					</li>
 					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label"><el-input placeholder="自定义站点名" v-model="siteName2" >
-				</el-input></label>
+						<label class="project_review_details_item_li_label">
+							<el-input placeholder="自定义站点名" v-model="siteName2" >
+							</el-input>
+						</label>
 						<el-input placeholder="自定义站点地址" v-model="siteAddress2">
 						</el-input>
 					</li>
 					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label"><el-input placeholder="自定义站点名" v-model="siteName3" >
-				</el-input></label>
+						<label class="project_review_details_item_li_label">
+							<el-input placeholder="自定义站点名" v-model="siteName3" >
+							</el-input>
+						</label>
 						<el-input placeholder="自定义站点地址" v-model="siteAddress3">
 						</el-input>
 					</li>
 					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label"><el-input placeholder="自定义站点名" v-model="siteName4" >
-				</el-input></label>
+						<label class="project_review_details_item_li_label">
+							<el-input placeholder="自定义站点名" v-model="siteName4" >
+							</el-input>
+						</label>
 						<el-input placeholder="自定义站点地址" v-model="siteAddress4">
 						</el-input>
 					</li>
 					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label"><el-input placeholder="自定义站点名" v-model="siteName5" >
-				</el-input></label>
+						<label class="project_review_details_item_li_label">
+							<el-input placeholder="自定义站点名" v-model="siteName5" >
+							</el-input>
+						</label>
 						<el-input placeholder="自定义站点地址" v-model="siteAddress5">
 						</el-input>
 					</li>
 					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label"><el-input placeholder="自定义站点名" v-model="siteName6" >
-				</el-input></label>
+						<label class="project_review_details_item_li_label">
+							<el-input placeholder="自定义站点名" v-model="siteName6" >
+							</el-input>
+						</label>
 						<el-input placeholder="自定义站点地址" v-model="siteAddress6">
 						</el-input>
 					</li>
 					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label"><el-input placeholder="自定义站点名" v-model="siteName7" >
-				</el-input></label>
+						<label class="project_review_details_item_li_label">
+							<el-input placeholder="自定义站点名" v-model="siteName7" >
+							</el-input>
+						</label>
 						<el-input placeholder="自定义站点地址" v-model="siteAddress7">
 						</el-input>
 					</li>
 					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label"><el-input placeholder="自定义站点名" v-model="siteName8" >
-				</el-input></label>
+						<label class="project_review_details_item_li_label">
+							<el-input placeholder="自定义站点名" v-model="siteName8" >
+							</el-input>
+						</label>
 						<el-input placeholder="自定义站点地址" v-model="siteAddress8">
 						</el-input>
 					</li>
@@ -364,6 +385,50 @@
 					this.coreTeam = res.data.memberResults;
 					this.consultantTeam = res.data.consultantsResults;
 					console.log(this.details)
+				});
+			},
+			changeDetails() {
+				
+				let params = {
+					url: 'ChangeDetails',
+					data: {
+						accountId: this.details.accountId,
+						circulation: this.details.circulation,
+						concept1Id: this.details.concept1Id,
+						concept2Id: this.details.concept2Id,
+						concept3Id: this.details.concept3Id,
+						concept4Id: this.details.concept4Id,
+						currCirculation: this.details.currCirculation,
+						endTime: this.timeInterval[1],
+						fullEnName: this.details.fullEnName,
+						id: this.details.id,
+						license: this.details.license,
+						logo: this.details.logo,
+						lowLimit: this.details.lowLimit,
+						mostNumber: this.details.mostNumber,
+						price: this.details.price,
+						proDesc: this.details.proDesc,
+						proName: this.details.proName,
+						shotCnName: this.details.shotCnName,
+						shotEnName: this.details.shotEnName,
+						startTime: this.timeInterval[0],
+						targetCurrency: this.details.targetCurrency,
+						teamContact: this.details.teamContact,
+						teamLocation: this.details.teamLocation,
+						teamName: this.details.teamName,
+						technology1: this.details.technology1,
+						technology2: this.details.technology2,
+						title: this.details.title,
+						topLimit: this.details.topLimit,
+						totalCrowdfund: this.details.totalCrowdfund,
+						website: this.details.website,
+						whitePaper: this.details.whitePaper
+					},
+					type: 'put',
+					flag:true,
+				}
+				Request.requestHandle(params, res => {
+					console.log(res);
 				});
 			},
 			passed() {

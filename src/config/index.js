@@ -17,14 +17,14 @@ export default {
     QueryAuthentication: 'advertmange/idAuthentication/findApplyAuth',
     ChangeRefuseOrPass: 'advertmange/idAuthentication/modifyAuthState',//审核
     bindContractAddress: 'advertmange/crowd-funding/bindAddress',//绑定合约地址
-    ChangeCrowdfunding: 'advertmange /crowd-funding/put',//修改众筹申请
+    ChangeCrowdfundingDetails: 'advertmange/crowd-funding/put',//修改众筹申请
     //核心团队
     AddCoreMember: 'advertmange/crowd-team-member',//添加核心团队
-    DeletedCoreMember: 'advertmange/crowd-team-member',//删除核心团队
+    DeletedCoreMember: 'advertmange/crowd-team-member/delete/crowd-id/id',//删除核心团队
     ChangeCoreMember: 'advertmange/crowd-team-member/put',//修改核心团队
     //顾问团队
     addConsultant: 'advertmange/crowd-team-consultants',//添加顾问团队
-    deletedConsultant: 'advertmange/crowd-funding/bindAddress',//删除顾问团队
+    deletedConsultant: 'advertmange/crowd-team-consultants/delete/crowd-id/id',//删除顾问团队
     ChangeConsultant: 'advertmange/crowd-team-consultants/put',//修改顾问团队
     // 概念标签管理
     QueryConcept: 'advertmange/concept/findConcept',
