@@ -48,7 +48,7 @@ export default new Router({
                     component: HomeCom,
                 },
                 {
-                    path: 'projectDetails/:id',
+                    path: 'projectDetails/:id/:value',
                     name: 'projectDetails',
                     component: ProjectDetails,
                 },

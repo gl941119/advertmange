@@ -21,7 +21,7 @@
 				</li>
 				<div class="project_review_details_item_li_info">
 					<el-dialog title="核心团队成员" :visible.sync="centerDialogVisible" size="small">
-						<el-table :data="details.memberResults" border class="tForm" ref="multipleTable" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+						<el-table :data="coreTeam" border class="tForm" ref="multipleTable" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 							<el-table-column type="selection" width="55">
 							</el-table-column>
 							<el-table-column property="year" align="center" label="全名">
@@ -47,6 +47,7 @@
 							</el-table-column>
 						</el-table>
 						<div slot="footer" class="dialog-footer">
+							<el-button :disabled="disabled" @click="saveLink">保存</el-button>
 							<el-button :disabled="disabled" @click="addLink">添加</el-button>
 							<el-button :disabled="disabled" @click="deletedLink">删除</el-button>
 						</div>
@@ -66,7 +67,7 @@
 						</el-table-column>
 					</el-table>-->
 					<el-dialog title="顾问团队成员" :visible.sync="CrowdTeamDialogVisible" size="small">
-						<el-table :data="details.consultantsResults" border class="tForm" ref="multipleTable" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+						<el-table :data="consultantTeam" border class="tForm" ref="multipleTable" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 							<el-table-column type="selection" width="55">
 							</el-table-column>
 							<el-table-column property="year" align="center" label="全名">
@@ -92,6 +93,7 @@
 							</el-table-column>
 						</el-table>
 						<div slot="footer" class="dialog-footer">
+							<el-button :disabled="disabled" @click="saveLinkConsultant">保存</el-button>
 							<el-button :disabled="disabled" @click="addLinkConsultant">添加</el-button>
 							<el-button :disabled="disabled" @click="deletedLinkConsultant">删除</el-button>
 						</div>
@@ -219,14 +221,6 @@
 		<div class="project_review_details_team">
 			<div class="project_review_details_title">合规性文件</div>
 			<ul class="project_review_details_item">
-				<!--<li class="project_review_details_item_li">
-					<label class="project_review_details_item_li_label">官方网站</label>
-					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.website"></el-input>
-				</li>
-				<li class="project_review_details_item_li">
-					<label class="project_review_details_item_li_label">白皮书</label>
-					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.whitePaper"></el-input>
-				</li>-->
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">相关牌照</label>
 					<a v-if="disabled && details.license" :href="details.license" download>下载</a>
@@ -255,26 +249,26 @@
 		data() {
 			return {
 				coreTeam: [{
-					accountId: 1,
-					number: '1',
-					name: '1',
-					title: '1',
-					desc: '1',
+					accountId: '',
+					number: '',
+					name: '',
+					title: '',
+					desc: '',
 				}],
 				consultantTeam: [{
-					accountId: 1,
+					accountId: '',
 					name: '',
 					title: '',
 					desc: '',
 				}],
 				newCore: {
-					accountId: 1,
+					accountId: '',
 					name: '',
 					title: '',
 					desc: '',
 				},
 				newConsultant: {
-					accountId: 1,
+					accountId: '',
 					name: '',
 					title: '',
 					desc: '',
@@ -284,7 +278,7 @@
 				},
 				disabled: false,
 				centerDialogVisible: false,
-				CrowdTeamDialogVisible:false,
+				CrowdTeamDialogVisible: false,
 				accountId: this.$store.state.id || Cache.getSession('bier_userid'),
 				multipleSelection: [],
 				timeInterval: [],
@@ -306,9 +300,9 @@
 				var id = this.$route.params.id;
 				var value = this.$route.params.value;
 				console.log(this.$route);
-				if(value == 1){
+				if(value == 1) {
 					this.disabled = false;
-				}else{
+				} else {
 					this.disabled = true;
 				}
 				let params = {
@@ -336,6 +330,8 @@
 						technologyArr.push(res.data.technology2);
 					}
 					this.technologyDatas = technologyArr.join('-');
+					this.coreTeam = res.data.memberResults;
+					this.consultantTeam = res.data.consultantsResults;
 				});
 			},
 			passed() {
@@ -383,6 +379,28 @@
 					this.coreTeam.splice(value, 1);
 				}
 			},
+			saveLink() {
+				var id = this.$route.params.id;
+				let params = {
+					url: 'ChangeCoreMember',
+					data: {
+						id: this.multipleSelection[0].id,
+						accountId: this.accountId,
+						crowdId: this.multipleSelection[0].crowdId,
+						desc: this.multipleSelection[0].desc,
+						name: this.multipleSelection[0].name,
+						title: this.multipleSelection[0].title
+					},
+					type: 'put',
+					flag: true,
+				}
+				Request.requestHandle(params, res => {
+					console.log(res);
+					if(res.success == 1) {
+						this.$message('修改成功');
+					}
+				});
+			},
 			addLink() {
 				var id = this.$route.params.id;
 				let params = {
@@ -403,17 +421,16 @@
 					}
 				});
 			},
-			deleted() {
+			deletedLink() {
 				var id = this.$route.params.id;
 				let params = {
 					url: 'DeletedCoreMember',
 					data: {
-						accountId: this.accountId,
-						crowdId: this.details.id,
-						desc: this.multipleSelection[0].desc,
-						name: this.multipleSelection[0].name,
-						title: this.multipleSelection[0].title
+						crowdId: this.multipleSelection[0].crowdId,
+						id: this.multipleSelection[0].id
 					},
+					type: 'DELETE',
+					flag: true,
 				}
 				Request.requestHandle(params, res => {
 					console.log(res);
@@ -437,7 +454,7 @@
 			addLinkConsultant() {
 				var id = this.$route.params.id;
 				let params = {
-					url: 'AddCoreMember',
+					url: 'addConsultant',
 					data: {
 						accountId: this.accountId,
 						crowdId: this.details.id,
@@ -457,7 +474,7 @@
 			deletedLinkConsultant() {
 				var id = this.$route.params.id;
 				let params = {
-					url: 'DeletedCoreMember',
+					url: 'deletedConsultant',
 					data: {
 						accountId: this.accountId,
 						crowdId: this.details.id,
@@ -465,16 +482,38 @@
 						name: this.multipleSelection[0].name,
 						title: this.multipleSelection[0].title
 					},
+					type:'DELETE',
+					flag:true,
 				}
 				Request.requestHandle(params, res => {
 					console.log(res);
 				});
 			},
+			saveLinkConsultant() {
+				var id = this.$route.params.id;
+				let params = {
+					url: 'ChangeConsultant',
+					data: {
+						id: this.multipleSelection[0].id,
+						accountId: this.accountId,
+						crowdId: this.multipleSelection[0].crowdId,
+						desc: this.multipleSelection[0].desc,
+						name: this.multipleSelection[0].name,
+						title: this.multipleSelection[0].title
+					},
+					type: 'put',
+					flag: true,
+				}
+				Request.requestHandle(params, res => {
+					console.log(res);
+					if(res.success == 1) {
+						this.$message('修改成功');
+					}
+				});
+			},
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
-			},
-			deletedLink() {
-
+				console.log(val)
 			},
 			handleAvatarSuccess(file) {
 				console.log(file);

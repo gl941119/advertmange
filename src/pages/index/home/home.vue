@@ -83,11 +83,11 @@
 		},
 		methods: {
 			openDetails(id,value) {
-				console.log(row.id);
 				this.$router.push({
-					path: 'projectDetails/' + id,
+					path: 'projectDetails/' + id + '/' + value,
 					params: {
 						id: id,
+						value: value,
 					}
 				});
 			},
