@@ -289,6 +289,9 @@
 			<button class="check" @click="notPassed">审核不通过</button>
 			<p>请在众筹合约部署完成后点击通过</p>
 		</div>
+		<div v-if="!disabled">
+			<button class="check" @click="changeDetails">保存修改</button>
+		</div>
 	</div>
 </template>
 
@@ -304,26 +307,25 @@
 
 				},
 				coreTeam: [{
-					accountId: '',
-					number: '',
+					accountId: this.$store.state.id || Cache.getSession('bier_userid'),
 					name: '',
 					title: '',
 					desc: '',
 				}],
 				consultantTeam: [{
-					accountId: '',
+					accountId: this.$store.state.id || Cache.getSession('bier_userid'),
 					name: '',
 					title: '',
 					desc: '',
 				}],
 				newCore: {
-					accountId: '',
+					accountId: this.$store.state.id || Cache.getSession('bier_userid'),
 					name: '',
 					title: '',
 					desc: '',
 				},
 				newConsultant: {
-					accountId: '',
+					accountId: this.$store.state.id || Cache.getSession('bier_userid'),
 					name: '',
 					title: '',
 					desc: '',
@@ -388,7 +390,6 @@
 				});
 			},
 			changeDetails() {
-				
 				let params = {
 					url: 'ChangeDetails',
 					data: {
@@ -424,7 +425,7 @@
 						website: this.details.website,
 						whitePaper: this.details.whitePaper
 					},
-					type: 'put',
+					type: 'post',
 					flag:true,
 				}
 				Request.requestHandle(params, res => {

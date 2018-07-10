@@ -203,6 +203,10 @@
 					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.price"></el-input>
 				</li>
 				<li class="project_review_details_item_li">
+					<label class="project_review_details_item_li_label">单账号兑换限制</label>
+					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.mostNumber"></el-input>
+				</li>
+				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">目标货币</label>
 					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.targetCurrency"></el-input>
 				</li>
@@ -261,26 +265,25 @@
 		data() {
 			return {
 				coreTeam: [{
-					accountId: '',
-					number: '',
+					accountId: this.$store.state.id || Cache.getSession('bier_userid'),
 					name: '',
 					title: '',
 					desc: '',
 				}],
 				consultantTeam: [{
-					accountId: '',
+					accountId: this.$store.state.id || Cache.getSession('bier_userid'),
 					name: '',
 					title: '',
 					desc: '',
 				}],
 				newCore: {
-					accountId: '',
+					accountId: this.$store.state.id || Cache.getSession('bier_userid'),
 					name: '',
 					title: '',
 					desc: '',
 				},
 				newConsultant: {
-					accountId: '',
+					accountId: this.$store.state.id || Cache.getSession('bier_userid'),
 					name: '',
 					title: '',
 					desc: '',
