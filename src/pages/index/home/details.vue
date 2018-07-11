@@ -182,106 +182,16 @@
 						</el-upload>
 					</div>
 				</li>
-				<div v-if="disabled">
-					<li class="project_review_details_item_li" v-if="details.customWebsite1 || details.customAddress1">
-						<label class="project_review_details_item_li_label">{{details.customWebsite1}}</label>
-						<span style="margin-right: 20px;">{{details.customAddress1}}</span>
-					</li>
-					<li class="project_review_details_item_li" v-if="details.customWebsite2 || details.customAddress2">
-						<label class="project_review_details_item_li_label">{{details.customWebsite2}}</label>
-						<span style="margin-right: 20px;">{{details.customAddress2}}</span>
-					</li>
-					<li class="project_review_details_item_li" v-if="details.customWebsite3 || details.customAddress3">
-						<label class="project_review_details_item_li_label">{{details.customWebsite3}}</label>
-						<span style="margin-right: 20px;">{{details.customAddress3}}</span>
-					</li>
-					<li class="project_review_details_item_li" v-if="details.customWebsite4 || details.customAddress4">
-						<label class="project_review_details_item_li_label">{{details.customWebsite4}}</label>
-						<span style="margin-right: 20px;">{{details.customAddress4}}</span>
-					</li>
-					<li class="project_review_details_item_li" v-if="details.customWebsite5 || details.customAddress5">
-						<label class="project_review_details_item_li_label">{{details.customWebsite5}}</label>
-						<span style="margin-right: 20px;">{{details.customAddress5}}</span>
-					</li>
-					<li class="project_review_details_item_li" v-if="details.customWebsite6 || details.customAddress6">
-						<label class="project_review_details_item_li_label">{{details.customWebsite6}}</label>
-						<span style="margin-right: 20px;">{{details.customAddress6}}</span>
-					</li>
-					<li class="project_review_details_item_li" v-if="details.customWebsite7 || details.customAddress7">
-						<label class="project_review_details_item_li_label">{{details.customWebsite7}}</label>
-						<span style="margin-right: 20px;">{{details.customAddress7}}</span>
-					</li>
-					<li class="project_review_details_item_li" v-if="details.customWebsite8 || details.customAddress8">
-						<label class="project_review_details_item_li_label">{{details.customWebsite8}}</label>
-						<span style="margin-right: 20px;">{{details.customAddress8}}</span>
-					</li>
-				</div>
-				<div v-else>
-					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label">
-							<el-input placeholder="自定义站点名" v-model="siteName1" >
-							</el-input>
-						</label>
-						<el-input placeholder="自定义站点地址" v-model="siteAddress1">
-						</el-input>
-					</li>
-					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label">
-							<el-input placeholder="自定义站点名" v-model="siteName2" >
-							</el-input>
-						</label>
-						<el-input placeholder="自定义站点地址" v-model="siteAddress2">
-						</el-input>
-					</li>
-					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label">
-							<el-input placeholder="自定义站点名" v-model="siteName3" >
-							</el-input>
-						</label>
-						<el-input placeholder="自定义站点地址" v-model="siteAddress3">
-						</el-input>
-					</li>
-					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label">
-							<el-input placeholder="自定义站点名" v-model="siteName4" >
-							</el-input>
-						</label>
-						<el-input placeholder="自定义站点地址" v-model="siteAddress4">
-						</el-input>
-					</li>
-					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label">
-							<el-input placeholder="自定义站点名" v-model="siteName5" >
-							</el-input>
-						</label>
-						<el-input placeholder="自定义站点地址" v-model="siteAddress5">
-						</el-input>
-					</li>
-					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label">
-							<el-input placeholder="自定义站点名" v-model="siteName6" >
-							</el-input>
-						</label>
-						<el-input placeholder="自定义站点地址" v-model="siteAddress6">
-						</el-input>
-					</li>
-					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label">
-							<el-input placeholder="自定义站点名" v-model="siteName7" >
-							</el-input>
-						</label>
-						<el-input placeholder="自定义站点地址" v-model="siteAddress7">
-						</el-input>
-					</li>
-					<li class="project_review_details_item_li">
-						<label class="project_review_details_item_li_label">
-							<el-input placeholder="自定义站点名" v-model="siteName8" >
-							</el-input>
-						</label>
-						<el-input placeholder="自定义站点地址" v-model="siteAddress8">
-						</el-input>
-					</li>
-				</div>
+				<li class="project_review_details_item_li" v-for="(item, index) in websites">
+					<label class="project_review_details_item_li_label">{{item.websiteName}}</label>
+					<span style="margin-right: 20px;">{{item.websiteAddress}}</span>
+				</li>
+				<li v-if="!disabled" class="project_review_details_item_li" v-for="(item, index) in websitesSubmit" :key="index">
+					<label class="project_review_details_item_li_label"><el-input placeholder="自定义站点名" v-model="websitesSubmit[index].websiteName" >
+				</el-input></label>
+				<el-input placeholder="自定义站点地址" v-model="websitesSubmit[index].websiteAddress">
+				</el-input>
+				</li>
 			</ul>
 		</div>
 		<div v-if="disabled">
@@ -304,7 +214,20 @@
 		data() {
 			return {
 				details: {
-
+					fullEnName: '',
+					id: '',
+					logo: '',
+					proDesc: '',
+					proName: '',
+					shotCnName: '',
+					shotEnName: '',
+					teamContact: '',
+					teamLocation: '',
+					teamName: '',
+					technology1: '',
+					technology2: '',
+					website: '',
+					whitePaper: '',
 				},
 				coreTeam: [{
 					accountId: this.$store.state.id || Cache.getSession('bier_userid'),
@@ -340,7 +263,10 @@
 				technology: false,
 				conceptDatas: '',
 				technologyDatas: '',
-				checkeData: [],
+				checkedData: [],
+				websites:[],
+				websitesSubmit:[],
+				conceptResult:[],
 			};
 		},
 		components: {
@@ -348,13 +274,11 @@
 		},
 		mounted() {
 			this.queryDetails();
-
 		},
 		methods: {
 			queryDetails(page = Config.pageStart) {
 				var id = this.$route.params.id;
 				var value = this.$route.params.value;
-				console.log(this.$route);
 				if(value == 1) {
 					this.disabled = false;
 				} else {
@@ -368,14 +292,22 @@
 					type: 'get',
 				}
 				Request.requestHandle(params, res => {
+					console.log(res);
 					this.details = res.data;
-					let {
-						concept1Id,
-						concept2Id,
-						concept3Id,
-						concept4Id,
-					} = res.data;
-					this.conceptDatas = [concept1Id, concept2Id, concept3Id, concept4Id].join('-');
+					this.coreTeam = res.data.advertTeamMemberResults;
+					this.consultantTeam = res.data.advertTeamConsultantsResults;
+					this.websites = res.data.websiteResultList;
+					var length = res.data.websiteResultList.length;
+					var obj = {};
+					for(var i=0;i<8-length;i++){
+						this.websitesSubmit.push(obj);
+					}
+					this.conceptResult = res.data.concepManagetResultList;
+					var conceptData = [];
+					res.data.concepManagetResultList.forEach(function(item, index){
+						conceptData.push(item.name);
+					})
+					this.conceptDatas = conceptData.join('-');
 					var technologyArr = [];
 					if(res.data.technology1) {
 						technologyArr.push(res.data.technology1);
@@ -384,46 +316,30 @@
 						technologyArr.push(res.data.technology2);
 					}
 					this.technologyDatas = technologyArr.join('-');
-					this.coreTeam = res.data.memberResults;
-					this.consultantTeam = res.data.consultantsResults;
-					console.log(this.details)
 				});
 			},
 			changeDetails() {
+				this.websites = this.websitesSubmit.concat();
+				console.log(this.websites);
 				let params = {
 					url: 'ChangeDetails',
 					data: {
-						accountId: this.details.accountId,
-						circulation: this.details.circulation,
-						concept1Id: this.details.concept1Id,
-						concept2Id: this.details.concept2Id,
-						concept3Id: this.details.concept3Id,
-						concept4Id: this.details.concept4Id,
-						currCirculation: this.details.currCirculation,
-						endTime: this.timeInterval[1],
 						fullEnName: this.details.fullEnName,
 						id: this.details.id,
-						license: this.details.license,
 						logo: this.details.logo,
-						lowLimit: this.details.lowLimit,
-						mostNumber: this.details.mostNumber,
-						price: this.details.price,
 						proDesc: this.details.proDesc,
 						proName: this.details.proName,
 						shotCnName: this.details.shotCnName,
 						shotEnName: this.details.shotEnName,
-						startTime: this.timeInterval[0],
-						targetCurrency: this.details.targetCurrency,
 						teamContact: this.details.teamContact,
 						teamLocation: this.details.teamLocation,
 						teamName: this.details.teamName,
 						technology1: this.details.technology1,
 						technology2: this.details.technology2,
-						title: this.details.title,
-						topLimit: this.details.topLimit,
-						totalCrowdfund: this.details.totalCrowdfund,
 						website: this.details.website,
-						whitePaper: this.details.whitePaper
+						whitePaper: this.details.whitePaper,
+						websiteList:this.websites,
+						conceptManageList:this.checkedData,
 					},
 					type: 'post',
 					flag:true,
@@ -640,7 +556,7 @@
 					newCheckedData.push(item.value);
 				})
 				this.conceptDatas = newCheckedData.join('-');
-				this.checkeData = checkedData;
+				this.checkedData = checkedData;
 			},
 		}
 	}
@@ -696,6 +612,7 @@
 		color: #8c939d;
 		width: 178px;
 		height: 178px;
+		border-radius: 50%;
 		line-height: 178px;
 		text-align: center;
 	}
@@ -704,5 +621,6 @@
 		width: 178px;
 		height: 178px;
 		display: block;
+		border-radius: 50%;
 	}
 </style>

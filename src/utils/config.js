@@ -1,5 +1,5 @@
 const url = {
-    localTestUrl: 'http://192.168.1.15:8092/',
+    localTestUrl: 'http://192.168.5.18:8091/',
     productUrl: 'http://192.168.1.105:8091/',
 };
 
