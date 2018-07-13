@@ -9,6 +9,14 @@ export default {
     QueryPass: 'advertmange/advertservice/advert/pass',
     QueryNotPass: 'advertmange/advertservice/advert/nopass',
     ChangeDetails: 'advertmange/advertservice/modifyAdvertProj',
+    QueryAdCoreMember: 'advertmange/advert-team-member/getAll/advert-id',//查询核心团队
+    AddAdCoreMember: 'advertmange/advert-team-member/add',//添加核心团队
+    DeletedAdCoreMember: 'advertmange/advert-team-member/delete/advert-id/id',//删除核心团队
+    ChangeAdCoreMember: 'advertmange/advert-team-member/put',//修改核心团队
+    QueryAdConsultant: 'advertmange/advert-team-consultants/getAll/advert-id',//查询顾问团队
+    AddAdConsultant: 'advertmange/advert-team-consultants/add',//添加顾问团队
+    DeletedAdConsultant: 'advertmange/advert-team-consultants/delete/advert-id/id',//删除顾问团队
+    ChangeAdConsultant: 'advertmange/advert-team-consultants/put',//修改顾问团队
     // 众筹项目审核
     QueryCrowdfunding: 'advertmange/crowd-funding/all',
     QueryCrowdfundingDetails: 'advertmange/crowd-funding/crowd-id',
@@ -18,11 +26,9 @@ export default {
     ChangeRefuseOrPass: 'advertmange/idAuthentication/modifyAuthState',//审核
     bindContractAddress: 'advertmange/crowd-funding/bindAddress',//绑定合约地址
     ChangeCrowdfundingDetails: 'advertmange/crowd-funding/put',//修改众筹申请
-    //核心团队
     AddCoreMember: 'advertmange/crowd-team-member',//添加核心团队
     DeletedCoreMember: 'advertmange/crowd-team-member/delete/crowd-id/id',//删除核心团队
     ChangeCoreMember: 'advertmange/crowd-team-member/put',//修改核心团队
-    //顾问团队
     addConsultant: 'advertmange/crowd-team-consultants',//添加顾问团队
     deletedConsultant: 'advertmange/crowd-team-consultants/delete/crowd-id/id',//删除顾问团队
     ChangeConsultant: 'advertmange/crowd-team-consultants/put',//修改顾问团队
