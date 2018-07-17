@@ -46,7 +46,7 @@
 						<el-button size="mini" v-if="scope.row.isCheck == 1" @click="openDetails(scope.row.id,1)">编辑</el-button>
 						<el-button size="mini" v-if="scope.row.isCheck == 0" @click="openDetails(scope.row.id,2)">审核</el-button>
 						<el-button size="mini" v-if="scope.row.isCheck == 2" disabled>审核</el-button>
-						<el-button size="mini" v-if="scope.row.isCheck == 1" @click='dialogVisible=true'>绑定合约地址</el-button>
+						<el-button size="mini" v-if="scope.row.isCheck == 1" @click='openDialog(scope.row.id)'>绑定合约地址</el-button>
 						<el-dialog
 						  title="绑定合约地址"
 						  :visible.sync="dialogVisible"
@@ -63,7 +63,7 @@
 							</el-form>
 						  <span slot="footer" class="dialog-footer">
 						    <el-button @click="dialogVisible = false">取 消</el-button>
-						    <el-button type="primary" @click="submitAddress(scope.row.id)">确 定</el-button>
+						    <el-button type="primary" @click="submitAddress">确 定</el-button>
 						  </span>
 						</el-dialog>
 					</div>
@@ -111,7 +111,8 @@
 				state: '-1',
 				searchStr: '',
 				labelPosition:'top',
-				dialogVisible: false
+				dialogVisible: false,
+				clickId:0
 			}
 		},
 		created() {
@@ -179,23 +180,32 @@
 				Request.requestHandle(params, res => {
 					console.log(res)
 					this.projectData = res.data;
+					
 					this.pageTotal = res.total;
 				});
 			},
-			submitAddress(id){//修改合约地址
+			openDialog(id){
+				this.dialogVisible = true;
+				this.clickId = id ;
+			},
+			submitAddress(){//修改合约地址
+				
+				
 				let params = {
 					url: 'ChangeContract',
 					data: {
 					  abi: this.formLabelAlign.abi,
 					  address: this.formLabelAlign.address,
-					  id: id
+					  id: this.clickId
 					},
 					type: 'post',
 					flag:true
 				}
 				Request.requestHandle(params, res => {
+				console.log(params)
+					console.log(res)
 					if(res.success==1){
-						this.$message('修改成功')
+						this.$message('绑定成功')
 						this.dialogVisible = false
 					}
 				});

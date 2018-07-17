@@ -37,6 +37,7 @@ export default {
     // 概念标签管理
     QueryConcept: 'advertmange/concept/findConcept',
     QueryChangeConceptName: 'advertmange/concept/modifyConceptName',//修改
+    addConceptLink:'advertmange//concept/addConceptManage',//新增概念标签
     //广告位管理
     QueryAdvertisingBanner:'advertmange/advertisement/findAdvertiseAll', //查询bannner项目
     ChangeAdvertisingBanner:'advertmange/advertisement/modifyAdvertisementMes', //修改信息

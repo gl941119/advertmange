@@ -52,10 +52,40 @@
 			this.getDataInfo();
 		},
 		methods: {
-			addConceptLabel() {
-
+			addConceptLabel() {//点击新增
+				this.$prompt('新增概念', '', {
+		          confirmButtonText: '确定',
+		          cancelButtonText: '取消'
+//		          inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+//		          inputErrorMessage: '邮箱格式不正确'
+		        }).then(({ value }) => {
+		        	
+		          
+		        }).catch(() => {
+		          this.$message({
+		            type: 'info',
+		            message: '取消输入'
+		          }); 
+		          })
 			},
-			pass() {
+			addConceptLink(){//增加概念标签
+				let parmas = {
+					url:'addConceptLink',
+					data:{
+					data: {},
+					exceptionMessage: {},
+					message: "string",
+					success: 0,
+					total: 0
+					},
+					type:'post'
+				}
+				Request.requestHandle(parmas,res=>{
+					this.$message('新增成功');
+				})
+			
+			},
+			pass(){
 
 			},
 			getDataInfo(page = Config.pageStart) {
