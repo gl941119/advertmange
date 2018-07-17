@@ -57,7 +57,7 @@
 							    <el-input v-model="formLabelAlign.address"></el-input>
 							  </el-form-item>
 							  <el-form-item label="输入abi">
-							    <el-input v-model="formLabelAlign.abi"></el-input>
+							    <el-input v-model="formLabelAlign.abi" type="textarea"></el-input>
 							  </el-form-item>
 							 
 							</el-form>

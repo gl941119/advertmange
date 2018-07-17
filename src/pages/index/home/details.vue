@@ -306,7 +306,6 @@
 					this.details = res.data;					
 					this.accountId = res.data.accountId
 					this.advertId = res.data.id
-					
 					this.QueryAdCoreMember()
 					this.newCore={
 						accountId:res.data.accountId,
@@ -391,13 +390,13 @@
 					  teamName: this.details.teamName,
 					  technology1: this.details.technology1,
 					  technology2: this.details.technology2,
-					  website: this.website,//官方网址
+					  website: this.details.website,//官方网址
 					  websiteList: this.websitesSubmit,
 					  whitePaper: this.details.whitePaper
 					},
 					type:'post',
 					flag:true}
-//				console.log("request",params)
+				console.log("request",params)
 				Request.requestHandle(params, res => {
 					console.log("response",res);
 					if(res.success == 1){
