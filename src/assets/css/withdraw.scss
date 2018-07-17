@@ -1,0 +1,72 @@
+.withdraw {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 111;
+    &_box {
+        position: relative;
+        width: 600px;
+        height: 332px;
+        overflow: hidden;
+        margin-bottom: 10px;
+        border: 1px solid #ebeef5;
+        border-radius: 5px;
+        box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        padding: 30px;
+        &_back {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        &_element {
+            .el-checkbox-button__inner{
+                border: 1px solid #CCCCCC;
+                background: #FFFFFF;
+                padding: 5px 20px;
+                margin-right: 10px;
+                float: left;
+                border-radius: 16px;
+            }
+        }
+        .withdraw_item {
+            .withdraw_item_li {
+                height: 50px;
+                line-height: 50px;
+                display: flex;
+                label {
+                    width: 125px;
+                }
+                .img {
+                    width: 100px;
+                    height: 100px;
+                    overflow: hidden;
+                    img {
+                        width: 100px;
+                        height: 100px;
+                        position: absolute;
+                        top: 100px;
+                    }
+                }
+            }
+            .right_now {
+                background: orangered;
+                height: 30px;
+                line-height: 30px;
+                border-radius: 16px;
+                color: #FFFFFF;
+                width: 100px;
+                position: absolute;
+                left: 50%;
+                margin: 10px 0 10px -50px;
+                border: 0;
+            }
+        }
+    }
+}
