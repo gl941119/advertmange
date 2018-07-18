@@ -42,6 +42,7 @@
 				</el-table-column>
 			</el-table>
 		</div>
+		<!--页面二级页-->
 		<div>
 			<div class="user-management-list-title">
 				<h3>项目二级页</h3>
@@ -84,6 +85,7 @@
 				</el-table-column>
 			</el-table>
 		</div>
+		<!--众筹二级页-->
 		<div>
 			<div class="user-management-list-title">
 				<h3>众筹二级页</h3>
@@ -155,7 +157,7 @@
 				homeListData: [{
 
 				}],
-				bannerListData: [],
+				bannerListData: [],//banner列表数据
 				banner: '',
 				pageSize: 5,
 				imageUrl: '',
@@ -169,7 +171,7 @@
 			this.getBanner();
 		},
 		methods: {
-			getBanner(page = Config.pageStart) {
+			getBanner(page = Config.pageStart) {//请求banner
 				let params = {
 					url: 'QueryAdvertisingBanner',
 					data: {
@@ -181,27 +183,28 @@
 				Request.requestHandle(params, res => {
 					console.log(res)
 					this.bannerListData = res.data;
+//					this.bannerListData[0].advertUrl = ''
 				});
 			},
-			add(item,value) {
-				console.log(item);
-				let params = {
-					url: 'ChangeAdvertisingBanner',
-					data: {
-						accountId: this.accountId,
-						advertProjId: item.advertProjId,
-						id: item.id,
-						advertUrl: value
-					},
-					flag:true,
-				}
-				Request.requestHandle(params, res => {
-					if(res.success){
-						this.$message('添加成功');
-						this.getBanner();
-					}
-				});
-			},
+//			add(item,value) {
+//				console.log(item);
+//				let params = {
+//					url: 'ChangeAdvertisingBanner',
+//					data: {
+//						accountId: this.accountId,
+//						advertProjId: item.advertProjId,
+//						id: item.id,
+//						advertUrl: value
+//					},
+//					flag:true,
+//				}
+//				Request.requestHandle(params, res => {
+//					if(res.success){
+//						this.$message('添加成功');
+//						this.getBanner();
+//					}
+//				});
+//			},
 			deleted(id) {
 				let params = {
 					url: 'DeletedAdvertising',
@@ -224,7 +227,7 @@
 				}).then(({
 					value
 				}) => {
-					this.add(item,value);
+					this.saveChange(item,value);
 				}).catch(() => {
 					this.$message({
 						type: 'info',
@@ -232,22 +235,28 @@
 					});
 				});
 			},
-			saveChange() {
+			saveChange(item,value) {//保存banner
+//				console.log(item,value)
+//					if(!this.advertProjId){
+//						return this.$message('还未修改哦')
+//					}
 				let params = {
-					url: 'ChangeAdvertisingSort',
+					url: 'ChangeAdvertisingBanner',
 					data: {
-						accountId: this.accountId,
-						advertProjId: this.advertProjId,
-						advertSort: this.advertSort,
-						banner: this.banner,
-						id: this.id,
+						accountId: this.bannerListData[0].accountId,
+						advertProjId: this.bannerListData[0].advertProjId,
+						advertSort: this.bannerListData[0].advertSort,
+						advertUrl: value||this.bannerListData[0].advertUrl,
+						banner: this.bannerListData[0].banner,
+						id: this.bannerListData[0].id,
 					},
 					type: 'post',
 					flag:true,
 				}
+				console.log(params)
 				Request.requestHandle(params, res => {
-					console.log(res);
-					if(res.success){
+//					console.log(res);
+					if(res.success == 1){
 						this.$message('保存成功');
 						this.getBanner();
 					}

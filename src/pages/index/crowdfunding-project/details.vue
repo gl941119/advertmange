@@ -15,10 +15,12 @@
 					<label class="project_review_details_item_li_label">主要成员所在地</label>
 					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.teamLocation"></el-input>
 				</li>
+				<!--核心團隊按鈕-->
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">核心团队成员</label>
 					<el-button type="text" @click="centerDialogVisible = true">点击打开核心团队成员</el-button>
 				</li>
+				<!--核心团队dialog-->
 				<div class="project_review_details_item_li_info">
 					<el-dialog title="核心团队成员" :visible.sync="centerDialogVisible" size="small">
 						<el-table :data="coreTeam" border class="tForm" ref="multipleTable" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
@@ -41,8 +43,8 @@
 							</el-table-column>
 							<el-table-column property="address" align="center" label="操作">
 								<template slot-scope="scope">
-									<el-button :disabled="disabled" @click="addCore">添加</el-button>
-									<el-button :disabled="disabled" @click="deletedCore(scope.$index)">删除</el-button>
+									<el-button :disabled="disabled" @click="ChangeCoreMember(scope.row)">修改</el-button>
+									<!--<el-button :disabled="disabled" @click="deletedCore(scope.$index)">删除</el-button>-->
 								</template>
 							</el-table-column>
 						</el-table>
@@ -53,10 +55,12 @@
 						</div>
 					</el-dialog>
 				</div>
+				<!--顾问团队按钮-->
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">顾问团队</label>
 					<el-button type="text" @click="CrowdTeamDialogVisible = true">点击打开顾问团队成员</el-button>
 				</li>
+				<!--顾问团队dialog-->
 				<div class="project_review_details_item_li_info">
 					<!--<el-table :show-header=false border :data="details.CrowdTeamConsultantsResult" style="width: 100%">
 						<el-table-column prop="name" label="日期" width="180">
@@ -87,15 +91,15 @@
 							</el-table-column>
 							<el-table-column property="address" align="center" label="操作">
 								<template slot-scope="scope">
-									<el-button :disabled="disabled" @click="addConsultant">添加</el-button>
-									<el-button :disabled="disabled" @click="deletedConsultant(scope.$index)">删除</el-button>
+									<el-button :disabled="disabled" @click="ChangeCoreMember(scope.row,'consultant')">修改</el-button>
+									<!--<el-button :disabled="disabled" @click="deletedConsultant(scope.$index)">删除</el-button>-->
 								</template>
 							</el-table-column>
 						</el-table>
 						<div slot="footer" class="dialog-footer">
 							<el-button :disabled="disabled" @click="saveLinkConsultant">保存</el-button>
 							<el-button :disabled="disabled" @click="addLinkConsultant">添加</el-button>
-							<el-button :disabled="disabled" @click="deletedLinkConsultant">删除</el-button>
+							<el-button :disabled="disabled" @click="deletedLink('consultant')">删除</el-button>
 						</div>
 					</el-dialog>
 				</div>
@@ -265,25 +269,29 @@
 		data() {
 			return {
 				coreTeam: [{
-					accountId: this.$store.state.id || Cache.getSession('bier_userid'),
+					accountId:'',
+					crowdId: '',
 					name: '',
 					title: '',
 					desc: '',
 				}],
 				consultantTeam: [{
-					accountId: this.$store.state.id || Cache.getSession('bier_userid'),
+					accountId:'',
+					crowdId: '',
 					name: '',
 					title: '',
 					desc: '',
 				}],
 				newCore: {
-					accountId: this.$store.state.id || Cache.getSession('bier_userid'),
+					accountId:'',
+					crowdId: '',
 					name: '',
 					title: '',
 					desc: '',
 				},
 				newConsultant: {
-					accountId: this.$store.state.id || Cache.getSession('bier_userid'),
+					accountId:'',
+					crowdId: '',
 					name: '',
 					title: '',
 					desc: '',
@@ -295,6 +303,7 @@
 				centerDialogVisible: false,
 				CrowdTeamDialogVisible: false,
 				accountId: this.$store.state.id || Cache.getSession('bier_userid'),
+				crowdId:undefined,
 				multipleSelection: [],
 				timeInterval: [],
 				concept: false,
@@ -312,10 +321,10 @@
 			this.queryDetails();
 		},
 		methods: {
-			queryDetails() {
+			queryDetails() {//请求details
 				var id = this.$route.params.id;
 				var value = this.$route.params.value;
-				console.log(this.$route);
+				
 				if(value == 1) {
 					this.disabled = false;
 				} else {
@@ -330,7 +339,9 @@
 				}
 				Request.requestHandle(params, res => {
 					this.details = res.data;
-					console.log(res);
+					console.log("DetailsInfo",res);
+					this.accountId = res.data.accountId;
+					this.crowdId= res.data.id;
 					let {
 						concept1Id,
 						concept2Id,
@@ -351,7 +362,28 @@
 					this.timeInterval = [res.data.startTime, res.data.endTime];
 				});
 			},
-			changeDetails() {
+			getCrowdfundingTeam(name){//请求核心
+				
+//				let _url = QueryCrowdCoreTeam ; 
+//				if(name == "consultant"){
+//					_url = QueryCrowdfundingConsultantTeam;
+//				}
+//				let params = {
+	
+//					url = _url,
+//					data: {
+//						
+//					},
+//					type: 'get'
+//				}
+//				Request.requestHandle(params, res => {
+//					if(res.success == 1) {
+//						console.log('请求成功');
+//
+//					}
+//				});
+			},
+			changeDetails() {//修改保存
 				var startTime = this.util.format(this.timeInterval[0], 'yyyy-MM-dd HH:mm:ss');
 				var endTime = this.util.format(this.timeInterval[1], 'yyyy-MM-dd HH:mm:ss');
 				let params = {
@@ -392,10 +424,14 @@
 					type: 'put',
 					flag:true,
 				}
+				console.log("request",params.data)
 				Request.requestHandle(params, res => {
 					if(res.success) {
-						this.queryDetails();
+//						this.queryDetails();
+						this.$router.back(-1)
 						this.$message('修改成功');
+						
+
 					}
 				});
 			},
@@ -432,87 +468,119 @@
 				});
 			},
 			addCore() { //核心团队
+				
+			},
+//			deletedCore(value) { //核心团队
+//				console.log(value)
+//				var length = this.coreTeam.length;
+//				if(length <= 1) {
+//					alert("不要删了o，再删就没有了")
+//				} else {
+//					this.coreTeam.splice(value, 1);
+//				}
+//			},
+			saveLink() {//核心团队新增请求
+				//数据id
+				for(var i=0;i<this.multipleSelection.length;i++){
+					let params = {
+						url: 'AddCoreMember',
+						data:{	
+						accountId: this.accountId,
+						crowdId: this.crowdId,
+						desc: this.multipleSelection[i].desc,
+						name: this.multipleSelection[i].name,
+						title: this.multipleSelection[i].title
+						  },
+						type: 'post',
+						flag: true,
+					}
+					console.log('req',params)
+					Request.requestHandle(params, res => {
+//						console.log(res);
+						if(res.success == 1) {
+							this.$message('修改成功');
+							this.queryDetails()
+						}
+					});
+				}
+			},
+			ChangeCoreMember(row,name){//修改
+				let url = 'ChangeCoreMember'
+				if(name == "consultant")
+					url = 'ChangeConsultant';
+				let params = {
+						url,
+						data:{	
+						accountId: row.accountId,
+						crowdId: row.crowdId,
+						desc: row.desc,
+						id: row.id,
+						name: row.name,
+						title: row.title
+						  },
+						type: 'put',
+						flag: true,
+					}
+					Request.requestHandle(params, res => {
+						console.log(res);
+						if(res.success == 1) {
+							this.$message('修改成功');
+							this.CrowdTeamDialogVisible = false;
+							this.centerDialogVisible = false;
+							this.queryDetails();
+						}
+					});
+			},
+			addLink() {
+//				var id = this.$route.params.id;
+//				let params = {
+//					url: 'AddCoreMember',
+//					data: {
+//						accountId: this.accountId,
+//						crowdId: this.details.id,
+//						desc: this.multipleSelection[0].desc,
+//						name: this.multipleSelection[0].name,
+//						title: this.multipleSelection[0].title
+//					},
+//					flag: true,
+//				}
+//				Request.requestHandle(params, res => {
+//					console.log(res);
+//					if(res.success == 1) {
+//						this.$message('添加成功');
+//						this.queryDetails();
+//					}
+//				});
 				var tmpPersions = this.coreTeam;
 				tmpPersions.push(this.newCore);
 				this.newCore = {};
 				this.coreTeam = tmpPersions;
 			},
-			deletedCore(value) { //核心团队
-				console.log(value)
-				var length = this.coreTeam.length;
-				if(length <= 1) {
-					alert("不要删了o，再删就没有了")
-				} else {
-					this.coreTeam.splice(value, 1);
-				}
-			},
-			saveLink() {
+			deletedLink(name) {
 				var id = this.$route.params.id;
-				let params = {
-					url: 'ChangeCoreMember',
-					data: {
-						id: this.multipleSelection[0].id,
-						accountId: this.accountId,
-						crowdId: this.multipleSelection[0].crowdId,
-						desc: this.multipleSelection[0].desc,
-						name: this.multipleSelection[0].name,
-						title: this.multipleSelection[0].title
-					},
-					type: 'put',
-					flag: true,
-				}
-				Request.requestHandle(params, res => {
-					console.log(res);
-					if(res.success == 1) {
-						this.$message('修改成功');
-						this.queryDetails();
+				let url = 'DeletedCoreMember';
+				if(name=="consultant")
+					url = 'deletedConsultant';
+				for(let i=0;i<this.multipleSelection.length;i++){
+					let params = {
+						url,
+						data: {
+							crowdId: this.multipleSelection[i].crowdId,
+							id: this.multipleSelection[i].id
+						},
+						type: 'DELETE',
+						flag: true
 					}
-				});
-			},
-			addLink() {
-				var id = this.$route.params.id;
-				let params = {
-					url: 'AddCoreMember',
-					data: {
-						accountId: this.accountId,
-						crowdId: this.details.id,
-						desc: this.multipleSelection[0].desc,
-						name: this.multipleSelection[0].name,
-						title: this.multipleSelection[0].title
-					},
-					flag: true,
+					Request.requestHandle(params, res => {
+						if(res.success == 1) {
+							this.$message('删除成功');
+							this.queryDetails();
+						}
+					});		
 				}
-				Request.requestHandle(params, res => {
-					console.log(res);
-					if(res.success == 1) {
-						this.$message('添加成功');
-						this.queryDetails();
-					}
-				});
-			},
-			deletedLink() {
-				var id = this.$route.params.id;
-				let params = {
-					url: 'DeletedCoreMember',
-					data: {
-						crowdId: this.multipleSelection[0].crowdId,
-						id: this.multipleSelection[0].id
-					},
-					type: 'DELETE',
-					flag: true,
-				}
-				Request.requestHandle(params, res => {
-					if(res.success == 1) {
-						this.$message('删除成功');
-						this.queryDetails();
-					}
-				});
 			},
 			addConsultant() { //顾问团队
-				var tmpPersions = this.consultantTeam;
-				tmpPersions.push(this.newConsultant);
-				this.newConsultant = {};
-				this.consultantTeam = tmpPersions;
+				
 			},
 			deletedConsultant(value) { //顾问团队
 				console.log(value)
@@ -524,69 +592,84 @@
 				}
 			},
 			addLinkConsultant() {
-				var id = this.$route.params.id;
-				let params = {
-					url: 'addConsultant',
-					data: {
-						accountId: this.accountId,
-						crowdId: this.details.id,
-						desc: this.multipleSelection[0].desc,
-						name: this.multipleSelection[0].name,
-						title: this.multipleSelection[0].title
-					},
-					flag: true,
-				}
-				Request.requestHandle(params, res => {
-					console.log(res);
-					if(res.success == 1) {
-						this.$message('添加成功');
-						this.queryDetails();
-					}
-				});
+//				var id = this.$route.params.id;
+//				let params = {
+//					url: 'addConsultant',
+//					data: {
+//						accountId: this.accountId,
+//						crowdId: this.details.id,
+//						desc: this.multipleSelection[0].desc,
+//						name: this.multipleSelection[0].name,
+//						title: this.multipleSelection[0].title
+//					},
+//					flag: true,
+//				}
+//				Request.requestHandle(params, res => {
+//					console.log(res);
+//					if(res.success == 1) {
+//						this.$message('添加成功');
+//						this.queryDetails();
+//					}
+//				});
+				var tmpPersions = this.consultantTeam;
+				tmpPersions.push(this.newConsultant);
+				this.newConsultant = {};
+				this.consultantTeam = tmpPersions;
 			},
 			deletedLinkConsultant() {
 				var id = this.$route.params.id;
-				let params = {
-					url: 'deletedConsultant',
-					data: {
-						accountId: this.accountId,
-						crowdId: this.details.id,
-						desc: this.multipleSelection[0].desc,
-						name: this.multipleSelection[0].name,
-						title: this.multipleSelection[0].title
-					},
-					type: 'DELETE',
-					flag: true,
-				}
-				Request.requestHandle(params, res => {
-					if(res.success == 1) {
-						this.$message('删除成功');
-						this.queryDetails();
+				for(let i=0;i<this.multipleSelection.length;i++){
+					let params = {
+						url: 'deletedConsultant',
+						data: {
+							accountId: this.accountId,
+							crowdId: this.crowdId,
+							desc: this.multipleSelection[i].desc,
+							name: this.multipleSelection[i].name,
+							title: this.multipleSelection[i].title
+						},
+						type: 'DELETE',
+						flag: true
 					}
-				});
+					console.log(params)
+					Request.requestHandle(params, res => {
+						if(res.success == 1) {
+							this.$message('删除成功');
+							this.queryDetails();
+						}
+					});
+					
+				}
+				
 			},
-			saveLinkConsultant() {
+			saveLinkConsultant() {//顾问保存
 				var id = this.$route.params.id;
-				let params = {
-					url: 'ChangeConsultant',
-					data: {
-						id: this.multipleSelection[0].id,
-						accountId: this.accountId,
-						crowdId: this.multipleSelection[0].crowdId,
-						desc: this.multipleSelection[0].desc,
-						name: this.multipleSelection[0].name,
-						title: this.multipleSelection[0].title
-					},
-					type: 'put',
-					flag: true,
-				}
-				Request.requestHandle(params, res => {
-					console.log(res);
-					if(res.success == 1) {
-						this.$message('修改成功');
-						this.queryDetails();
+				for(let i=0;i<this.multipleSelection.length;i++){
+					let params = {
+						url: 'addConsultant',
+						data: {
+							accountId: this.accountId,
+							crowdId: this.crowdId,
+							desc: this.multipleSelection[i].desc,
+							name: this.multipleSelection[i].name,
+							title: this.multipleSelection[i].title
+						},
+						type: 'post',
+						flag: true
 					}
-				});
+//					console.log(params)
+					Request.requestHandle(params, res => {
+						console.log(res);
+						if(res.success == 1) {
+							this.$message('修改成功');
+							this.queryDetails();
+						}
+					});
+					
+				}
+				
+				
+				
 			},
 			handleSelectionChange(val) {
 				this.multipleSelection = val;

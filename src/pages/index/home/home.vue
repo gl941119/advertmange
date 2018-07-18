@@ -7,7 +7,7 @@
 					<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 					</el-option>
 				</el-select>
-				<div style="width: 217px;overflow: hidden;float: left;margin-right: 20px;">
+				<div style="width:217px;overflow: hidden;float: left;margin-right: 20px;">
 					<el-input v-model="searchStr" placeholder="请输入搜索内容"></el-input>
 				</div>
 				<el-button @click="getDataInfo">搜索</el-button>
@@ -92,7 +92,7 @@
 					path: 'projectDetails/' + id + '/' + value,
 					params: {
 						id: id,
-						value: value,
+						value: value
 					}
 				});
 			},

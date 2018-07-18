@@ -17,7 +17,6 @@
 				<template slot-scope="scope">
 					<el-button size="mini" @click="pass">查看项目</el-button>
 					<el-button size="mini" @click="refuse(scope.row.id)">编辑概念名</el-button>
-					
 				</template>
 			</el-table-column>
 		</el-table>
@@ -58,32 +57,31 @@
 		          cancelButtonText: '取消'
 //		          inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
 //		          inputErrorMessage: '邮箱格式不正确'
-		        }).then(({ value }) => {
-		        	
-		          
-		        }).catch(() => {
-		          this.$message({
-		            type: 'info',
-		            message: '取消输入'
-		          }); 
-		          })
+		        }).then(({
+		        value
+		        }) => {
+		        	this.addConceptLink(value)
+		        })
 			},
-			addConceptLink(){//增加概念标签
-				let parmas = {
+			addConceptLink(name){//增加概念标签
+				console.log("request",name)
+				let params = {
 					url:'addConceptLink',
-					data:{
-					data: {},
-					exceptionMessage: {},
-					message: "string",
-					success: 0,
-					total: 0
+					data: {
+						name
 					},
-					type:'post'
+					type:'post',
+					flag:true
 				}
-				Request.requestHandle(parmas,res=>{
-					this.$message('新增成功');
+				Request.requestHandle(params, res => {
+				console.log("response",res)
+					if(res.success==1){
+			        	this.$message({
+				        	message:'新增成功',
+				        	type:'success'
+			        	})
+		        	}
 				})
-			
 			},
 			pass(){
 
@@ -115,7 +113,7 @@
 				}).then(({
 					value
 				}) => {
-					console.log('123')
+//					console.log('123')
 					this.confirm(value, id);
 				}).catch(() => {
 					this.$message({
@@ -126,18 +124,24 @@
 				
 			},
 			confirm(value,id) {//修改概念名请求
-				
 				let params = {
 					url: 'QueryChangeConceptName',
 					data: {
 						id: id,
 						name: value,
 					},
-					type:'post'
+					type:'post',
+					flag:true
 				}
 				Request.requestHandle(params, res => {
-					console.log(res);
-//					this.getDataInfo();
+					if(res.success==1){
+						this.getDataInfo();
+			        	this.$message({
+				        	message:'编辑成功',
+				        	type:'success'
+			        	})
+		        	}
+					
 				});
 			},
 			tableHeaderClassName({

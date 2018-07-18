@@ -119,7 +119,24 @@
 			this.getDataInfo();
 		},
 		methods: {
-			
+			getDataInfo(page = Config.pageStart) {//请求
+				let params = {
+					url: 'QueryCrowdfunding',
+					data: {
+						page,
+						pagesize: this.pageSize,
+						state: this.state,
+						searchStr: this.searchStr,
+					},
+					type: 'get',
+				}
+				Request.requestHandle(params, res => {
+					console.log(res)
+					this.projectData = res.data;
+					
+					this.pageTotal = res.total;
+				});
+			},
 			handleClose(done) {
 		        this.$confirm('确认关闭？')
 		          .then(_ => {
@@ -166,24 +183,7 @@
 					}
 				});
 			},
-			getDataInfo(page = Config.pageStart) {//请求
-				let params = {
-					url: 'QueryCrowdfunding',
-					data: {
-						page,
-						pagesize: this.pageSize,
-						state: this.state,
-						searchStr: this.searchStr,
-					},
-					type: 'get',
-				}
-				Request.requestHandle(params, res => {
-					console.log(res)
-					this.projectData = res.data;
-					
-					this.pageTotal = res.total;
-				});
-			},
+			
 			openDialog(id){
 				this.dialogVisible = true;
 				this.clickId = id ;

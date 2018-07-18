@@ -32,12 +32,14 @@ export default {
     addConsultant: 'advertmange/crowd-team-consultants',//添加顾问团队
     deletedConsultant: 'advertmange/crowd-team-consultants/delete/crowd-id/id',//删除顾问团队
     ChangeConsultant: 'advertmange/crowd-team-consultants/put',//修改顾问团队
+    QueryCrowdConsultantTeam :'advertmange/crowd-team-consultants/getAll/crowd-id',//请求顾问团队
+    QueryCrowdCoreTeam : 'advertmange/crowd-team-member/getAll/crowd-id', //请求核心团队
     //项目审核
     ChangeContract:'advertmange/crowd-funding/bindContractMessage',//修改合约地址
     // 概念标签管理
     QueryConcept: 'advertmange/concept/findConcept',
-    QueryChangeConceptName: 'advertmange/concept/modifyConceptName',//修改
-    addConceptLink:'advertmange//concept/addConceptManage',//新增概念标签
+    QueryChangeConceptName: 'advertmange/concept/modifyConceptName',//修改概念名
+    addConceptLink:'advertmange/concept/addConceptManage',//新增概念标签
     //广告位管理
     QueryAdvertisingBanner:'advertmange/advertisement/findAdvertiseAll', //查询bannner项目
     ChangeAdvertisingBanner:'advertmange/advertisement/modifyAdvertisementMes', //修改信息

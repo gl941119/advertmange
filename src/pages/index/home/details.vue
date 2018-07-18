@@ -190,7 +190,7 @@
 						</el-upload>
 					</div>
 				</li>
-				<li class="project_review_details_item_li" v-for="(item, index) in websites">
+				<li class="project_review_details_item_li" v-for="(item, index) in websiteResultList">
 					<label class="project_review_details_item_li_label">{{item.websiteName}}</label>
 					<span style="margin-right: 20px;">{{item.websiteAddress}}</span>
 				</li>
@@ -269,7 +269,7 @@
 				conceptDatas: '',
 				technologyDatas: '',
 //				checkedData: [],
-				websites:[],
+				websiteResultList:[],
 				websitesSubmit:[],//自定义站点列表
 				conceptResult:[],
 				newconcept:[]//概念数据
@@ -285,7 +285,7 @@
 		},
 		methods: {
 			//通過ID查詢data
-			queryDetails(page = Config.pageStart) {
+			queryDetails() {
 				var id = this.$route.params.id;
 				var value = this.$route.params.value;
 				if(value == 1) {
@@ -301,12 +301,11 @@
 					type: 'get',
 				}
 				Request.requestHandle(params, res => {
-//					console.dir(res.data.advertTeamMemberResults);
-					console.log(res.data)
+					console.log("getDetails",res.data)
 					this.details = res.data;					
 					this.accountId = res.data.accountId
 					this.advertId = res.data.id
-					this.QueryAdCoreMember()
+					this.QueryAdCoreMember() //请求核心团队
 					this.newCore={
 						accountId:res.data.accountId,
 						advertId:res.data.id,
@@ -314,7 +313,7 @@
 						name: '',
 						title: ''
 					}
-					this.QueryAdConsultantMember()
+					this.QueryAdConsultantMember()//请求概念团队
 					this.newConsultant={
 						accountId:res.data.accountId,
 						advertId:res.data.advertId,
@@ -322,10 +321,9 @@
 						name: '',
 						title: ''
 					}
-					this.websites = res.data.websiteResultList;//站點
-
-					var length = res.data.websiteResultList.length;
 					
+					this.websiteResultList = res.data.websiteResultList;//站點
+					var length = res.data.websiteResultList.length;
 					this.websitesSubmit = [{
 						advertProjId:this.advertId,
 						websiteName:'',
@@ -339,17 +337,7 @@
 						websiteName:'',
 						websiteAddress:''
 					}]
-//					var obj = {
-//						advertProjId:this.advertId,
-//						websiteName:'',
-//						websiteAddress:''
-//					};
-//					for(var i=0;i<8-length;i++){
-//						this.websitesSubmit.push(obj);
-//						
-//					}
 					this.conceptResult = res.data.concepManagetResultList;
-//					console.log(this.conceptResult)
 					var conceptData = [];
 					res.data.concepManagetResultList.forEach(function(item, index){
 						conceptData.push(item.name);
@@ -357,9 +345,7 @@
 					this.conceptDatas = conceptData.join('-');
 					
 					
-					
-					
-					var technologyArr = [];
+					var technologyArr = [];//请求回技术后将字符串连接显示
 					if(res.data.technology1) {
 						technologyArr.push(res.data.technology1);
 					}
@@ -367,13 +353,19 @@
 						technologyArr.push(res.data.technology2);
 					}
 					this.technologyDatas = technologyArr.join('-');
-//					console.log(technologyDatas)
+	
 				});
 			},
 			deitAdvertItem(){//提交编辑广告
 				if(this.newconcept.length==0){
 					this.newconcept = this.details.concepManagetResultList
 				}
+				console.log(this.websitesSubmit)
+				let websitesSubmitInfo = this.websitesSubmit.filter((item,index)=>{//站点地址处理
+					return this.websitesSubmit[index].websiteName == true
+				
+				})
+//				console.log(websitesSubmitInfo)
 				let params = {url:'QuerydeitAdvertItem',data:{
 					  accountId: this.accountId,
 					  conceptManageList: this.newconcept,
@@ -391,14 +383,14 @@
 					  technology1: this.details.technology1,
 					  technology2: this.details.technology2,
 					  website: this.details.website,//官方网址
-					  websiteList: this.websitesSubmit,
+					  websiteList: websitesSubmitInfo,
 					  whitePaper: this.details.whitePaper
 					},
 					type:'post',
 					flag:true}
 				console.log("request",params)
 				Request.requestHandle(params, res => {
-					console.log("response",res);
+//					console.log("response",res);
 					if(res.success == 1){
 					this.$message('操作成功');
 					this.$router.back(-1)
@@ -435,7 +427,6 @@
 					}
 				});
 			},
-			
 			saveLink() {//核心团队新增请求
 				//数据id
 				for(var i=0;i<this.multipleSelection.length;i++){
@@ -453,8 +444,10 @@
 					}
 					Request.requestHandle(params, res => {
 						if(res.success == 1) {
+							this.centerDialogVisible= false;
 							this.$message('增添成功');
 							this.QueryAdCoreMember();
+							
 						}
 					});
 				}
@@ -472,7 +465,6 @@
 //						console.log(res)
 					   this.coreTeam = res.data;//核心團隊
 					});
-				
 			},
 			QueryAdConsultantMember(){//顾问团队成员
 				let params = {
@@ -485,7 +477,7 @@
 					}
 					Request.requestHandle(params, res => {
 //						console.log(res)
-					   	this.consultantTeam = res.data;//顧問團隊
+					   	this.consultantTeam = res.data;//顾问团队
 					});
 				
 			},
@@ -545,27 +537,6 @@
 				}
 				
 			},
-			
-			addLinkConsultant() {//顾问团队添加请求
-				var id = this.$route.params.id;
-				let params = {
-					url: 'addConsultant',
-					data: {
-						accountId: this.accountId,
-						crowdId: this.details.id,
-						desc: this.multipleSelection[0].desc,
-						name: this.multipleSelection[0].name,
-						title: this.multipleSelection[0].title
-					},
-					flag: true,
-				}
-				Request.requestHandle(params, res => {
-					if(res.success == 1) {
-						this.$message('添加成功');
-						this.QueryAdConsultantMember()
-					}
-				});
-			},
 			deletedLinkConsultant() {//顾问团队删除请求
 //				var id = this.$route.params.id;
 				for(let i=0;i<this.multipleSelection.length;i++){
@@ -602,8 +573,8 @@
 						flag: true,
 					}
 					Request.requestHandle(params, res => {
-						
 						if(res.success == 1) {
+							this.CrowdTeamDialogVisible = false;
 							this.$message('添加成功');
 							this.QueryAdConsultantMember()
 						}
@@ -645,7 +616,7 @@
 				console.log(file);
 				this.details.logo = file.url;
 			},
-			technologyFun() {
+			technologyFun() {//点击技术
 				this.technology = !this.technology;
 				var technologyArr = [];
 				if(this.details.technology1) {
