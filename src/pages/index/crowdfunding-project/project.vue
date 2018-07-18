@@ -14,7 +14,7 @@
 			</div>
 		</div>
 		<el-table ref="multipleTable" :data="projectData" tooltip-effect="dark" border stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%;margin-top: 20px;">
-			<el-table-column prop="accountId" label="UID" align="center">
+			<el-table-column prop="id" label="UID" align="center">
 			</el-table-column>
 			<el-table-column label="代币信息" align="center">
 				<template slot-scope="scope">
@@ -87,7 +87,6 @@
 				formLabelAlign:{
 					address:'',
 					abi:''
-				
 				},
 				name: '',
 		        region: '',
@@ -133,7 +132,6 @@
 				Request.requestHandle(params, res => {
 					console.log(res)
 					this.projectData = res.data;
-					
 					this.pageTotal = res.total;
 				});
 			},

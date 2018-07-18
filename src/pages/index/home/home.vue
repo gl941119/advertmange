@@ -15,7 +15,7 @@
 		</div>
 		<!--表格-->
 		<el-table ref="multipleTable" :data="bulletinListData" tooltip-effect="dark" border stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%;margin-top: 20px;">
-			<el-table-column prop="accountId" label="UID" align="center">
+			<el-table-column prop="id" label="UID" align="center">
 			</el-table-column>
 			<el-table-column prop="proName" label="项目名称" align="center">
 			</el-table-column>

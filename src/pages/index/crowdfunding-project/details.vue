@@ -360,28 +360,30 @@
 					this.coreTeam = res.data.memberResults;
 					this.consultantTeam = res.data.consultantsResults;
 					this.timeInterval = [res.data.startTime, res.data.endTime];
+					
+					
+					
 				});
 			},
-			getCrowdfundingTeam(name){//请求核心
+			getCrowdTeam(type){//请求众筹核心团队
+				let url = "QueryCrowdCoreTeam"
+				if(type == 'consultant')
+					url = "QueryCrowdConsultantTeam"
+				let params = {
+					url,
+					data:{
+						crowdId:this.crowdId
+					},
+					type:'get'
+				}
+				Request.requestHandle(params,res=>{
+					if(type == 'consultant'){
+						return this.consultantTeam = res.data
+					}
+					this.coreTeam = res.data
+					
+				})
 				
-//				let _url = QueryCrowdCoreTeam ; 
-//				if(name == "consultant"){
-//					_url = QueryCrowdfundingConsultantTeam;
-//				}
-//				let params = {
-	
-//					url = _url,
-//					data: {
-//						
-//					},
-//					type: 'get'
-//				}
-//				Request.requestHandle(params, res => {
-//					if(res.success == 1) {
-//						console.log('请求成功');
-//
-//					}
-//				});
 			},
 			changeDetails() {//修改保存
 				var startTime = this.util.format(this.timeInterval[0], 'yyyy-MM-dd HH:mm:ss');
@@ -430,8 +432,6 @@
 //						this.queryDetails();
 						this.$router.back(-1)
 						this.$message('修改成功');
-						
-
 					}
 				});
 			},
@@ -467,18 +467,7 @@
 					}
 				});
 			},
-			addCore() { //核心团队
-				
-			},
-//			deletedCore(value) { //核心团队
-//				console.log(value)
-//				var length = this.coreTeam.length;
-//				if(length <= 1) {
-//					alert("不要删了o，再删就没有了")
-//				} else {
-//					this.coreTeam.splice(value, 1);
-//				}
-//			},
+
 			saveLink() {//核心团队新增请求
 				//数据id
 				for(var i=0;i<this.multipleSelection.length;i++){
@@ -499,7 +488,7 @@
 //						console.log(res);
 						if(res.success == 1) {
 							this.$message('修改成功');
-							this.queryDetails()
+							this.getCrowdTeam()
 						}
 					});
 				}
@@ -532,25 +521,6 @@
 					});
 			},
 			addLink() {
-//				var id = this.$route.params.id;
-//				let params = {
-//					url: 'AddCoreMember',
-//					data: {
-//						accountId: this.accountId,
-//						crowdId: this.details.id,
-//						desc: this.multipleSelection[0].desc,
-//						name: this.multipleSelection[0].name,
-//						title: this.multipleSelection[0].title
-//					},
-//					flag: true,
-//				}
-//				Request.requestHandle(params, res => {
-//					console.log(res);
-//					if(res.success == 1) {
-//						this.$message('添加成功');
-//						this.queryDetails();
-//					}
-//				});
 				var tmpPersions = this.coreTeam;
 				tmpPersions.push(this.newCore);
 				this.newCore = {};
@@ -579,9 +549,7 @@
 					});		
 				}
 			},
-			addConsultant() { //顾问团队
-				
-			},
+			
 			deletedConsultant(value) { //顾问团队
 				console.log(value)
 				var length = this.consultantTeam.length;
@@ -592,25 +560,6 @@
 				}
 			},
 			addLinkConsultant() {
-//				var id = this.$route.params.id;
-//				let params = {
-//					url: 'addConsultant',
-//					data: {
-//						accountId: this.accountId,
-//						crowdId: this.details.id,
-//						desc: this.multipleSelection[0].desc,
-//						name: this.multipleSelection[0].name,
-//						title: this.multipleSelection[0].title
-//					},
-//					flag: true,
-//				}
-//				Request.requestHandle(params, res => {
-//					console.log(res);
-//					if(res.success == 1) {
-//						this.$message('添加成功');
-//						this.queryDetails();
-//					}
-//				});
 				var tmpPersions = this.consultantTeam;
 				tmpPersions.push(this.newConsultant);
 				this.newConsultant = {};
@@ -662,7 +611,9 @@
 						console.log(res);
 						if(res.success == 1) {
 							this.$message('修改成功');
-							this.queryDetails();
+							this.CrowdTeamDialogVisible = false;
+							this.getCrowdTeam('consultant')
+							
 						}
 					});
 					
