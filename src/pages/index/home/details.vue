@@ -16,6 +16,7 @@
 					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.teamLocation"></el-input>
 				</li>
 				
+				
 				<!--核心团队按钮-->
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">核心团队成员</label>
@@ -360,12 +361,10 @@
 				if(this.newconcept.length==0){
 					this.newconcept = this.details.concepManagetResultList
 				}
-				console.log(this.websitesSubmit)
 				let websitesSubmitInfo = this.websitesSubmit.filter((item,index)=>{//站点地址处理
 					return this.websitesSubmit[index].websiteName == true
 				
 				})
-//				console.log(websitesSubmitInfo)
 				let params = {url:'QuerydeitAdvertItem',data:{
 					  accountId: this.accountId,
 					  conceptManageList: this.newconcept,
@@ -388,9 +387,7 @@
 					},
 					type:'post',
 					flag:true}
-				console.log("request",params)
 				Request.requestHandle(params, res => {
-//					console.log("response",res);
 					if(res.success == 1){
 					this.$message('操作成功');
 					this.$router.back(-1)
@@ -462,7 +459,6 @@
 						flag: true,
 					}
 					Request.requestHandle(params, res => {
-//						console.log(res)
 					   this.coreTeam = res.data;//核心團隊
 					});
 			},
@@ -476,7 +472,6 @@
 						flag: true,
 					}
 					Request.requestHandle(params, res => {
-//						console.log(res)
 					   	this.consultantTeam = res.data;//顾问团队
 					});
 				

@@ -39,6 +39,7 @@
 						obj.id=item.id;
 						obj.value=item.name;
 						this.checkedData.push(obj);
+						
 						this.$emit('listenCondept',this.checkedData);
 					} else {
 						item.isSelected = false;

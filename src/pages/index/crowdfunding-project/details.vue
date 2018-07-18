@@ -348,7 +348,8 @@
 						concept3Id,
 						concept4Id,
 					} = res.data;
-					this.conceptDatas = [concept1Id, concept2Id, concept3Id, concept4Id].join('-');
+					this.getconceptData([concept1Id, concept2Id, concept3Id, concept4Id])
+			
 					var technologyArr = [];
 					if(res.data.technology1) {
 						technologyArr.push(res.data.technology1);
@@ -360,8 +361,28 @@
 					this.coreTeam = res.data.memberResults;
 					this.consultantTeam = res.data.consultantsResults;
 					this.timeInterval = [res.data.startTime, res.data.endTime];
+				});
+			},
+			getconceptData() {
+				let arr=[3,5,7,10]
+				let params = {
+					url: 'QueryConcept',
+					type: 'get',
+				}
+				Request.requestHandle(params, res => {
 					
+					var conceptLable = res.data
+					var newconceptLable = []
+					console.log(conceptLable)
+					for(let i=0;i<arr.length;i++){
+						newconceptLable.push(conceptLable[arr[i]-1].name)
+					}
 					
+					this.conceptDatas=newconceptLable.join("-")
+					
+//					newc = arr.map(function(item,index){
+//						return conceptLable.from()[item].name
+//					})
 					
 				});
 			},
