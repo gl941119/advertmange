@@ -342,13 +342,18 @@
 					console.log("DetailsInfo",res);
 					this.accountId = res.data.accountId;
 					this.crowdId= res.data.id;
+					
 					let {
 						concept1Id,
 						concept2Id,
 						concept3Id,
 						concept4Id,
 					} = res.data;
-					this.getconceptData([concept1Id, concept2Id, concept3Id, concept4Id])
+					let arr = [concept1Id, concept2Id, concept3Id, concept4Id]
+					var resconceptId = arr.filter(function(item){
+						    return item > -1
+					})
+					this.getconceptData(resconceptId)
 			
 					var technologyArr = [];
 					if(res.data.technology1) {
@@ -363,27 +368,19 @@
 					this.timeInterval = [res.data.startTime, res.data.endTime];
 				});
 			},
-			getconceptData() {
-				let arr=[3,5,7,10]
+			getconceptData(arr) {
 				let params = {
 					url: 'QueryConcept',
 					type: 'get',
 				}
 				Request.requestHandle(params, res => {
-					
 					var conceptLable = res.data
 					var newconceptLable = []
-					console.log(conceptLable)
 					for(let i=0;i<arr.length;i++){
 						newconceptLable.push(conceptLable[arr[i]-1].name)
 					}
-					
+//					console.log(newconceptLable)
 					this.conceptDatas=newconceptLable.join("-")
-					
-//					newc = arr.map(function(item,index){
-//						return conceptLable.from()[item].name
-//					})
-					
 				});
 			},
 			getCrowdTeam(type){//请求众筹核心团队
@@ -409,15 +406,27 @@
 			changeDetails() {//修改保存
 				var startTime = this.util.format(this.timeInterval[0], 'yyyy-MM-dd HH:mm:ss');
 				var endTime = this.util.format(this.timeInterval[1], 'yyyy-MM-dd HH:mm:ss');
+				
+				let checkedData = this.checkeData
+				if(checkedData.length<4){
+					for(let i=0,len=4-checkedData.length;i<len;i++){
+						checkedData.push({
+						id:-1
+					})	
+					}
+				}
+				console.log(checkedData)
+				this.checkeData = checkedData
+				
 				let params = {
 					url: 'ChangeCrowdfundingDetails',
 					data: {
 						accountId: this.details.accountId,
 						circulation: this.details.circulation,
-						concept1Id: this.details.concept1Id,
-						concept2Id: this.details.concept2Id,
-						concept3Id: this.details.concept3Id,
-						concept4Id: this.details.concept4Id,
+						concept1Id: this.checkeData[0].id,
+						concept2Id: this.checkeData[1].id,
+						concept3Id: this.checkeData[2].id,
+						concept4Id: this.checkeData[3].id,
 						currCirculation: this.details.currCirculation,
 						endTime: endTime,
 						fullEnName: this.details.fullEnName,
@@ -676,6 +685,9 @@
 					newCheckedData.push(item.value);
 				})
 				this.conceptDatas = newCheckedData.join('-');
+				
+				
+//				console.log(checkedData)
 				this.checkeData = checkedData;
 			},
 		}

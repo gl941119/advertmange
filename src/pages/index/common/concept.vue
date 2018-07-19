@@ -26,7 +26,7 @@
 					type: 'get',
 				}
 				Request.requestHandle(params, res => {
-					console.log(res);
+//					console.log(res);
 					this.concept = res.data;
 				});
 			},

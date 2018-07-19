@@ -108,6 +108,7 @@
 					},
 					type: 'get',
 				}
+				
 				Request.requestHandle(params, res => {
 					this.bulletinListData = res.data;
 					this.pageTotal = res.total;
