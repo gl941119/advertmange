@@ -72,7 +72,7 @@
 			<el-table-column prop="updateTime" label="时间" align="center">
 			</el-table-column>
 		</el-table>
-		<el-pagination background layout="prev, pager, next" prev-text="上一页" next-text="下一页" :page-size="pageSize" @current-change="queryCurrentPageList" :total="pageTotal">
+		<el-pagination background layout="prev, pager, next" prev-text="上一页" next-text="下一页" :page-size="pageSize" @current-change="queryCurrentPageList" :total="pageTotal" style="text-align: center;">
 		</el-pagination>
 	</div>
 </template>
@@ -117,18 +117,24 @@
 		created() {
 			this.getDataInfo();
 		},
+		watch:{
+			state(){
+				this.getDataInfo()
+			}
+		},
 		methods: {
-			getDataInfo(page = Config.pageStart) {//请求
+			getDataInfo(page = Config.pageSize) {//请求
 				let params = {
 					url: 'QueryCrowdfunding',
 					data: {
-						page,
-						pagesize: this.pageSize,
+						page:this.currPage,
+						pagesize: page,
 						state: this.state,
 						searchStr: this.searchStr,
 					},
 					type: 'get',
 				}
+				console.log(params)
 				Request.requestHandle(params, res => {
 					console.log(res)
 					this.projectData = res.data;
@@ -226,6 +232,9 @@
 			},
 			editUserInfo(item) {
 
+			},
+			selectChange(){
+				console.log('123')
 			},
 			tableHeaderClassName({
 				row,

@@ -6,7 +6,7 @@ import LoginCom from '@/pages/login/login';
 import IndexCom from '@/pages/index/index';
 // index children广告项目管理
 import HomeCom from '@/pages/index/home/home';
-import ProjectDetails from '@/pages/index/home/details';
+import advertDetails from '@/pages/index/home/details';
 //众筹项目管理
 import CrowdfundingCom from '@/pages/index/crowdfunding-project/project';
 import CrowdfundingDetail from '@/pages/index/crowdfunding-project/details';
@@ -51,9 +51,9 @@ export default new Router({
                     component: HomeCom,
                 },
                 {
-                    path: 'projectDetails/:id/:value',
-                    name: 'projectDetails',
-                    component: ProjectDetails,
+                    path: 'advertDetails/:id/:value',
+                    name: 'advertDetails',
+                    component: advertDetails,
                 },
                 {
                     path: 'crowdfunding',

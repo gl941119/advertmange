@@ -66,9 +66,9 @@
 					</template>
 				</el-table-column>
 				<el-table-column label="链接" align="center">
-					<template>
+					<template slot-scope="scope">
 						<div v-if="imageUrl">{{imageUrl}}</div>
-						<button v-else>添加</button>
+						<button v-else >添加</button>
 					</template>
 				</el-table-column>
 				<el-table-column label="操作" align="center" show-overflow-tooltip>
@@ -183,6 +183,8 @@
 				Request.requestHandle(params, res => {
 					console.log(res)
 					this.bannerListData = res.data;
+					// let arr = [{},{},{},{},{}]
+					// arr.borE
 //					this.bannerListData[0].advertUrl = ''
 				});
 			},
@@ -235,11 +237,7 @@
 					});
 				});
 			},
-			saveChange(item,value) {//保存banner
-//				console.log(item,value)
-//					if(!this.advertProjId){
-//						return this.$message('还未修改哦')
-//					}
+			saveChange(item,value) {//保存第一个banner
 				let params = {
 					url: 'ChangeAdvertisingBanner',
 					data: {
@@ -262,10 +260,30 @@
 					}
 				});
 			},
-			change(value) {
-				this.advertSort =  value.advertSort;
-				this.advertProjId = value.advertProjId;
-				this.id = value.id;
+			change(value) {//点击位次改变
+				let params = {
+					url:'ChangeAdvertisingSort',
+					data:{
+					accountId: value.accountId,
+					advertProjId: value.advertProjId,
+					advertSort: parseInt(value.advertSort),
+					advertUrl: value.advertUrl,
+					banner: value.banner,
+					id: value.id
+					},
+					type:'post',
+					flag:true
+				}
+				console.log(params)
+				Request.requestHandle(params,res=>{
+					console.log(res)
+					this.$message('修改成功')
+					this.getBanner()
+					// this.advertSort =  value.advertSort;
+					// this.advertProjId = value.advertProjId;
+					// this.id = value.id;
+				})
+				
 			},
 			getImg(file) {
 				this.banner = file.url;

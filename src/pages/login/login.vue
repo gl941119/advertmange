@@ -65,7 +65,7 @@
 			handleChange(flag) {
 				this.isActive = flag ? false : true;
 			},
-			submitForm() {
+			submitForm() {//登录
 				if(this.formLabelAlign.type) {
 					if(this.formLabelAlign.name && this.formLabelAlign.password) {
 						let {
@@ -118,7 +118,7 @@
 											}
 											Request.requestHandle(paramsAgain, res => {
 												this.successHandle(res.data);
-												console.log(res)
+												// console.log(res)
 												this.$router.push({
 													name: 'index'
 												});
@@ -153,6 +153,7 @@
 						username,
 						token
 					} = data;
+					
 					this.$store.commit('setUserUId', userid); // 主账户id
 					this.$store.commit('setUserName', username);
 					this.$store.commit('setToken', token);

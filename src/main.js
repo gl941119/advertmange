@@ -12,19 +12,18 @@ import Cache from './utils/cache';
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 
-/*router.beforeEach((to, from, next) => {
-    let token = Cache.getSession('bier_token');
-
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!token) {
-            next({name: 'login'});
-        } else {
-            next();
-        }
-    } else {
-        next();
-    }
-});*/
+// router.beforeEach((to, from, next) => {
+//     let token = Cache.getSession('bier_token');
+//     if (to.matched.some(record => record.meta.requiresAuth)) {
+//         if (!token) {
+//             next({name: 'login'});
+//         } else {
+//             next();
+//         }
+//     } else {
+//         next();
+//     }
+// });
 
 /* eslint-disable no-new */
 new Vue({
