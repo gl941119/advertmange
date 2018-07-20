@@ -396,10 +396,15 @@
 					var conceptLable = res.data
 					var newconceptLable = []
 					for(let i=0;i<arr.length;i++){
-						newconceptLable.push(conceptLable[arr[i]-1].name)
+						newconceptLable = conceptLable.filter(item=>{
+						return	item.name==arr[i]
+						})
+
+						// newconceptLable.push(conceptLable[arr[i]-1].name)
 					}
-//					console.log(newconceptLable)
+			
 					this.conceptDatas=newconceptLable.join("-")
+					console.log(newconceptLable)
 				});
 			},
 			getCrowdTeam(type){//请求众筹核心团队
