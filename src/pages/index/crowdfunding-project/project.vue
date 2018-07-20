@@ -83,7 +83,6 @@
 	export default {
 		data() {
 			return {
-				
 				formLabelAlign:{
 					address:'',
 					abi:''
@@ -127,14 +126,14 @@
 				let params = {
 					url: 'QueryCrowdfunding',
 					data: {
-						page:this.currPage,
+						page:this.currPage||1,
 						pagesize: page,
 						state: this.state,
 						searchStr: this.searchStr,
 					},
 					type: 'get',
 				}
-				console.log(params)
+				console.log("params",params)
 				Request.requestHandle(params, res => {
 					console.log(res)
 					this.projectData = res.data;

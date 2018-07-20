@@ -35,6 +35,7 @@
 					<div v-if="scope.row.isCheck == 0">待审核</div>
 					<div v-if="scope.row.isCheck == 1">已上架</div>
 					<div v-if="scope.row.isCheck == 2">修改中</div>
+					<div v-if="scope.row.isCheck == 3">已下架</div>
 				</template>
 			</el-table-column>
 			<el-table-column label="操作" align="center" min-width="100" show-overflow-tooltip>

@@ -1,4 +1,4 @@
-<template>
+`<template>
 	<div class="user-management-list">
 		<div class="user-management-list-title">
 			<h3>概念标签管理</h3>

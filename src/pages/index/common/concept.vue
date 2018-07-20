@@ -37,7 +37,7 @@
 					if(length < 4) {
 						var obj={};
 						obj.id=item.id;
-						obj.value=item.name;
+						obj.name=item.name;
 						this.checkedData.push(obj);
 						
 						this.$emit('listenCondept',this.checkedData);

@@ -41,8 +41,10 @@ export default {
     QueryChangeConceptName: 'advertmange/concept/modifyConceptName',//修改概念名
     addConceptLink:'advertmange/concept/addConceptManage',//新增概念标签
     //广告位管理
-    QueryAdvertisingBanner:'advertmange/advertisement/findAdvertiseAll', //查询bannner项目
-    ChangeAdvertisingBanner:'advertmange/advertisement/modifyAdvertisementMes', //修改信息
+    QueryAdvertisingBanner:'advertmange/advertisement/findAdvertiseByPostion', //查询bannner项目
+    
+    ChangeAdvertisingBanner:'advertmange/advertisement/addOrUpdateAddAdvertisement', //修改信息
     ChangeAdvertisingSort:'advertmange/advertisement/modifyAdvertSort', //修改项目顺序
     DeletedAdvertising:'advertmange/advertisement/removeAdvertise', //delted
+
 };

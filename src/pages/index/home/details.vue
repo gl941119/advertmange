@@ -1,18 +1,10 @@
 <template>
 	<div class="project_review_details">
-		<!-- <el-form :model="details" ref="ruleForm" label-width="100px" class="demo-ruleForm" :rules="detailsRules"> -->
+	
 		<div class="project_review_details_team">
 			<div class="project_review_details_title">团队</div>
 			<ul class="project_review_details_team_item">
-				<!-- <el-form-item label="团队名称" prop="teamName" label-width="100px">
-				   		<el-input v-model="details.teamName" :disabled="disabled"></el-input>
-				</el-form-item>
-				<el-form-item label="团队联系方式" prop="teamContact" style='margin-left: 2px;'>
-				   		<el-input v-model="details.teamContact" :disabled="disabled"></el-input>
-				</el-form-item>
-				<el-form-item label="主要成员所在地" prop="teamLocation">
-				   		<el-input v-model="details.teamLocation" :disabled="disabled"></el-input>
-				</el-form-item> -->
+				
 				
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">团队名称</label>
@@ -56,7 +48,7 @@
 							<el-table-column property="address" align="center" label="操作">
 								<template slot-scope="scope">
 									<el-button :disabled="disabled" @click="recomposeCore(scope.row)">修改</el-button>
-									<!--<el-button :disabled="disabled" @click="deletedCore(scope.$index)">删除</el-button>-->
+								
 								</template>
 							</el-table-column>
 						</el-table>
@@ -97,7 +89,6 @@
 							<el-table-column property="address" align="center" label="操作">
 								<template slot-scope="scope">
 									<el-button :disabled="disabled" @click="recomposeConsultant(scope.row)">修改</el-button>
-									<!--<el-button :disabled="disabled" @click="deletedConsultant(scope.$index)">删除</el-button>-->
 								</template>
 							</el-table-column>
 						</el-table>
@@ -114,15 +105,6 @@
 		<div class="project_review_details_project">
 			<div class="project_review_details_title">项目情况</div>
 			<ul class="project_review_details_item">
-    			<!-- <el-form-item label="项目名称" prop="proName">
-				   		<el-input v-model="details.proName" :disabled="disabled"></el-input>
-				</el-form-item>
-				<el-form-item label="项目简介" prop="proDesc">
-				   		<el-input v-model="details.proDesc" :disabled="disabled"></el-input>
-				</el-form-item> -->
-
-
-
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">项目名称</label>
 					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.proName"></el-input>
@@ -173,15 +155,6 @@
 		<div class="project_review_details_project">
 			<div class="project_review_details_title">代币信息</div>
 			<ul class="project_review_details_item">
-				<!-- <el-form-item label="英文简写" prop="shotEnName">
-				   		<el-input v-model="details.shotEnName" :disabled="disabled"></el-input>
-				</el-form-item>
-				<el-form-item label="英文全名" prop="fullEnName">
-				   		<el-input v-model="details.fullEnName" :disabled="disabled"></el-input>
-				</el-form-item>
-				<el-form-item label="中文简写" prop="shotCnName">
-				   		<el-input v-model="details.shotCnName" :disabled="disabled"></el-input>
-				</el-form-item> -->
 
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">英文简写</label>
@@ -195,17 +168,16 @@
 					<label class="project_review_details_item_li_label">中文简写</label>
 					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.shotCnName"></el-input>
 				</li>
-				<!-- <el-form-item prop="logo">
-				   		<label class="project_review_details_item_li_label">logo</label>
-						<el-upload class="avatar-uploader" action="" :show-file-list="false" :on-change="handleAvatarSuccess">
-							<img v-if="details.logo" :src="details.logo" class="avatar">
-							<i v-else class="el-icon-plus avatar-uploader-icon"></i>
-						</el-upload>
-				</el-form-item> -->
+				
 
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">logo</label>
-					<el-upload class="avatar-uploader" action="" :show-file-list="false" :on-change="handleAvatarSuccess">
+					<el-upload class="avatar-uploader" 
+									:action="uploadImg" 
+									:show-file-list="false" 
+									:on-change="handleAvatarSuccess"
+									:headers="requestToken"
+									accept=".jpg,.jpeg,.png">
 						<img v-if="details.logo" :src="details.logo" class="avatar">
 						<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 					</el-upload>
@@ -215,9 +187,7 @@
 		<div class="project_review_details_project">
 			<div class="project_review_details_title">相关链接</div>
 			<ul class="project_review_details_item">
-				<!-- <el-form-item label="官方网站" prop="website">
-				   		<el-input v-model="details.website" :disabled="disabled"></el-input>
-				</el-form-item> -->
+				
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">官方网站</label>
 					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.website"></el-input>
@@ -226,10 +196,15 @@
 					<label class="project_review_details_item_li_label">白皮书</label>
 					<span style="line-height: 30px;margin-right: 10px;">{{details.whitePaper}}</span>
 					<div v-if="!disabled">
-						<el-upload class="upload-demo" action="" :on-change="getFile" multiple>
+						<el-upload class="upload-demo" 
+									:action="uploadImg" 
+									:on-change="getFile" 
+									:headers="requestToken"
+									multiple>
 							<el-button size="small">上传</el-button>
 						</el-upload>
 					</div>
+					
 				</li>
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">Telegram</label>
@@ -243,11 +218,6 @@
 					<el-input placeholder="自定义站点地址"  v-model="websites[index].websiteAddress">
 					</el-input>
 				</li>
-				
-				<!-- <el-form-item label="Telegram" prop="Telegram">
-				   		<el-input v-model="details.Telegram" :disabled="disabled"></el-input>
-				</el-form-item> -->
-				
 			</ul>
 		</div>
 		 
@@ -358,11 +328,16 @@
 				technology: false,
 				conceptDatas: '',
 				technologyDatas: '',
-//				checkedData: [],
 				websites:[{},{},{},{},{},{},{},{}],
 				websitesSubmit:[],//自定义站点列表
 				conceptResult:[],
-				newconcept:[]//概念数据
+				newconcept:[],//概念数据
+				requestToken: {
+					token:
+                        this.$store.state.token ||
+                        Cache.getSession('bier_token')
+				},
+				uploadImg: Config.UploadImg
 			};
 		},
 		components: {
@@ -420,8 +395,9 @@
 					}
 					
 					this.conceptResult = res.data.concepManagetResultList;
+
 					var conceptData = [];
-					res.data.concepManagetResultList.forEach(function(item, index){
+					this.conceptResult.forEach(function(item, index){
 						conceptData.push(item.name);
 					})
 					this.conceptDatas = conceptData.join('-');
@@ -438,18 +414,10 @@
 	
 				});
 			},
-			// clickAdvertItem(){//点击判定提交广告
-			// 	this.$refs["ruleForm"].validate((valid) => {//判定
-		 //          if (valid) {//判定成功
-		 //            this.deitAdvertItem()
-		 //          } else {
-		 //          	this.$message('请填写完整')
-		 //            return false;
-		 //          }
-		 //        });
-			// },
+
+			
 			deitAdvertItem(){//提交编辑广告
-				console.log(this.$refs)
+			
 				if(this.newconcept.length==0){
 					this.newconcept = this.details.concepManagetResultList
 				}
@@ -466,7 +434,7 @@
 					this.websitesSubmit = arr
 				let params = {url:'QuerydeitAdvertItem',data:{
 					  accountId: this.accountId,
-					  conceptManageList: this.newconcept,
+					  conceptManageList: this.conceptResult,
 					  fullEnName: this.details.fullEnName,
 					  id: this.details.id,
 					  isCheck: this.details.isCheck,
@@ -487,7 +455,7 @@
 					},
 					type:'post',
 					flag:true}
-					console.log("query",params)
+					console.log("query",this.checkedData)
 				Request.requestHandle(params, res => {
 					console.log('res',res)
 					if(res.success == 1){
@@ -702,11 +670,12 @@
 					});
 			},
 			handleSelectionChange(val) {
-				this.multipleSelection = val;
+				this.multipleSelection = val.data;
 				console.log(val)
 			},
 			getFile(file) {
-				this.details.license = file.url;
+				console.log(file.url)
+				this.details.whitePaper = file.url;
 			},
 			conceptFun() { //概念弹出窗
 				this.concept = !this.concept;
@@ -730,22 +699,12 @@
 				
 				var newCheckedData = [];
 				checked.forEach(function(item, index) {
-					newCheckedData.push(item.value);
+					newCheckedData.push(item.name);
 				})
 				this.conceptDatas = newCheckedData.join('-');
-				this.checkedData = checked;
+				this.conceptResult = checked;
 			  	
-			  	
-			   let advertId = this.advertId,
-			   	   newobj = [];
-				checked.forEach((item)=>{
-					newobj.push({
-						advertProjId:advertId,
-						conceptId:item.id,
-						name:item.value
-					})
-				})
-				this.newconcept = newobj
+				
 			
 				
 			},

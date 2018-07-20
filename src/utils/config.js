@@ -8,5 +8,6 @@ export default {
     pageSize: 10, // 一页的数量
     miniPageSize: 10, // 小量
     pageStart: 1,
-    UploadBulletinFileUrl: process.env.NODE_ENV === 'development' ? url.localTestUrl : url.productUrl + 'amazonsuper/pagehome/uploadfile',
+    UploadBulletinFileUrl: (process.env.NODE_ENV === 'development' ? url.localTestUrl : url.productUrl) + 'amazonsuper/pagehome/uploadfile',
+    UploadImg: (process.env.NODE_ENV === 'development' ? url.localTestUrl : url.productUrl) + 'advertmange/common/upload-file'
 };

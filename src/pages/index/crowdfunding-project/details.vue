@@ -44,7 +44,7 @@
 							<el-table-column property="address" align="center" label="操作">
 								<template slot-scope="scope">
 									<el-button :disabled="disabled" @click="ChangeCoreMember(scope.row)">修改</el-button>
-									<!--<el-button :disabled="disabled" @click="deletedCore(scope.$index)">删除</el-button>-->
+								
 								</template>
 							</el-table-column>
 						</el-table>
@@ -62,14 +62,7 @@
 				</li>
 				<!--顾问团队dialog-->
 				<div class="project_review_details_item_li_info">
-					<!--<el-table :show-header=false border :data="details.CrowdTeamConsultantsResult" style="width: 100%">
-						<el-table-column prop="name" label="日期" width="180">
-						</el-table-column>
-						<el-table-column prop="title" label="姓名" width="180">
-						</el-table-column>
-						<el-table-column prop="desc" label="地址">
-						</el-table-column>
-					</el-table>-->
+					
 					<el-dialog title="顾问团队成员" :visible.sync="CrowdTeamDialogVisible" size="small">
 						<el-table :data="consultantTeam" border class="tForm" ref="multipleTable" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 							<el-table-column type="selection" width="55">
@@ -177,10 +170,29 @@
 					<label class="project_review_details_item_li_label">中文简写</label>
 					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.shotCnName"></el-input>
 				</li>
+				<!-- <li class="project_review_details_item_li">
+					<label class="project_review_details_item_li_label">logo</label>
+				
+					<el-upload class="avatar-uploader" 
+								:action="uploadImg" 
+								:multiple="false" 
+								:show-file-list="false" 
+								:headers="requestToken"
+								accept=".jpg,.jpeg,.png"
+								:on-success="handleAvatarSuccess">
+						<img v-if="details.logo" :src="details.logo" class="avatar">
+						<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+					</el-upload>
+					
+				</li> -->
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">logo</label>
-					<!--<span><img style="width: 50px;height: 50px;" :src="details.logo"/></span>-->
-					<el-upload class="avatar-uploader" action="" :multiple="false" :show-file-list="false" :auto-upload="false" :before-upload="beforeAvatarUpload" :on-success="handleAvatarSuccess">
+					<el-upload class="avatar-uploader" 
+									:action="uploadImg" 
+									:show-file-list="false" 
+									:on-change="handleAvatarSuccess"
+									:headers="requestToken"
+									accept=".jpg,.jpeg,.png">
 						<img v-if="details.logo" :src="details.logo" class="avatar">
 						<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 					</el-upload>
@@ -241,7 +253,8 @@
 					<label class="project_review_details_item_li_label">相关牌照</label>
 					<a v-if="disabled && details.license" :href="details.license" download>下载</a>
 					<div v-if="!disabled">
-						<el-upload class="upload-demo" action="" :auto-upload="false" :on-change="getFile" :multiple="false">
+						<el-upload class="upload-demo" action="uploadImg" :auto-upload="false" :on-change="getFile" :multiple="false">
+							<span style="line-height: 30px;margin-right: 10px;">{{details.license}}</span>
 							<el-button size="small">上传</el-button>
 						</el-upload>
 					</div>
@@ -312,6 +325,12 @@
 				technologyDatas: '',
 				checkeData: [],
 				util: new Utils(),
+				requestToken: {
+					token:
+                        this.$store.state.token ||
+                        Cache.getSession('bier_token')
+				},
+				uploadImg: Config.UploadImg
 			};
 		},
 		components: {
@@ -655,13 +674,11 @@
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
 			},
-			handleAvatarSuccess(res, file) {
-//				this.details.logo = file.url;
+			handleAvatarSuccess(file) {
+				this.details.logo = file.url;
 				console.log(file);
 			},
-			beforeAvatarUpload(file){
-				console.log(file);
-			},
+			
 			getFile(file) {
 				this.details.license = file.url;
 			},
@@ -682,7 +699,7 @@
 			listenCondept(checkedData) {
 				var newCheckedData = [];
 				checkedData.forEach(function(item, index) {
-					newCheckedData.push(item.value);
+					newCheckedData.push(item.name);
 				})
 				this.conceptDatas = newCheckedData.join('-');
 				
