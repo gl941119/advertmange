@@ -702,11 +702,10 @@
 					newCheckedData.push(item.name);
 				})
 				this.conceptDatas = newCheckedData.join('-');
-				
-				
-//				console.log(checkedData)
 				this.checkeData = checkedData;
-			},
+			}
+
+
 		}
 	}
 </script>

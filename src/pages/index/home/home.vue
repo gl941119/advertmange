@@ -3,7 +3,7 @@
 		<div class="user-management-list-title">
 			<h3>项目审核</h3>
 			<div>
-				<el-select v-model="state" clearable placeholder="全部" style="margin-right: 20px;float: left;">
+				<el-select v-model="state" clearable placeholder="全部" style="margin-right: 20px;float: left;" clearable>
 					<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 					</el-option>
 				</el-select>
