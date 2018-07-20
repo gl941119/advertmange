@@ -3,7 +3,7 @@
 		<div>
 			<div class="user-management-list-title">
 				<h3>首页钻展位</h3>
-				<el-button @click="saveChange">保存更改</el-button>
+				<el-button @click="saveAllChange">保存更改</el-button>
 			</div>
 			<el-table ref="multipleTable" :data="bannerListData" @cell-click="details" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%">
 				<el-table-column label="位次" align="center">
@@ -22,7 +22,6 @@
 									:headers="requestToken"
 									:show-file-list="false" 
 									:on-success="getImg"
-
 									>
 							<img v-if="scope.row.banner" :src="scope.row.banner" class="avatar">
 							<button v-else size="small" class="avatar-uploader-icon" type="primary">点击上传</button>
@@ -47,12 +46,13 @@
 		<div>
 			<div class="user-management-list-title">
 				<h3>项目二级页</h3>
-				<el-button @click="saveChange">保存更改</el-button>
+				<el-button @click="saveAllChange">保存更改</el-button>
 			</div>
 			<el-table ref="multipleTable" :data="advertListData" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%">
 				<el-table-column prop="type" label="位次" align="center">
 					<template slot-scope="scope">
-						<el-select v-model="scope.row.advertSort" placeholder="请选择" >
+						<el-select v-model="advertOptions[0].value" 
+						placeholder="请选择" >
 							<el-option v-for="item in advertOptions" :key="item.value" :label="item.label" :value="item.value">
 							</el-option>
 						</el-select>
@@ -88,12 +88,12 @@
 		<div>
 			<div class="user-management-list-title">
 				<h3>众筹二级页</h3>
-				<el-button @click="saveChange">保存更改</el-button>
+				<el-button @click="saveAllChange">保存更改</el-button>
 			</div>
 			<el-table ref="multipleTable" :data="crowdListData" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%">
 				<el-table-column prop="type" label="位次" align="center">
 					<template slot-scope="scope">
-						<el-select v-model="value" placeholder="请选择">
+						<el-select v-model="crowdOptions[0].value" placeholder="请选择">
 							<el-option v-for="item in crowdOptions" :key="item.value" :label="item.label" :value="item.value">
 							</el-option>
 						</el-select>
@@ -105,7 +105,6 @@
 									:action="uploadImg" 
 									:show-file-list="false" 
 									:on-success="crowdGetImg"
-
 									:headers="requestToken"
 									>
 							<img v-if="scope.row.banner" :src="scope.row.banner" class="avatar" />
@@ -158,7 +157,7 @@
 					label:'1'
 				}],
 				crowdOptions:[{
-					valueL:'1',
+					value:'1',
 					label:'1'
 				}],
 				homeListData: [{}],
@@ -187,6 +186,10 @@
 		methods: {
 			details(row){
 				this.celladvertSort = row.advertSort
+			},
+			saveAllChange(){
+				this.getadvertising(1,1)//banner
+				this.$message('保存成功')
 			},
 			getAdvertisingInfo() {//请求
 				this.getadvertising(1,1)//banner
@@ -220,7 +223,6 @@
 				});
 			},
 			deleted(id,type) {//banner删除
-				// this.options.splice(id,1)
 				let params = {
 					url: 'DeletedAdvertising',
 					data: {
@@ -243,6 +245,10 @@
 				}).then(({
 					value
 				}) => {
+					if(!item.id){
+						this.$message('错误在这')
+						return
+					}
 					if(type==1)
 						this.saveChange(item,value);
 					if(type==2)
@@ -320,20 +326,19 @@
 				Request.requestHandle(params, res => {
 					if(res.success == 1){
 						this.$message('保存成功');
-						this.getadvertising(1,1)//banner
+						this.flush(1)//banner
 					}
 				});
 			},
-			change(value,index) {//点击位次改变
-				console.log(value,index)
+			change(row,index) {//点击位次改变
+				console.log(row,index)
 				let params = {
 					url:'ChangeAdvertisingSort',
 					data:{
-					
-					advertSort: parseInt(value.advertSort),
-					advertUrl: value.advertUrl,
-					banner: value.banner,
-					id: value.id
+					advertSort: parseInt(row.advertSort),
+					advertUrl: row.advertUrl,
+					banner: row.banner,
+					id: row.id
 					},
 					type:'post',
 					flag:true
@@ -341,25 +346,22 @@
 				Request.requestHandle(params,res=>{
 					console.log(res)
 					this.$message('修改成功')
-					this.getadvertising(1,1)//banner
-					// this.advertSort =  value.advertSort;
-					// this.advertProjId = value.advertProjId;
-					// this.id = value.id;
+					this.flush(1)//banner
 				})
 			},
 			getImg(res) {
-				// console.log(res,file);
-				
+				console.log(res)
 				let len = this.celladvertSort-1
 				this.bannerListData[len].banner = res.data
 				
 			},
 			advertGetImg(res){
+				console.log(res)
 				this.advertListData[0].banner = res.data
 				
 			},
 			crowdGetImg(res){
-				console.log('图片',res)
+				console.log(res)
 				this.crowdListData[0].banner = res.data
 			
 			},

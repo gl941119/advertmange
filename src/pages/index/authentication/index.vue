@@ -11,7 +11,7 @@
 				</el-table-column>
 				<el-table-column prop="idType" label="身份文件类型" align="center">
 				</el-table-column>
-				<el-table-column prop="realName" label="姓名" align="center">
+				<el-table-column prop="country" label="姓名" align="center">
 				</el-table-column>
 				<el-table-column prop="idNum" label="身份文件号码" align="center">
 				</el-table-column>
