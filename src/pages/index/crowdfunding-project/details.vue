@@ -369,9 +369,10 @@
 						concept4Id,
 					} = res.data;
 					let arr = [concept1Id, concept2Id, concept3Id, concept4Id]
-					var resconceptId = arr.filter(function(item){
+					let resconceptId = arr.filter(function(item){
 						    return item > -1
 					})
+					// console.log(resconceptId)
 					this.getconceptData(resconceptId)
 			
 					var technologyArr = [];
@@ -395,16 +396,25 @@
 				Request.requestHandle(params, res => {
 					var conceptLable = res.data
 					var newconceptLable = []
-					for(let i=0;i<arr.length;i++){
-						newconceptLable = conceptLable.filter(item=>{
-						return	item.name==arr[i]
+					
+					arr.forEach(item=>{
+						conceptLable.forEach(row =>{
+							if(row.id == item){
+								newconceptLable.push(row.name)
+							}
 						})
+					})
 
+
+
+					for(let i=0,len=arr.length;i<len;i++){
+						
+						
 						// newconceptLable.push(conceptLable[arr[i]-1].name)
 					}
-			
+					
 					this.conceptDatas=newconceptLable.join("-")
-					console.log(newconceptLable)
+					
 				});
 			},
 			getCrowdTeam(type){//请求众筹核心团队
