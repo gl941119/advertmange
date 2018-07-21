@@ -245,45 +245,6 @@
 	export default {
 		data() {
 			return {  
-			detailsRules:{
-		          teamName: [
-		            { required: true, message: '请输入活动名称', trigger: 'blur' },
-		            { min: 1, trigger: 'blur' }
-		          ],
-		          teamContact: [
-		            { required: true, message: '请输入活动名称', trigger: 'blur' },
-		            { min: 1, trigger: 'blur' }
-		          ],
-		          teamLocation: [
-		            { required: true, message: '请输入活动名称', trigger: 'blur' },
-		            { min: 1, trigger: 'blur' }
-		          ],
-		          proName: [
-		            { required: true, message: '请输入活动名称', trigger: 'blur' },
-		            { min: 1, trigger: 'blur' }
-		          ],
-		          proDesc: [
-		            { required: true, message: '请输入活动名称', trigger: 'blur' },
-		            { min: 1, trigger: 'blur' }
-		          ],
-		          shotEnName: [
-		            { required: true, message: '请输入活动名称', trigger: 'blur' },
-		            { min: 1, trigger: 'blur' }
-		          ],
-		          fullEnName: [
-		            { required: true, message: '请输入活动名称', trigger: 'blur' },
-		            { min: 1, trigger: 'blur' }
-		          ],
-		          shotCnName: [
-		            { required: true, message: '请输入活动名称', trigger: 'blur' },
-		            { min: 1, trigger: 'blur' }
-		          ],
-		          website: [
-		            { required: true, message: '请输入活动名称', trigger: 'blur' },
-		            { min: 1, trigger: 'blur' }
-		          ],
-
-			},
 //				网站数据
 				details: {
 					fullEnName: '',
@@ -322,7 +283,7 @@
 				CrowdTeamDialogVisible: false,
 				accountId:undefined,
 				advertId:undefined,
-				multipleSelection: [],
+				multipleSelection:[],
 				timeInterval: [],
 				concept: false,
 				technology: false,
@@ -337,7 +298,8 @@
                         this.$store.state.token ||
                         Cache.getSession('bier_token')
 				},
-				uploadImg: Config.UploadImg
+				uploadImg: Config.UploadImg,
+				WaitSubmitWhitePaper:''
 			};
 		},
 		components: {
@@ -497,8 +459,9 @@
 				});
 			},
 			saveLink() {//核心团队新增请求
-				//数据id
-				for(var i=0;i<this.multipleSelection.length;i++){
+				
+			
+				for(let i=0,len=this.multipleSelection.length;i<len;i++){
 					let params = {
 						url: 'AddAdCoreMember',
 						data:{	
@@ -622,7 +585,6 @@
 							this.QueryAdConsultantMember()
 					});
 				}
-				
 			},
 			saveLinkConsultant() {//顾问团队保存请求
 				var id = this.$route.params.id;
@@ -649,7 +611,7 @@
 				}
 			},
 			recomposeConsultant(row){//顾问团队修改请求
-				console.log(row)
+		
 				let params = {
 						url: 'ChangeAdConsultant',
 						data: {
@@ -670,18 +632,19 @@
 					});
 			},
 			handleSelectionChange(val) {
-				this.multipleSelection = val.data;
 				console.log(val)
+				this.multipleSelection = val;
+				
 			},
 			getFile(res) {
-				console.log(res.data)
-				this.details.whitePaper = res.data;
+				
+				this.details.whitePaper = res.data;			
 			},
 			conceptFun() { //概念弹出窗
 				this.concept = !this.concept;
 			},
 			handleAvatarSuccess(res) {
-				console.log(res);
+				
 				this.details.logo = res.data;
 			},
 			technologyFun() {//点击技术

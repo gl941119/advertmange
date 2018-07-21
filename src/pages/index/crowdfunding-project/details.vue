@@ -190,7 +190,7 @@
 					<el-upload class="avatar-uploader" 
 									:action="uploadImg" 
 									:show-file-list="false" 
-									:on-change="handleAvatarSuccess"
+									:on-success="handleAvatarSuccess"
 									:headers="requestToken"
 									accept=".jpg,.jpeg,.png">
 						<img v-if="details.logo" :src="details.logo" class="avatar">
@@ -253,10 +253,15 @@
 					<label class="project_review_details_item_li_label">相关牌照</label>
 					<a v-if="disabled && details.license" :href="details.license" download>下载</a>
 					<div v-if="!disabled">
-						<el-upload class="upload-demo" action="uploadImg" :auto-upload="false" :on-change="getFile" :multiple="false">
+						<el-upload class="upload-demo" 
+						:action="uploadImg" 
+						:on-success="handleAvatarSuccessFile"
+						:headers="requestToken" 
+						:multiple="false">
 							<span style="line-height: 30px;margin-right: 10px;">{{details.license}}</span>
-							<el-button size="small">上传</el-button>
+							<el-button size="small" type="primary">上传</el-button>
 						</el-upload>
+						
 					</div>
 				</li>
 			</ul>
@@ -369,11 +374,16 @@
 						concept4Id,
 					} = res.data;
 					let arr = [concept1Id, concept2Id, concept3Id, concept4Id]
-					let resconceptId = arr.filter(function(item){
-						    return item > -1
+					
+					let middleArr =[]//概念不做修改直接提交的处理
+					arr.forEach(item=>{
+						middleArr.push({
+							id:item
+						})
 					})
-					// console.log(resconceptId)
-					this.getconceptData(resconceptId)
+					this.checkeData = middleArr;
+
+					this.getconceptData(arr)
 			
 					var technologyArr = [];
 					if(res.data.technology1) {
@@ -390,8 +400,9 @@
 			},
 			getconceptData(arr) {
 				let params = {
-					url: 'QueryConcept',
-					type: 'get',
+					url: 'QueryAllConceptLink',
+					type: 'post',
+					flag:true
 				}
 				Request.requestHandle(params, res => {
 					var conceptLable = res.data
@@ -405,6 +416,7 @@
 						})
 					})
 					this.conceptDatas=newconceptLable.join("-")
+
 					
 				});
 			},
@@ -433,6 +445,8 @@
 				var endTime = this.util.format(this.timeInterval[1], 'yyyy-MM-dd HH:mm:ss');
 				
 				let checkedData = this.checkeData
+
+
 				if(checkedData.length<4){
 					for(let i=0,len=4-checkedData.length;i<len;i++){
 						checkedData.push({
@@ -440,7 +454,7 @@
 					})	
 					}
 				}
-				console.log(checkedData)
+				
 				this.checkeData = checkedData
 				
 				let params = {
@@ -481,7 +495,7 @@
 					type: 'put',
 					flag:true,
 				}
-				console.log("request",params.data)
+				console.log("submit",params.data)
 				Request.requestHandle(params, res => {
 					if(res.success) {
 //						this.queryDetails();
@@ -502,7 +516,8 @@
 				Request.requestHandle(params, res => {
 					if(res.success == 1) {
 						this.$message('操作成功');
-						this.queryDetails();
+						// this.queryDetails();
+						this.$router.back(-1)
 					}
 				});
 			},
@@ -518,7 +533,8 @@
 				Request.requestHandle(params, res => {
 					if(res.success == 1) {
 						this.$message('操作成功');
-						this.queryDetails();
+						// this.queryDetails();
+						this.$router.back(-1)
 					}
 				});
 			},
@@ -538,9 +554,9 @@
 						type: 'post',
 						flag: true,
 					}
-					console.log('req',params)
+					
 					Request.requestHandle(params, res => {
-//						console.log(res);
+						console.log(res);
 						if(res.success == 1) {
 							this.$message('修改成功');
 							this.getCrowdTeam()
@@ -606,7 +622,7 @@
 			},
 			
 			deletedConsultant(value) { //顾问团队
-				console.log(value)
+				
 				var length = this.consultantTeam.length;
 				if(length <= 1) {
 					alert("不要删了o，再删就没有了")
@@ -619,32 +635,6 @@
 				tmpPersions.push(this.newConsultant);
 				this.newConsultant = {};
 				this.consultantTeam = tmpPersions;
-			},
-			deletedLinkConsultant() {
-				var id = this.$route.params.id;
-				for(let i=0;i<this.multipleSelection.length;i++){
-					let params = {
-						url: 'deletedConsultant',
-						data: {
-							accountId: this.accountId,
-							crowdId: this.crowdId,
-							desc: this.multipleSelection[i].desc,
-							name: this.multipleSelection[i].name,
-							title: this.multipleSelection[i].title
-						},
-						type: 'DELETE',
-						flag: true
-					}
-					console.log(params)
-					Request.requestHandle(params, res => {
-						if(res.success == 1) {
-							this.$message('删除成功');
-							this.queryDetails();
-						}
-					});
-					
-				}
-				
 			},
 			saveLinkConsultant() {//顾问保存
 				var id = this.$route.params.id;
@@ -661,7 +651,6 @@
 						type: 'post',
 						flag: true
 					}
-//					console.log(params)
 					Request.requestHandle(params, res => {
 						console.log(res);
 						if(res.success == 1) {
@@ -673,20 +662,16 @@
 					});
 					
 				}
-				
-				
-				
 			},
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
 			},
-			handleAvatarSuccess(file) {
-				this.details.logo = file.url;
-				console.log(file);
+			handleAvatarSuccess(res) {
+				this.details.logo = res.data;	
 			},
-			
-			getFile(file) {
-				this.details.license = file.url;
+			handleAvatarSuccessFile(res) {
+		
+				this.details.license = res.data;
 			},
 			conceptFun() { //概念弹出窗
 				this.concept = !this.concept;

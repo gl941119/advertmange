@@ -22,8 +22,9 @@
 		methods: {
 			conceptData() {
 				let params = {
-					url: 'QueryConcept',
-					type: 'get',
+					url: 'QueryAllConceptLink',
+					type: 'post',
+					flag:true
 				}
 				Request.requestHandle(params, res => {
 					console.log("concept",res);
@@ -31,6 +32,7 @@
 				});
 			},
 			checked(item, index) {
+			
 				var length = this.checkedData.length;
 				item.isSelected = !item.isSelected;
 				if(item.isSelected) {
@@ -39,7 +41,7 @@
 						obj.id=item.id;
 						obj.name=item.name;
 						this.checkedData.push(obj);
-						
+					
 						this.$emit('listenCondept',this.checkedData);
 					} else {
 						item.isSelected = false;

@@ -257,7 +257,7 @@
 						this.saveChange(item);
 					}
 					if(type==2){
-						console.log(this.crowdCellClickData)
+					
 						this.crowdCellClickData.advertUrl = value
 						this.corwdSaveChange(item);
 					}
@@ -281,9 +281,10 @@
 					type: 'post',
 					flag:true
 				}
-				console.log("众筹请求",params)
+		
 				Request.requestHandle(params, res => {
 					if(res.success == 1){
+						console.log(res)
 						this.$message('保存成功');
 						this.flush(2)//众筹
 					}
@@ -303,7 +304,7 @@
 					type: 'post',
 					flag:true
 				}
-				console.log("广告请求",params)
+				
 				Request.requestHandle(params, res => {
 					console.log(res)
 					if(res.success == 1){
@@ -327,7 +328,7 @@
 					type: 'post',
 					flag:true
 				}
-				console.log(params)
+			
 				Request.requestHandle(params, res => {
 					if(res.success == 1){
 						this.$message('保存成功');
@@ -336,7 +337,7 @@
 				});
 			},
 			change(row,index) {//点击位次改变
-				console.log(row,index)
+			
 				let params = {
 					url:'ChangeAdvertisingSort',
 					data:{
@@ -355,7 +356,7 @@
 				})
 			},
 			getImg(res) {
-				console.log(res)
+			
 				
 				let len = this.bannerCellClickData.advertSort-1
 				this.bannerListData[len].banner = res.data
@@ -363,14 +364,14 @@
 				this.saveChange(cen)
 			},
 			advertGetImg(res){
-				console.log(res)
+			
 				this.advertListData[0].banner = res.data
 				let cen = this.advertCellClickData
 				this.advertSaveChange(cen)
 				
 			},
 			crowdGetImg(res){
-				console.log(res)
+				
 				this.crowdListData[0].banner = res.data
 				let cen = this.crowdCellClickData
 				this.corwdSaveChange(cen)

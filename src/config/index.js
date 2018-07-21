@@ -40,6 +40,9 @@ export default {
     QueryConcept: 'advertmange/concept/findConcept',
     QueryChangeConceptName: 'advertmange/concept/modifyConceptName',//修改概念名
     addConceptLink:'advertmange/concept/addConceptManage',//新增概念标签
+    deleteConceptLink:'advertmange/concept/removeConceptManage',//删除概念标签
+    QueryAllConceptLink:'advertmange/concept/findAllConcept',//请求全部概念标签
+   
     //广告位管理
     QueryAdvertisingBanner:'advertmange/advertisement/findAdvertiseByPostion', //查询bannner项目
     

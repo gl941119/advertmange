@@ -103,7 +103,6 @@
 			},
 			//请求data
 			getDataInfo() {
-				
 				if(this.state == '')
 					this.state = -1
 				let params = {
@@ -118,14 +117,10 @@
 				}
 				console.log(params)
 				Request.requestHandle(params, res => {
-
 					this.bulletinListData = res.data;
 					this.pageTotal = res.total;
 					console.log(res)
 				});
-			},
-			showDevice(item) {
-
 			},
 			//分页器翻页
 			queryCurrentPageList(page) {
@@ -140,9 +135,6 @@
 						id: item.id
 					}
 				});
-			},
-			editUserInfo(item) {
-
 			},
 			tableHeaderClassName({
 				row,

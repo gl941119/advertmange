@@ -13,10 +13,11 @@
 			</el-table-column>
 			<el-table-column prop="type" label="标签创建时间" align="center">
 			</el-table-column>
-			<el-table-column label="操作" align="center" show-overflow-tooltip>
+			<el-table-column label="操作" align="center" >
 				<template slot-scope="scope">
 					<el-button size="mini" @click="pass">查看项目</el-button>
 					<el-button size="mini" @click="refuse(scope.row.id)">编辑概念名</el-button>
+					<!-- <el-button size="mini" @click="deleteConcept(scope.row.id)">删除</el-button> -->
 				</template>
 			</el-table-column>
 		</el-table>
@@ -26,7 +27,8 @@
                        next-text="下一页"
                        :page-size="pageSize"
                        @current-change="queryCurrentPageList"
-                       :total="pageTotal">
+                       :total="pageTotal"
+                       style="text-align: center;">
         </el-pagination>
 	</div>
 </template>
@@ -64,7 +66,7 @@
 		        })
 			},
 			addConceptLink(name){//增加概念标签
-				console.log("request",name)
+				console.log("addconcept",name)
 				let params = {
 					url:'addConceptLink',
 					data: {
@@ -81,6 +83,24 @@
 				        	type:'success'
 			        	})
 		        	}
+				})
+			},
+			deleteConcept(id){
+				
+				let params={
+					url:'deleteConceptLink',
+					data:{
+						id
+					},
+					type:'post',
+					flag:true
+				}
+			
+				Request.requestHandle(params,res=>{
+					if(res.success==1){
+						console.log(res)
+						this.$message('删除成功')
+					}
 				})
 			},
 			pass(){

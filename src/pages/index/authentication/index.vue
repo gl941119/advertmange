@@ -27,7 +27,7 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			<el-pagination background layout="prev, pager, next" prev-text="上一页" next-text="下一页" :page-size="pageSize" @current-change="queryCurrentPageList" :total="pageTotal">
+			<el-pagination background layout="prev, pager, next" prev-text="上一页" next-text="下一页" :page-size="pageSize" @current-change="queryCurrentPageList" :total="pageTotal" style="text-align: center;">
 			</el-pagination>
 		</div>
 	</div>
@@ -39,7 +39,6 @@
 		data() {
 			return {
 				authenticationData: [{
-
 				}],
 				pageTotal: 0,
 				pageSize: Config.pageSize,
@@ -63,6 +62,7 @@
 					console.log(res);
 					this.authenticationData = res.data;
 					this.pageTotal = res.total;
+				
 				});
 			},
 			queryCurrentPageList(page) {
