@@ -24,7 +24,10 @@
 									:on-success="getImg"
 									>
 							<img v-if="scope.row.banner" :src="scope.row.banner" class="avatar">
-							<button v-else size="small" class="avatar-uploader-icon" type="primary">点击上传</button>
+							<button v-else size="small" 
+									class="avatar-uploader-icon" 
+									type="primary"
+									>点击上传</button>
 						</el-upload>
 					</template>
 				</el-table-column>

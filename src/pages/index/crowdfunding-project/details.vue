@@ -62,7 +62,6 @@
 				</li>
 				<!--顾问团队dialog-->
 				<div class="project_review_details_item_li_info">
-					
 					<el-dialog title="顾问团队成员" :visible.sync="CrowdTeamDialogVisible" size="small">
 						<el-table :data="consultantTeam" border class="tForm" ref="multipleTable" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 							<el-table-column type="selection" width="55">
@@ -85,7 +84,6 @@
 							<el-table-column property="address" align="center" label="操作">
 								<template slot-scope="scope">
 									<el-button :disabled="disabled" @click="ChangeCoreMember(scope.row,'consultant')">修改</el-button>
-									<!--<el-button :disabled="disabled" @click="deletedConsultant(scope.$index)">删除</el-button>-->
 								</template>
 							</el-table-column>
 						</el-table>
@@ -170,21 +168,6 @@
 					<label class="project_review_details_item_li_label">中文简写</label>
 					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.shotCnName"></el-input>
 				</li>
-				<!-- <li class="project_review_details_item_li">
-					<label class="project_review_details_item_li_label">logo</label>
-				
-					<el-upload class="avatar-uploader" 
-								:action="uploadImg" 
-								:multiple="false" 
-								:show-file-list="false" 
-								:headers="requestToken"
-								accept=".jpg,.jpeg,.png"
-								:on-success="handleAvatarSuccess">
-						<img v-if="details.logo" :src="details.logo" class="avatar">
-						<i v-else class="el-icon-plus avatar-uploader-icon"></i>
-					</el-upload>
-					
-				</li> -->
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">logo</label>
 					<el-upload class="avatar-uploader" 
@@ -255,11 +238,12 @@
 					<div v-if="!disabled">
 						<el-upload class="upload-demo" 
 						:action="uploadImg" 
+						:before-upload='beforeGetFile'
 						:on-success="handleAvatarSuccessFile"
 						:headers="requestToken" 
 						:multiple="false">
 							<span style="line-height: 30px;margin-right: 10px;">{{details.license}}</span>
-							<el-button size="small" type="primary">上传</el-button>
+							<el-button size="small" :loading='licenseSubmitLoading'>上传</el-button>
 						</el-upload>
 						
 					</div>
@@ -272,7 +256,7 @@
 			<p>请在众筹合约部署完成后点击通过</p>
 		</div>
 		<div v-if="!disabled">
-			<button class="check" @click="changeDetails">保存修改</button>
+			<el-button class="check" @click="changeDetails" :loading="saveSubmitBtnLading">保存修改</el-button>
 		</div>
 	</div>
 </template>
@@ -335,7 +319,9 @@
                         this.$store.state.token ||
                         Cache.getSession('bier_token')
 				},
-				uploadImg: Config.UploadImg
+				uploadImg: Config.UploadImg,
+				saveSubmitBtnLading:false,
+				licenseSubmitLoading:false
 			};
 		},
 		components: {
@@ -416,8 +402,6 @@
 						})
 					})
 					this.conceptDatas=newconceptLable.join("-")
-
-					
 				});
 			},
 			getCrowdTeam(type){//请求众筹核心团队
@@ -436,17 +420,13 @@
 						return this.consultantTeam = res.data
 					}
 					this.coreTeam = res.data
-					
 				})
-				
 			},
 			changeDetails() {//修改保存
+				this.saveSubmitBtnLading = true; 
 				var startTime = this.util.format(this.timeInterval[0], 'yyyy-MM-dd HH:mm:ss');
 				var endTime = this.util.format(this.timeInterval[1], 'yyyy-MM-dd HH:mm:ss');
-				
 				let checkedData = this.checkeData
-
-
 				if(checkedData.length<4){
 					for(let i=0,len=4-checkedData.length;i<len;i++){
 						checkedData.push({
@@ -454,9 +434,7 @@
 					})	
 					}
 				}
-				
 				this.checkeData = checkedData
-				
 				let params = {
 					url: 'ChangeCrowdfundingDetails',
 					data: {
@@ -499,8 +477,9 @@
 				Request.requestHandle(params, res => {
 					if(res.success) {
 //						this.queryDetails();
-						this.$router.back(-1)
+						this.saveSubmitBtnLading = false;
 						this.$message('修改成功');
+						this.$router.back(-1)
 					}
 				});
 			},
@@ -538,7 +517,6 @@
 					}
 				});
 			},
-
 			saveLink() {//核心团队新增请求
 				//数据id
 				for(var i=0;i<this.multipleSelection.length;i++){
@@ -554,7 +532,6 @@
 						type: 'post',
 						flag: true,
 					}
-					
 					Request.requestHandle(params, res => {
 						console.log(res);
 						if(res.success == 1) {
@@ -563,8 +540,11 @@
 						}
 					});
 				}
+				this.centerDialogVisible = false;
 			},
 			ChangeCoreMember(row,name){//修改
+				if(row.id==undefined)
+					return;
 				let url = 'ChangeCoreMember'
 				if(name == "consultant")
 					url = 'ChangeConsultant';
@@ -660,8 +640,8 @@
 							
 						}
 					});
-					
 				}
+				this.CrowdTeamDialogVisible = false;
 			},
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
@@ -669,8 +649,11 @@
 			handleAvatarSuccess(res) {
 				this.details.logo = res.data;	
 			},
+			beforeGetFile(){
+				this.licenseSubmitLoading = true ; 
+			},
 			handleAvatarSuccessFile(res) {
-		
+				this.licenseSubmitLoading = false;
 				this.details.license = res.data;
 			},
 			conceptFun() { //概念弹出窗
@@ -695,8 +678,6 @@
 				this.conceptDatas = newCheckedData.join('-');
 				this.checkeData = checkedData;
 			}
-
-
 		}
 	}
 </script>

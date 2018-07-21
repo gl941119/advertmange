@@ -47,15 +47,14 @@
 							</el-table-column>
 							<el-table-column property="address" align="center" label="操作">
 								<template slot-scope="scope">
-									<el-button :disabled="disabled" @click="recomposeCore(scope.row)">修改</el-button>
-								
+									<el-button :disabled="disabled" :loading='crowdTeamSaveAmendLoading' @click="recomposeCore(scope.row)">修改</el-button>
 								</template>
 							</el-table-column>
 						</el-table>
 						<div slot="footer" class="dialog-footer">
-							<el-button :disabled="disabled" @click="saveLink">保存</el-button>
+							<el-button :disabled="disabled" :loading='crowdTeamSaveLoading' @click="saveLink">保存</el-button>
 							<el-button :disabled="disabled" @click="addCore">添加</el-button>
-							<el-button :disabled="disabled" @click="deletedLink">删除</el-button>
+							<el-button :disabled="disabled" :loading='crowdTeamDelLoading' @click="deletedLink">删除</el-button>
 						</div>
 					</el-dialog>
 				</div>
@@ -177,6 +176,7 @@
 									:show-file-list="false" 
 									:on-success="handleAvatarSuccess"
 									:headers="requestToken"
+
 									accept=".jpg,.jpeg,.png">
 						<img v-if="details.logo" :src="details.logo" class="avatar">
 						<i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -200,8 +200,9 @@
 									:action="uploadImg" 
 									:on-success="getFile" 
 									:headers="requestToken"
+									:before-upload='brforeGetFile'
 									multiple>
-							<el-button size="small">上传</el-button>
+							<el-button size="small" :loading='whitePaperSubBtnLoading'>上传</el-button>
 						</el-upload>
 					</div>
 					
@@ -222,18 +223,13 @@
 		</div>
 		 
 		<div v-if="disabled">
-			<button class="check" @click="passed">审核通过</button>
-			<button class="check" @click="notPassed">审核不通过</button>
+			<el-button class="check" @click="passed">审核通过</el-button>
+			<el-button class="check" @click="notPassed">审核不通过</el-button>
 			<p>请在众筹合约部署完成后点击通过</p>
 		</div>
-		<!-- <el-form-item v-if="!disabled">
-		    <el-button type="primary" @click="clickAdvertItem()" class="check">保存修改</el-button>
-		  
-		 </el-form-item> -->
 		<div v-if="!disabled">
-			<button class="check" @click="deitAdvertItem()">保存修改</button>
+			<el-button class="check" @click="deitAdvertItem()" :loading='saveSubmitLoading'>保存修改</el-button>
 		</div>
-		<!-- </el-form> -->
 	</div>
 </template>
 
@@ -299,7 +295,12 @@
                         Cache.getSession('bier_token')
 				},
 				uploadImg: Config.UploadImg,
-				WaitSubmitWhitePaper:''
+				WaitSubmitWhitePaper:'',
+				crowdTeamSaveLoading:false,
+				crowdTeamDelLoading:false,
+				crowdTeamAmendLoading:false,
+				saveSubmitLoading:false,
+				whitePaperSubBtnLoading:false
 			};
 		},
 		components: {
@@ -379,7 +380,7 @@
 
 			
 			deitAdvertItem(){//提交编辑广告
-			
+				this.saveSubmitLoading = true;
 				if(this.newconcept.length==0){
 					this.newconcept = this.details.concepManagetResultList
 				}
@@ -420,6 +421,7 @@
 					console.log("query",this.checkedData)
 				Request.requestHandle(params, res => {
 					console.log('res',res)
+					this.saveSubmitLoading = false;
 					if(res.success == 1){
 					this.$message('操作成功');
 					this.$router.back(-1)
@@ -459,8 +461,7 @@
 				});
 			},
 			saveLink() {//核心团队新增请求
-				
-			
+				this.crowdTeamSaveLoading = true
 				for(let i=0,len=this.multipleSelection.length;i<len;i++){
 					let params = {
 						url: 'AddAdCoreMember',
@@ -483,6 +484,7 @@
 						}
 					});
 				}
+				this.crowdTeamSaveLoading = false;
 			},
 			QueryAdCoreMember(){//请求核心团队成员
 				let params = {
@@ -525,6 +527,9 @@
 				this.consultantTeam = tmpPersions;
 			},
 			recomposeCore(row){//核心团队修改请求
+				this.crowdTeamAmendLoading = true
+				if(row.id==undefined)
+					return;
 				let params = {
 					url: 'ChangeAdCoreMember',
 					data: {
@@ -541,12 +546,15 @@
 				Request.requestHandle(params, res => {
 					if(res.success==1){
 						this.$message('修改成功');
+						this.crowdTeamAmendLoading = false;
 						this.QueryAdCoreMember();
 					}
 				});
+
 		
 			},
 			deletedLink() {//核心团队删除请求
+				this.crowdTeamDelLoading = true
 				for(let i=0;i<this.multipleSelection.length;i++){
 				
 					let params = {
@@ -565,6 +573,8 @@
 						}	
 					});
 				}
+				this.crowdTeamDelLoading = false;
+
 				
 			},
 			deletedLinkConsultant() {//顾问团队删除请求
@@ -611,7 +621,8 @@
 				}
 			},
 			recomposeConsultant(row){//顾问团队修改请求
-		
+				if(row.id==undefined)
+						return;
 				let params = {
 						url: 'ChangeAdConsultant',
 						data: {
@@ -631,14 +642,18 @@
 						}
 					});
 			},
+			
 			handleSelectionChange(val) {
 				console.log(val)
 				this.multipleSelection = val;
 				
 			},
+			brforeGetFile(file){//白皮书上传之前
+				this.whitePaperSubBtnLoading = true
+			},
 			getFile(res) {
-				
-				this.details.whitePaper = res.data;			
+				this.details.whitePaper = res.data;	
+				this.whitePaperSubBtnLoading = false		
 			},
 			conceptFun() { //概念弹出窗
 				this.concept = !this.concept;
