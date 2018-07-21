@@ -80,7 +80,8 @@
 								password,
 								sequence: 1 // login
 							},
-							type: 'get',
+							type: 'post',
+							flag:true
 						};
 						Request.requestHandle(
 							params,
@@ -114,7 +115,9 @@
 													username,
 													password,
 													sequence: 2
-												}
+												},
+												type:'post',
+												flag:true
 											}
 											Request.requestHandle(paramsAgain, res => {
 												this.successHandle(res.data);

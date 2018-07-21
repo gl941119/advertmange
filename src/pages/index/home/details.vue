@@ -175,7 +175,7 @@
 					<el-upload class="avatar-uploader" 
 									:action="uploadImg" 
 									:show-file-list="false" 
-									:on-change="handleAvatarSuccess"
+									:on-success="handleAvatarSuccess"
 									:headers="requestToken"
 									accept=".jpg,.jpeg,.png">
 						<img v-if="details.logo" :src="details.logo" class="avatar">
@@ -198,7 +198,7 @@
 					<div v-if="!disabled">
 						<el-upload class="upload-demo" 
 									:action="uploadImg" 
-									:on-change="getFile" 
+									:on-success="getFile" 
 									:headers="requestToken"
 									multiple>
 							<el-button size="small">上传</el-button>
@@ -212,10 +212,10 @@
 				</li>
 				<li class="project_review_details_item_li" v-for="(item, index) in websites">
 					<label class="project_review_details_item_li_label">
-					<el-input placeholder="自定义站点名"  v-model="websites[index].websiteName" >
+					<el-input placeholder="自定义站点名"  v-model="websites[index].websiteName" :disabled="disabled">
 			        </el-input>
 					</label>
-					<el-input placeholder="自定义站点地址"  v-model="websites[index].websiteAddress">
+					<el-input placeholder="自定义站点地址"  v-model="websites[index].websiteAddress" :disabled="disabled">
 					</el-input>
 				</li>
 			</ul>
@@ -673,16 +673,16 @@
 				this.multipleSelection = val.data;
 				console.log(val)
 			},
-			getFile(file) {
-				console.log(file.url)
-				this.details.whitePaper = file.url;
+			getFile(res) {
+				console.log(res.data)
+				this.details.whitePaper = res.data;
 			},
 			conceptFun() { //概念弹出窗
 				this.concept = !this.concept;
 			},
-			handleAvatarSuccess(file) {
-				console.log(file);
-				this.details.logo = file.url;
+			handleAvatarSuccess(res) {
+				console.log(res);
+				this.details.logo = res.data;
 			},
 			technologyFun() {//点击技术
 				this.technology = !this.technology;

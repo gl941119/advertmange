@@ -176,7 +176,7 @@
 					token:this.$store.state.token ||Cache.getSession('bier_token')
 				},
 				crowdImg:'',
-				celladvertSort:''
+				celladvert:''
 			
 			}
 		},
@@ -185,7 +185,7 @@
 		},
 		methods: {
 			details(row){
-				this.celladvertSort = row.advertSort
+				this.celladvert = row
 			},
 			saveAllChange(){
 				this.getadvertising(1,1)//banner
@@ -351,7 +351,7 @@
 			},
 			getImg(res) {
 				console.log(res)
-				let len = this.celladvertSort-1
+				let len = this.celladvert.advertSort-1
 				this.bannerListData[len].banner = res.data
 				
 			},

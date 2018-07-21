@@ -404,15 +404,6 @@
 							}
 						})
 					})
-
-
-
-					for(let i=0,len=arr.length;i<len;i++){
-						
-						
-						// newconceptLable.push(conceptLable[arr[i]-1].name)
-					}
-					
 					this.conceptDatas=newconceptLable.join("-")
 					
 				});
