@@ -5,7 +5,7 @@
 				<h3>首页钻展位</h3>
 				<el-button @click="saveAllChange">保存更改</el-button>
 			</div>
-			<el-table ref="multipleTable" :data="bannerListData" @cell-click="details" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%">
+			<el-table ref="multipleTable" :data="bannerListData" @cell-click="bannerCellClick" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%">
 				<el-table-column label="位次" align="center">
 					<template slot-scope="scope">
 						<el-select v-model="scope.row.advertSort" @change="change(scope.row,scope.$index)"  placeholder="请选择">
@@ -48,7 +48,7 @@
 				<h3>项目二级页</h3>
 				<el-button @click="saveAllChange">保存更改</el-button>
 			</div>
-			<el-table ref="multipleTable" :data="advertListData" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%">
+			<el-table ref="multipleTable" :data="advertListData" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%" @cell-click="advertCellClick">
 				<el-table-column prop="type" label="位次" align="center">
 					<template slot-scope="scope">
 						<el-select v-model="advertOptions[0].value" 
@@ -90,7 +90,7 @@
 				<h3>众筹二级页</h3>
 				<el-button @click="saveAllChange">保存更改</el-button>
 			</div>
-			<el-table ref="multipleTable" :data="crowdListData" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%">
+			<el-table ref="multipleTable" :data="crowdListData" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%" @cell-click="crowdCellClick">
 				<el-table-column prop="type" label="位次" align="center">
 					<template slot-scope="scope">
 						<el-select v-model="crowdOptions[0].value" placeholder="请选择">
@@ -176,7 +176,9 @@
 					token:this.$store.state.token ||Cache.getSession('bier_token')
 				},
 				crowdImg:'',
-				celladvert:''
+				bannerCellClickData:'',
+				advertCellClickData:'',
+				crowdCellClickData:''
 			
 			}
 		},
@@ -184,8 +186,14 @@
 			this.getAdvertisingInfo();
 		},
 		methods: {
-			details(row){
-				this.celladvert = row
+			bannerCellClick(row){
+				this.bannerCellClickData = row
+			},
+			crowdCellClick(row){
+				this.crowdCellClickData = row
+			},
+			advertCellClick(row){
+				this.advertCellClickData = row
 			},
 			saveAllChange(){
 				this.getadvertising(1,1)//banner
@@ -238,37 +246,34 @@
 				});
 			},
 			addBannerLink(item,type) {
-				
 				this.$prompt('请输入链接', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 				}).then(({
 					value
 				}) => {
-					if(!item.id){
-						this.$message('错误在这')
-						return
+					if(type==1){
+						this.bannerCellClickData.advertUrl = value
+						this.saveChange(item);
 					}
-					if(type==1)
-						this.saveChange(item,value);
-					if(type==2)
-						this.corwdSaveChange(item,value);
-					if(type==3)
-						this.advertSaveChange(item,value)
-				}).catch(() => {
-					this.$message({
-						type: 'info',
-						message: '取消输入'
-					});
-				});
+					if(type==2){
+						console.log(this.crowdCellClickData)
+						this.crowdCellClickData.advertUrl = value
+						this.corwdSaveChange(item);
+					}
+					if(type==3){
+						this.advertCellClickData.advertUrl = value
+						this.advertSaveChange(item)
+					}
+				})
 			},
-			corwdSaveChange(item,value) {//修改增加接口众筹
+			corwdSaveChange(item) {//修改增加接口众筹
 				let params = {
 					url: 'ChangeAdvertisingBanner',
 					data: {
 						advertisements:[{
 							advertSort: item.advertSort,
-							advertUrl: value,
+							advertUrl: item.advertUrl,
 							banner: item.banner,
 							id: item.id
 						}]
@@ -284,13 +289,13 @@
 					}
 				});
 			},
-			advertSaveChange(item,value) {//修改增加接口广告
+			advertSaveChange(item) {//修改增加接口广告
 				let params = {
 					url: 'ChangeAdvertisingBanner',
 					data: {
 						advertisements:[{
 							advertSort: item.advertSort,
-							advertUrl: value,
+							advertUrl: item.advertUrl,
 							banner: item.banner,
 							id: item.id
 						}]
@@ -298,7 +303,7 @@
 					type: 'post',
 					flag:true
 				}
-				console.log("修改请求",params)
+				console.log("广告请求",params)
 				Request.requestHandle(params, res => {
 					console.log(res)
 					if(res.success == 1){
@@ -308,13 +313,13 @@
 				});
 			},
 
-			saveChange(item,value) {//修改增加接口
+			saveChange(item) {//修改增加接口
 				let params = {
 					url: 'ChangeAdvertisingBanner',
 					data: {
 						advertisements:[{
 							advertSort: item.advertSort,
-							advertUrl: value,
+							advertUrl: item.advertUrl,
 							banner: item.banner,
 							id: item.id
 						}]
@@ -351,18 +356,24 @@
 			},
 			getImg(res) {
 				console.log(res)
-				let len = this.celladvert.advertSort-1
-				this.bannerListData[len].banner = res.data
 				
+				let len = this.bannerCellClickData.advertSort-1
+				this.bannerListData[len].banner = res.data
+				let cen = this.bannerCellClickData
+				this.saveChange(cen)
 			},
 			advertGetImg(res){
 				console.log(res)
 				this.advertListData[0].banner = res.data
+				let cen = this.advertCellClickData
+				this.advertSaveChange(cen)
 				
 			},
 			crowdGetImg(res){
 				console.log(res)
 				this.crowdListData[0].banner = res.data
+				let cen = this.crowdCellClickData
+				this.corwdSaveChange(cen)
 			
 			},
 			flush(type){//刷新
