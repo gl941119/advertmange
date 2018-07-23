@@ -77,6 +77,9 @@
 				}, {
 					value: '1',
 					label: '已上架',
+				},{
+					value:'3',
+					label:'已下架'
 				}],
 				state: '-1',
 				searchStr: '',

@@ -194,13 +194,14 @@
 				</li>
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">白皮书</label>
-					<span style="line-height: 30px;margin-right: 10px;">{{details.whitePaper}}</span>
+					<a :href="details.whitePaper" download  style="line-height: 30px;margin-right: 10px;">{{details.whitePaper}}</a>
 					<div v-if="!disabled">
 						<el-upload class="upload-demo" 
 									:action="uploadImg" 
 									:on-success="getFile" 
 									:headers="requestToken"
 									:before-upload='brforeGetFile'
+									:limit='1'
 									multiple>
 							<el-button size="small" :loading='whitePaperSubBtnLoading'>上传</el-button>
 						</el-upload>
@@ -480,7 +481,6 @@
 							this.centerDialogVisible= false;
 							this.$message('增添成功');
 							this.QueryAdCoreMember();
-							
 						}
 					});
 				}

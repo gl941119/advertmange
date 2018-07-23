@@ -239,6 +239,7 @@
 						<el-upload class="upload-demo" 
 						:action="uploadImg" 
 						:before-upload='beforeGetFile'
+						:limit='1'
 						:on-success="handleAvatarSuccessFile"
 						:headers="requestToken" 
 						:multiple="false">
@@ -567,7 +568,12 @@
 							this.$message('修改成功');
 							this.CrowdTeamDialogVisible = false;
 							this.centerDialogVisible = false;
-							this.queryDetails();
+							// this.queryDetails();
+							if(name== 'consultant'){
+								this.getCrowdTeam('consultant')
+								return
+							}
+							this.getCrowdTeam()
 						}
 					});
 			},
