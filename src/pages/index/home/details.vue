@@ -328,7 +328,7 @@
 					type: 'get',
 				}
 				Request.requestHandle(params, res => {
-					console.log("getDetails",res.data)
+					
 					this.details = res.data;					
 					this.accountId = res.data.accountId
 					this.advertId = res.data.id
@@ -419,9 +419,9 @@
 					},
 					type:'post',
 					flag:true}
-					console.log("query",this.checkedData)
+					
 				Request.requestHandle(params, res => {
-					console.log('res',res)
+				
 					this.saveSubmitLoading = false;
 					if(res.success == 1){
 					this.$message('操作成功');
@@ -644,7 +644,7 @@
 			},
 			
 			handleSelectionChange(val) {
-				console.log(val)
+				
 				this.multipleSelection = val;
 				
 			},

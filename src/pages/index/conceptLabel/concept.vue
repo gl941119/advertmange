@@ -66,7 +66,7 @@
 		        })
 			},
 			addConceptLink(name){//增加概念标签
-				console.log("addconcept",name)
+			
 				let params = {
 					url:'addConceptLink',
 					data: {
@@ -76,7 +76,7 @@
 					flag:true
 				}
 				Request.requestHandle(params, res => {
-				console.log("response",res)
+				
 					if(res.success==1){
 			        	this.$message({
 				        	message:'新增成功',
@@ -98,7 +98,7 @@
 			
 				Request.requestHandle(params,res=>{
 					if(res.success==1){
-						console.log(res)
+						
 						this.$message('删除成功')
 					}
 				})
@@ -118,7 +118,7 @@
 				Request.requestHandle(params, res => {
 					this.conceptListData = res.data;
 					this.pageTotal = res.total;
-					console.log(res)
+					
 				});
 			},
 			queryCurrentPageList(page) {
@@ -133,7 +133,7 @@
 				}).then(({
 					value
 				}) => {
-//					console.log('123')
+			
 					this.confirm(value, id);
 				}).catch(() => {
 					this.$message({

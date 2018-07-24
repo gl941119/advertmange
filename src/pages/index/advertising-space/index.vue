@@ -218,7 +218,7 @@
 					type: 'get',
 				}
 				Request.requestHandle(params, res => {
-					console.log("res",res)	
+					
 					if(advertPosition==1){
 						this.bannerListData = res.data;
 					}
@@ -287,7 +287,7 @@
 		
 				Request.requestHandle(params, res => {
 					if(res.success == 1){
-						console.log(res)
+					
 						this.$message('保存成功');
 						this.flush(2)//众筹
 					}
@@ -309,7 +309,7 @@
 				}
 				
 				Request.requestHandle(params, res => {
-					console.log(res)
+					
 					if(res.success == 1){
 						this.$message('保存成功');
 						this.flush(3)//广告
@@ -353,7 +353,7 @@
 					flag:true
 				}
 				Request.requestHandle(params,res=>{
-					console.log(res)
+					
 					this.$message('修改成功')
 					this.flush(1)//banner
 				})

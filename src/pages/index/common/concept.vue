@@ -27,7 +27,7 @@
 					flag:true
 				}
 				Request.requestHandle(params, res => {
-					console.log("concept",res);
+					
 					this.concept = res.data;
 				});
 			},

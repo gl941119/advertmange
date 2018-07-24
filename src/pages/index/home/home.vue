@@ -118,11 +118,11 @@
 					},
 					type: 'get'
 				}
-				console.log(params)
+			
 				Request.requestHandle(params, res => {
 					this.bulletinListData = res.data;
 					this.pageTotal = res.total;
-					console.log(res)
+				
 				});
 			},
 			//分页器翻页

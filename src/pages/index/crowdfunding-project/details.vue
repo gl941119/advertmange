@@ -350,7 +350,7 @@
 				}
 				Request.requestHandle(params, res => {
 					this.details = res.data;
-					console.log("DetailsInfo",res);
+				
 					this.accountId = res.data.accountId;
 					this.crowdId= res.data.id;
 					
@@ -474,7 +474,7 @@
 					type: 'put',
 					flag:true,
 				}
-				console.log("submit",params.data)
+			
 				Request.requestHandle(params, res => {
 					if(res.success) {
 //						this.queryDetails();
@@ -534,7 +534,7 @@
 						flag: true,
 					}
 					Request.requestHandle(params, res => {
-						console.log(res);
+						
 						if(res.success == 1) {
 							this.$message('修改成功');
 							this.getCrowdTeam()
@@ -563,7 +563,7 @@
 						flag: true,
 					}
 					Request.requestHandle(params, res => {
-						console.log(res);
+						
 						if(res.success == 1) {
 							this.$message('修改成功');
 							this.CrowdTeamDialogVisible = false;
@@ -638,7 +638,7 @@
 						flag: true
 					}
 					Request.requestHandle(params, res => {
-						console.log(res);
+						
 						if(res.success == 1) {
 							this.$message('修改成功');
 							this.CrowdTeamDialogVisible = false;

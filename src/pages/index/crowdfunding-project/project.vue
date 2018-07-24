@@ -53,14 +53,13 @@
 						  :visible.sync="dialogVisible"
 						  width="30%"
 						  :before-close="handleClose">
-						  <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
-							  <el-form-item label="输入合约地址">
+						  <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign" ref='bindForm'>
+							  <el-form-item label="输入合约地址" prop='address'>
 							    <el-input v-model="formLabelAlign.address"></el-input>
 							  </el-form-item>
-							  <el-form-item label="输入abi">
+							  <el-form-item label="输入abi" prop='abi'>
 							    <el-input v-model="formLabelAlign.abi" type="textarea"></el-input>
 							  </el-form-item>
-							 
 							</el-form>
 						  <span slot="footer" class="dialog-footer">
 						    <el-button @click="dialogVisible = false">取 消</el-button>
@@ -137,9 +136,9 @@
 					},
 					type: 'get',
 				}
-				console.log("params",params)
+			
 				Request.requestHandle(params, res => {
-					console.log(res)
+					
 					this.projectData = res.data;
 					this.pageTotal = res.total;
 				});
@@ -161,26 +160,11 @@
 					type: 'get',
 				}
 				Request.requestHandle(params, res => {
-					console.log(res)
+				
 					this.projectData = res.data;
 					this.pageTotal = res.total;
 				});
 			},
-//			contractAddress(id) {
-//				this.$prompt('请输入合約地址', '提示', {
-//					confirmButtonText: '确定',
-//					cancelButtonText: '取消',
-//				}).then(({
-//					value
-//				}) => {
-//					this.bindContractAddress(id,value);
-//				}).catch(() => {
-//					this.$message({
-//						type: 'info',
-//						message: '取消输入'
-//					});
-//				});
-//			},
 			openDetails(id, value) {
 				this.$router.push({
 					path: 'crowdfundingDetail/' + id + '/' + value,
@@ -196,8 +180,12 @@
 				this.clickId = id ;
 			},
 			submitAddress(){//修改合约地址
-				
-				
+		
+				if(this.formLabelAlign.abi == ''||this.formLabelAlign.address == ''){
+					this.$message('请填写完整')
+					return
+				}
+
 				let params = {
 					url: 'ChangeContract',
 					data: {
@@ -209,10 +197,11 @@
 					flag:true
 				}
 				Request.requestHandle(params, res => {
-				console.log(params)
-					console.log(res)
+				
+					
 					if(res.success==1){
 						this.$message('绑定成功')
+						this.$refs['bindForm'].resetFields()
 						this.dialogVisible = false
 					}
 				});
@@ -237,7 +226,7 @@
 
 			},
 			selectChange(){
-				console.log('123')
+				
 			},
 			tableHeaderClassName({
 				row,

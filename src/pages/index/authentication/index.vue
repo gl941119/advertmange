@@ -59,7 +59,7 @@
 					type: 'get',
 				}
 				Request.requestHandle(params, res => {
-					console.log(res);
+				
 					this.authenticationData = res.data;
 					this.pageTotal = res.total;
 				
