@@ -150,7 +150,7 @@
 				</el-input>
 				<el-input placeholder="请输入技术" v-model="details.technology2">
 				</el-input>
-				<button class="right_now" style=";position:absolute;top: 278px;" @click="technologyFun">好的</button>
+				<el-button class="right_now" style=";position:absolute;top: 278px;" @click="technologyFun">好的</el-button>
 			</div>
 		</div>
 		<div class="project_review_details_team">
@@ -502,21 +502,33 @@
 				});
 			},
 			notPassed() {
-				var id = this.$route.params.id;
-				let params = {
-					url: 'QueryCrowdfundingNotpass',
-					data: {
-						id: id
-					},
-					type: 'get',
-				}
-				Request.requestHandle(params, res => {
-					if(res.success == 1) {
-						this.$message('操作成功');
-						// this.queryDetails();
-						this.$router.back(-1)
+				 this.$prompt('', '不通过理由', {
+		          confirmButtonText: '确定',
+		          cancelButtonText: '取消',
+		          inputPattern: /\S/,
+		          inputErrorMessage: '请输入理由'
+		        }).then(({ value }) => {
+		           var id = this.$route.params.id;
+					let params = {
+						url: 'QueryCrowdfundingNotpass',
+						data: {
+							id: id,
+							noPassReason:value
+						},
+						type: 'get',
 					}
-				});
+					console.log(params)
+					Request.requestHandle(params, res => {
+						if(res.success == 1) {
+							this.$message('提交成功');
+							// this.queryDetails();
+							this.$router.back(-1)
+						}
+					});
+		        })
+
+
+				
 			},
 			saveLink() {//核心团队新增请求
 				//数据id

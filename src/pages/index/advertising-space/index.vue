@@ -39,6 +39,7 @@
 				</el-table-column>
 				<el-table-column label="操作" align="center" show-overflow-tooltip>
 					<template slot-scope="scope">
+						<el-button size="mini"  @click="addBannerLink(scope.row,1)">修改链接</el-button>
 						<el-button size="mini" slot="reference" @click="deleted(scope.row.id,1)">删除</el-button>
 						
 					</template>
@@ -81,7 +82,7 @@
 				</el-table-column>
 				<el-table-column label="操作" align="center" show-overflow-tooltip>
 					<template slot-scope="scope">
-						
+						<el-button  size="mini" @click="addBannerLink(scope.row,3)">修改链接</el-button>
 						<el-button size="mini" slot="reference" @click="deleted(scope.row.id,3)">删除</el-button>
 					</template>
 				</el-table-column>
@@ -124,6 +125,7 @@
 				</el-table-column>
 				<el-table-column label="操作" align="center" show-overflow-tooltip>
 					<template slot-scope="scope">
+						<el-button size="mini"  @click='addBannerLink(scope.row,2)'>修改链接</el-button>
 						<el-button size="mini" slot="reference" @click="deleted(scope.row.id,2)">删除</el-button>
 					</template>
 				</el-table-column>
@@ -255,12 +257,16 @@
 				}).then(({
 					value
 				}) => {
+					
+					if(value==null){
+						this.$message('输入不能为空')
+						return;
+					}
 					if(type==1){
 						this.bannerCellClickData.advertUrl = value
 						this.saveChange(item);
 					}
 					if(type==2){
-					
 						this.crowdCellClickData.advertUrl = value
 						this.corwdSaveChange(item);
 					}

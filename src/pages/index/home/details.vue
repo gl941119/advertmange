@@ -446,20 +446,32 @@
 				});
 			},
 			notPassed() {//审核不通过
-				var id = this.$route.params.id;
-				let params = {
-					url: 'QueryNotPass',
-					data: {
-						id: id
-					},
-					type: 'get',
-				}
-				Request.requestHandle(params, res => {
-					if(res.success) {
-						this.$message('操作成功');
-						this.$router.back(-1)
+				let id = this.$route.params.id;
+				this.$prompt('', '不通过理由', {
+		          confirmButtonText: '确定',
+		          cancelButtonText: '取消',
+		          inputPattern: /\S/,
+		          inputErrorMessage: '请输入理由'
+		        }).then(({ value }) => {
+					let params = {
+						url: 'QueryNotPass',
+						data: {
+							id: id,
+							noPassReason:value
+						},
+						type: 'get',
 					}
-				});
+					Request.requestHandle(params, res => {
+						if(res.success) {
+							this.$message('提交成功');
+							this.$router.back(-1)
+						}
+					});
+			           
+			        })
+
+
+
 			},
 			saveLink() {//核心团队新增请求
 				this.crowdTeamSaveLoading = true

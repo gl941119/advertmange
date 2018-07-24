@@ -69,21 +69,45 @@
 				this.currPage = page;
 				this.getDataInfo(page);
 			},
-			isPass(id, value) {
+			isPass(id, type) {
+				
+				if(type==3){
+					 this.$prompt('', '拒绝理由', {
+			          confirmButtonText: '确定',
+			          cancelButtonText: '取消',
+			          inputPattern: /\S/,
+
+			          inputErrorMessage: '请输入理由'
+			        }).then(({ value }) => {
+			          	this.isPassQuery(id,type,value)
+			        })
+		        }else{
+		        	this.isPassQuery(id,type)
+		        }
+
+				
+			},
+			isPassQuery(id,type,value){
+				let noPassReason = null
+				if(type==3){
+					noPassReason = value
+				}
 				let params = {
 					url: 'ChangeRefuseOrPass',
 					data: {
-						authStatus: value,
-						id: id
+						authStatus: type,
+						id: id,
+						noPassReason
 					},
 					flag: true,
 				}
 				Request.requestHandle(params, res => {
 					if(res.success == 1) {
-						this.$message('修改成功');
+						this.$message('提交成功');
 						this.getDataInfo();
 					}
 				});
+
 			},
 			tableHeaderClassName({
 				row,
