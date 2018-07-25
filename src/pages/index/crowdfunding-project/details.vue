@@ -211,11 +211,11 @@
 				</li>
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">发行硬顶</label>
-					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.lowLimit"></el-input>
+					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.topLimit"></el-input>
 				</li>
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">发行软顶</label>
-					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.topLimit"></el-input>
+					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.lowLimit"></el-input>
 				</li>
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">本轮众筹时间</label>
@@ -392,13 +392,14 @@
 					flag:true
 				}
 				Request.requestHandle(params, res => {
+					console.log(res)
 					var conceptLable = res.data
 					var newconceptLable = []
 					
 					arr.forEach(item=>{
 						conceptLable.forEach(row =>{
 							if(row.id == item){
-								newconceptLable.push(row.name)
+								newconceptLable.push(row.name.zh)
 							}
 						})
 					})
@@ -513,7 +514,7 @@
 						url: 'QueryCrowdfundingNotpass',
 						data: {
 							id: id,
-							noPassReason:value
+							description:value
 						},
 						type: 'get',
 					}

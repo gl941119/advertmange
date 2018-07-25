@@ -1,11 +1,11 @@
-`<template>
+<template>
 	<div class="user-management-list">
 		<div class="user-management-list-title">
 			<h3>概念标签管理</h3>
 			<el-button @click="addConceptLabel">新增</el-button>
 		</div>
 		<el-table ref="multipleTable" :data="conceptListData" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%">
-			<el-table-column prop="name" label="概念" align="center">
+			<el-table-column prop="name.zh" label="概念" align="center">
 			</el-table-column>
 			<el-table-column prop="type" label="项目数" align="center">
 			</el-table-column>

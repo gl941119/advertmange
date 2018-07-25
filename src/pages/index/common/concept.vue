@@ -1,7 +1,7 @@
 <template>
 	<div class="concept">
 		<div class="concept-personal">
-			<el-button :class="{'button-selected': item.isSelected}" class="concept-personal-button" @click="checked(item,index)" v-for="(item, index) in concept" :key="index" size="small" round>{{item.name}}</el-button>
+			<el-button :class="{'button-selected': item.isSelected}" class="concept-personal-button" @click="checked(item,index)" v-for="(item, index) in concept" :key="index" size="small" round>{{item.name.zh}}</el-button>
 		</div>
 	</div>
 </template>
@@ -27,19 +27,19 @@
 					flag:true
 				}
 				Request.requestHandle(params, res => {
-					
 					this.concept = res.data;
 				});
 			},
 			checked(item, index) {
-			
+				
 				var length = this.checkedData.length;
 				item.isSelected = !item.isSelected;
 				if(item.isSelected) {
 					if(length < 4) {
+					
 						var obj={};
 						obj.id=item.id;
-						obj.name=item.name;
+						obj.name=item.name.zh;
 						this.checkedData.push(obj);
 					
 						this.$emit('listenCondept',this.checkedData);
