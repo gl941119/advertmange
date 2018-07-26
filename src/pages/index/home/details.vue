@@ -47,7 +47,7 @@
 							</el-table-column>
 							<el-table-column property="address" align="center" label="操作">
 								<template slot-scope="scope">
-									<el-button :disabled="disabled" :loading='crowdTeamSaveAmendLoading' @click="recomposeCore(scope.row)">修改</el-button>
+									<el-button :disabled="disabled" :loading='crowdTeamAmendLoading' @click="recomposeCore(scope.row)">修改</el-button>
 								</template>
 							</el-table-column>
 						</el-table>

@@ -1,7 +1,7 @@
 <template>
 	<div class="concept">
 		<div class="concept-personal">
-			<el-button :class="{'button-selected': item.isSelected}" class="concept-personal-button" @click="checked(item,index)" v-for="(item, index) in concept" :key="index" size="small" round>{{item.name.zh}}</el-button>
+			<el-button :class="{'button-selected': item.isSelected}" class="concept-personal-button" @click="checked(item,index)" v-for="(item, index) in concept" :key="index" size="small" round>{{item.name}}</el-button>
 		</div>
 	</div>
 </template>
@@ -39,7 +39,7 @@
 					
 						var obj={};
 						obj.id=item.id;
-						obj.name=item.name.zh;
+						obj.name=item.name;
 						this.checkedData.push(obj);
 					
 						this.$emit('listenCondept',this.checkedData);

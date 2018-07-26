@@ -399,7 +399,7 @@
 					arr.forEach(item=>{
 						conceptLable.forEach(row =>{
 							if(row.id == item){
-								newconceptLable.push(row.name.zh)
+								newconceptLable.push(row.name)
 							}
 						})
 					})

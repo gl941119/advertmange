@@ -16,6 +16,9 @@ import AdvertisingCom from '@/pages/index/advertising-space/index';
 import AuthenticationCom from '@/pages/index/authentication/index';
 //概念标签管理
 import ConceptnCom from '@/pages/index/conceptLabel/concept';
+//充值审核
+import chargeAudit from '@/pages/index/chargeAudit/chargeAudit'
+import chargeAuditDetail from '@/pages/index/chargeAudit/chargeAuditDetail'
 //测试
 
 
@@ -79,6 +82,15 @@ export default new Router({
                     path: 'concept',
                     name: 'concept',
                     component: ConceptnCom,
+                },
+                {
+                    path:'chargeAudit',
+                    name:'chargeAudit',
+                    component:chargeAudit
+                },{
+                    path:'chargeAuditDetail/:id',
+                    name:'chargeAuditDetail',
+                    component:chargeAuditDetail
                 }
             ],
         },	
