@@ -3,32 +3,36 @@
 		<el-row>
 		  <el-col :span="4">
 		  		<el-row>
-		  			<dt>收入累加金额</dt>
-		  			<dd>123</dd>
+		  			<div class="card">
+			  			<dt>收入累加金额</dt>
+			  			<dd>123</dd>
+		  			</div>
 		  		</el-row>
-		  		<el-row>
-		  			<dt>收入总金额</dt>
-		  			<dd>123</dd>
+		  		<el-row style='margin-top: 30px;'>
+		  			<div class="card">
+			  			<dt>收入总金额</dt>
+			  			<dd>123</dd>
+		  			</div>
 		  		</el-row>
 		  </el-col>
 		  <el-col :span="20">
-		  		<el-table :data="tableData" style="width: 100%">
+		  		<el-table :data="tableData" style="width: 100%" max-height='450px'>
 			      <el-table-column
 			        prop="date"
 			        label="日期"
-			        width="180">
+			        >
 			      </el-table-column>
 			      <el-table-column
 			        prop="name"
-			        label="姓名"
-			        width="180">
-			      </el-table-column>
-			      <el-table-column
-			        prop="address"
-			        label="地址">
+			        label="金额"
+			        >
 			      </el-table-column>
 			    </el-table>
 		  </el-col>
+		</el-row>
+		<el-row class='isPass'>
+			<el-button class='pass'>通过</el-button>
+			<el-button class='notPass'>拒绝</el-button>
 		</el-row>
 	</div>
 </template>
@@ -44,16 +48,16 @@
 				handleChange:["1"],
 				 tableData: [{
 		            date: '2016-05-02',
-		            name: '王小虎',
-		            address: '上海市普陀区金沙江路 1518 弄'
+		            name: '111'
+		            
 		          }, {
 		            date: '2016-05-04',
-		            name: '王小虎',
-		            address: '上海市普陀区金沙江路 1517 弄'
+		            name: '222'
+		         
 		          }, {
 		            date: '2016-05-01',
-		            name: '王小虎',
-		            address: '上海市普陀区金沙江路 1519 弄'
+		            name: '333'
+		            
 		          }]
 
 			}
@@ -62,5 +66,21 @@
 	}
 </script>
 <style lang="scss" scoped>
+	.card{
+		width:150px;
+		height:59px;
+		background: rgba(255, 255, 255, 1);
+		box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.06);
+		padding-left: 5px;
+	}
 	
+		.isPass{
+			position: absolute;
+			bottom: 50px;
+		}
+	
+	dd{
+		margin-top:10px;
+		font-size:24px;
+	}
 </style>

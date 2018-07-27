@@ -45,7 +45,6 @@ function requestHandle(params, callback, load = null, errCB, responseCB) {
     ajaxRequest(url, data, type, flag).then(
         res => {
             let {data, success, total, message} = res.data;
-
             // console.log('requestHandle-[%s]->', url, res.data);
             if (success === 1) {
                 typeof callback === 'function' && callback(res.data);

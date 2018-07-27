@@ -49,9 +49,9 @@
 							</el-table-column>
 						</el-table>
 						<div slot="footer" class="dialog-footer">
-							<el-button :disabled="disabled" @click="saveLink">保存</el-button>
+							<el-button :disabled="disabled" :loading='saveTeamLoading' @click="saveLink">保存</el-button>
 							<el-button :disabled="disabled" @click="addLink">添加</el-button>
-							<el-button :disabled="disabled" @click="deletedLink">删除</el-button>
+							<el-button :disabled="disabled" :loading='deleteTeamLoading' @click="deletedLink">删除</el-button>
 						</div>
 					</el-dialog>
 				</div>
@@ -175,6 +175,7 @@
 									:show-file-list="false" 
 									:on-success="handleAvatarSuccess"
 									:headers="requestToken"
+									:limit="1"
 									accept=".jpg,.jpeg,.png">
 						<img v-if="details.logo" :src="details.logo" class="avatar">
 						<i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -231,6 +232,15 @@
 		</div>
 		<div class="project_review_details_team">
 			<div class="project_review_details_title">合规性文件</div>
+			
+			<div class="project_review_details_item_li">
+				<label class="project_review_details_item_li_label">公司名称</label>
+					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.companyName"></el-input>
+			</div>
+			<div class="project_review_details_item_li">
+				<label class="project_review_details_item_li_label">企业代码</label>
+					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.companyCode"></el-input>
+			</div>
 			<ul class="project_review_details_item">
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">相关牌照</label>
@@ -240,6 +250,7 @@
 						:action="uploadImg" 
 						:before-upload='beforeGetFile'
 						:limit='1'
+						accept=".jpg,.jpeg,.png,.pdf"
 						:on-success="handleAvatarSuccessFile"
 						:headers="requestToken" 
 						:multiple="false">
@@ -299,9 +310,7 @@
 					title: '',
 					desc: '',
 				},
-				details: {
-
-				},
+				details: {},
 				disabled: false,
 				centerDialogVisible: false,
 				CrowdTeamDialogVisible: false,
@@ -322,7 +331,9 @@
 				},
 				uploadImg: Config.UploadImg,
 				saveSubmitBtnLading:false,
-				licenseSubmitLoading:false
+				licenseSubmitLoading:false,
+				saveTeamLoading:false,
+				deleteTeamLoading:false
 			};
 		},
 		components: {
@@ -335,7 +346,6 @@
 			queryDetails() {//请求details
 				var id = this.$route.params.id;
 				var value = this.$route.params.value;
-				
 				if(value == 1) {
 					this.disabled = false;
 				} else {
@@ -350,10 +360,10 @@
 				}
 				Request.requestHandle(params, res => {
 					this.details = res.data;
-				
 					this.accountId = res.data.accountId;
 					this.crowdId= res.data.id;
-					
+					this.coreTeam = res.data.memberResults;
+					this.consultantTeam = res.data.consultantsResults;
 					let {
 						concept1Id,
 						concept2Id,
@@ -361,7 +371,6 @@
 						concept4Id,
 					} = res.data;
 					let arr = [concept1Id, concept2Id, concept3Id, concept4Id]
-					
 					let middleArr =[]//概念不做修改直接提交的处理
 					arr.forEach(item=>{
 						middleArr.push({
@@ -369,9 +378,7 @@
 						})
 					})
 					this.checkeData = middleArr;
-
 					this.getconceptData(arr)
-			
 					var technologyArr = [];
 					if(res.data.technology1) {
 						technologyArr.push(res.data.technology1);
@@ -380,8 +387,9 @@
 						technologyArr.push(res.data.technology2);
 					}
 					this.technologyDatas = technologyArr.join('-');
-					this.coreTeam = res.data.memberResults;
-					this.consultantTeam = res.data.consultantsResults;
+
+					
+
 					this.timeInterval = [res.data.startTime, res.data.endTime];
 				});
 			},
@@ -405,24 +413,6 @@
 					})
 					this.conceptDatas=newconceptLable.join("-")
 				});
-			},
-			getCrowdTeam(type){//请求众筹核心团队
-				let url = "QueryCrowdCoreTeam"
-				if(type == 'consultant')
-					url = "QueryCrowdConsultantTeam"
-				let params = {
-					url,
-					data:{
-						crowdId:this.crowdId
-					},
-					type:'get'
-				}
-				Request.requestHandle(params,res=>{
-					if(type == 'consultant'){
-						return this.consultantTeam = res.data
-					}
-					this.coreTeam = res.data
-				})
 			},
 			changeDetails() {//修改保存
 				this.saveSubmitBtnLading = true; 
@@ -470,7 +460,9 @@
 						topLimit: this.details.topLimit,
 						totalCrowdfund: this.details.totalCrowdfund,
 						website: this.details.website,
-						whitePaper: this.details.whitePaper
+						whitePaper: this.details.whitePaper,
+						companyName:this.details.companyName,
+						companyCode:this.details.companyCode
 					},
 					type: 'put',
 					flag:true,
@@ -497,12 +489,11 @@
 				Request.requestHandle(params, res => {
 					if(res.success == 1) {
 						this.$message('操作成功');
-						// this.queryDetails();
 						this.$router.back(-1)
 					}
 				});
 			},
-			notPassed() {
+			notPassed() {//拒绝
 				 this.$prompt('', '不通过理由', {
 		          confirmButtonText: '确定',
 		          cancelButtonText: '取消',
@@ -518,20 +509,21 @@
 						},
 						type: 'get',
 					}
-					console.log(params)
 					Request.requestHandle(params, res => {
 						if(res.success == 1) {
 							this.$message('提交成功');
-							// this.queryDetails();
+					
 							this.$router.back(-1)
 						}
 					});
-		        })
-
-
-				
+		        })	
 			},
 			saveLink() {//核心团队新增请求
+				if(this.multipleSelection.length==0){
+					this.$message('请勾选');
+					return;
+				}
+				// this.saveTeamLoading = true;
 				//数据id
 				for(var i=0;i<this.multipleSelection.length;i++){
 					let params = {
@@ -549,16 +541,54 @@
 					Request.requestHandle(params, res => {
 						
 						if(res.success == 1) {
-							this.$message('修改成功');
+							this.$message('添加成功');
+							// this.saveTeamLoading = false
+							this.centerDialogVisible = false;
 							this.getCrowdTeam()
 						}
 					});
 				}
-				this.centerDialogVisible = false;
+				
 			},
-			ChangeCoreMember(row,name){//修改
-				if(row.id==undefined)
+			saveLinkConsultant() {//顾问团队新增请求
+				if(this.multipleSelection.length==0){
+					this.message('请勾选')
 					return;
+				}
+				let item = this.multipleSelection
+				
+				// this.saveTeamLoading = true;
+				// var id = this.$route.params.id;
+				for(let i=0;i<this.multipleSelection.length;i++){
+					
+					let params = {
+						url: 'addConsultant',
+						data: {
+							accountId: this.accountId,
+							crowdId: this.crowdId,
+							desc: item[i].desc,
+							name: item[i].name,
+							title: item[i].title
+						},
+						type: 'post',
+						flag: true
+					}
+					Request.requestHandle(params, res => {
+						if(res.success == 1) {
+							this.$message('添加成功');
+							// this.saveTeamLoading = false;
+							this.CrowdTeamDialogVisible = false;
+							this.getCrowdTeam('consultant')	
+						}
+					});
+				}
+				this.CrowdTeamDialogVisible = false;
+			},
+			ChangeCoreMember(row,name){//通用修改
+				if(row.id==undefined){
+					this.$message('不能为空')
+					return;
+				}
 				let url = 'ChangeCoreMember'
 				if(name == "consultant")
 					url = 'ChangeConsultant';
@@ -576,31 +606,30 @@
 						flag: true,
 					}
 					Request.requestHandle(params, res => {
-						
 						if(res.success == 1) {
 							this.$message('修改成功');
-							this.CrowdTeamDialogVisible = false;
-							this.centerDialogVisible = false;
-							// this.queryDetails();
+							// this.CrowdTeamDialogVisible = false;
+							// this.centerDialogVisible = false;
 							if(name== 'consultant'){
 								this.getCrowdTeam('consultant')
-								return
+							}else{
+								this.getCrowdTeam()
 							}
-							this.getCrowdTeam()
 						}
 					});
 			},
-			addLink() {
-				var tmpPersions = this.coreTeam;
-				tmpPersions.push(this.newCore);
-				this.newCore = {};
-				this.coreTeam = tmpPersions;
-			},
-			deletedLink(name) {
-				var id = this.$route.params.id;
+			deletedLink(name) {//通用删除
+				// var id = this.$route.params.id;
+				if(this.multipleSelection.length==0){
+					this.$message('请勾选');
+					return;
+				}
+
+				this.deleteTeamLoading = true;
 				let url = 'DeletedCoreMember';
 				if(name=="consultant")
 					url = 'deletedConsultant';
+
 				for(let i=0;i<this.multipleSelection.length;i++){
 					let params = {
 						url,
@@ -614,54 +643,58 @@
 					Request.requestHandle(params, res => {
 						if(res.success == 1) {
 							this.$message('删除成功');
-							this.queryDetails();
+							this.deleteTeamLoading=false;
+							// this.queryDetails();
+							if(name== 'consultant'){
+								this.getCrowdTeam('consultant')
+							}else{
+								this.getCrowdTeam()
+							}
 						}
 					});		
 				}
 			},
-			
-			deletedConsultant(value) { //顾问团队
-				
-				var length = this.consultantTeam.length;
-				if(length <= 1) {
-					alert("不要删了o，再删就没有了")
-				} else {
-					this.consultantTeam.splice(value, 1);
+			getCrowdTeam(type){//通用请求众筹团队
+				let url = "QueryCrowdCoreTeam"
+				if(type == 'consultant')
+					url = "QueryCrowdConsultantTeam"
+				let params = {
+					url,
+					data:{
+						crowdId:this.crowdId
+					},
+					type:'get'
 				}
+				Request.requestHandle(params,res=>{
+					if(type == 'consultant'){
+						return this.consultantTeam = res.data
+					}
+					this.coreTeam = res.data
+				})
 			},
+			addLink() {//增加一行
+				var tmpPersions = this.coreTeam;
+				tmpPersions.push(this.newCore);
+				this.newCore = {};
+				this.coreTeam = tmpPersions;
+			},
+			
+			
+			// deletedConsultant(value) { //顾问团队
+			// 	var length = this.consultantTeam.length;
+			// 	if(length <= 1) {
+			// 		alert("不要删了o，再删就没有了")
+			// 	} else {
+			// 		this.consultantTeam.splice(value, 1);
+			// 	}
+			// },
 			addLinkConsultant() {
 				var tmpPersions = this.consultantTeam;
 				tmpPersions.push(this.newConsultant);
 				this.newConsultant = {};
 				this.consultantTeam = tmpPersions;
 			},
-			saveLinkConsultant() {//顾问保存
-				var id = this.$route.params.id;
-				for(let i=0;i<this.multipleSelection.length;i++){
-					let params = {
-						url: 'addConsultant',
-						data: {
-							accountId: this.accountId,
-							crowdId: this.crowdId,
-							desc: this.multipleSelection[i].desc,
-							name: this.multipleSelection[i].name,
-							title: this.multipleSelection[i].title
-						},
-						type: 'post',
-						flag: true
-					}
-					Request.requestHandle(params, res => {
-						
-						if(res.success == 1) {
-							this.$message('修改成功');
-							this.CrowdTeamDialogVisible = false;
-							this.getCrowdTeam('consultant')
-							
-						}
-					});
-				}
-				this.CrowdTeamDialogVisible = false;
-			},
+			
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
 			},

@@ -22,6 +22,8 @@
 									:headers="requestToken"
 									:show-file-list="false" 
 									:on-success="getImg"
+									:limit="1"
+									accept='.jpg,jpeg,.png'
 									>
 							<img v-if="scope.row.banner" :src="scope.row.banner" class="avatar">
 							<button v-else size="small" 
@@ -68,7 +70,8 @@
 									:action="uploadImg" 
 									:show-file-list="false" 
 									:on-success="advertGetImg"
-									:headers="requestToken">
+									:headers="requestToken"
+									accept='.jpg,jpeg,.png'>
 							<img v-if="scope.row.banner" :src="scope.row.banner" class="avatar">
 							<button v-else size="small" class="avatar-uploader-icon" type="primary">点击上传</button>
 						</el-upload>
@@ -110,6 +113,7 @@
 									:show-file-list="false" 
 									:on-success="crowdGetImg"
 									:headers="requestToken"
+									accept='.jpg,jpeg,.png'
 									>
 							<img v-if="scope.row.banner" :src="scope.row.banner" class="avatar" />
 							<button v-else size="small" class="avatar-uploader-icon" type="primary">点击上传</button>

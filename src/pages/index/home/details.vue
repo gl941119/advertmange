@@ -92,9 +92,9 @@
 							</el-table-column>
 						</el-table>
 						<div slot="footer" class="dialog-footer">
-							<el-button :disabled="disabled" @click="saveLinkConsultant">保存</el-button>
+							<el-button :disabled="disabled"  :loading='consultantTeamSaveLoading' @click="saveLinkConsultant">保存</el-button>
 							<el-button :disabled="disabled" @click="addConsultant">添加</el-button>
-							<el-button :disabled="disabled" @click="deletedLinkConsultant">删除</el-button>
+							<el-button :disabled="disabled" :loading='consultantTeamdeletedLoading' @click="deletedLinkConsultant">删除</el-button>
 						</div>
 					</el-dialog>
 				</div>
@@ -176,7 +176,7 @@
 									:show-file-list="false" 
 									:on-success="handleAvatarSuccess"
 									:headers="requestToken"
-
+									:limit="1"
 									accept=".jpg,.jpeg,.png">
 						<img v-if="details.logo" :src="details.logo" class="avatar">
 						<i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -202,6 +202,7 @@
 									:headers="requestToken"
 									:before-upload='brforeGetFile'
 									:limit='1'
+									accept=".jpg,.jpeg,.png,.pdf"
 									multiple>
 							<el-button size="small" :loading='whitePaperSubBtnLoading'>上传</el-button>
 						</el-upload>
@@ -301,7 +302,10 @@
 				crowdTeamDelLoading:false,
 				crowdTeamAmendLoading:false,
 				saveSubmitLoading:false,
-				whitePaperSubBtnLoading:false
+				whitePaperSubBtnLoading:false,
+				consultantTeamSaveLoading:false,
+				consultantTeamdeletedLoading:false
+
 			};
 		},
 		components: {
@@ -328,11 +332,12 @@
 					type: 'get',
 				}
 				Request.requestHandle(params, res => {
-					
 					this.details = res.data;					
 					this.accountId = res.data.accountId
 					this.advertId = res.data.id
-					this.QueryAdCoreMember() //请求核心团队
+
+					// this.QueryAdCoreMember() //请求核心团队
+					this.coreTeam =  res.data.advertTeamMemberResults
 					this.newCore={
 						accountId:res.data.accountId,
 						advertId:res.data.id,
@@ -340,7 +345,8 @@
 						name: '',
 						title: ''
 					}
-					this.QueryAdConsultantMember()//请求概念团队
+					// this.QueryAdConsultantMember()//请求概念团队
+					this.consultantTeam = res.data.advertTeamConsultantsResults
 					this.newConsultant={
 						accountId:res.data.accountId,
 						advertId:res.data.advertId,
@@ -378,8 +384,6 @@
 	
 				});
 			},
-
-			
 			deitAdvertItem(){//提交编辑广告
 				this.saveSubmitLoading = true;
 				if(this.newconcept.length==0){
@@ -469,12 +473,11 @@
 					});
 			           
 			        })
-
-
-
 			},
 			saveLink() {//核心团队新增请求
-				this.crowdTeamSaveLoading = true
+				if(this.multipleSelection.length==0)
+					return;
+				// this.crowdTeamSaveLoading = true
 				for(let i=0,len=this.multipleSelection.length;i<len;i++){
 					let params = {
 						url: 'AddAdCoreMember',
@@ -492,11 +495,137 @@
 						if(res.success == 1) {
 							this.centerDialogVisible= false;
 							this.$message('增添成功');
+							// this.crowdTeamSaveLoading = false;
 							this.QueryAdCoreMember();
 						}
 					});
 				}
-				this.crowdTeamSaveLoading = false;
+				
+			},
+			recomposeCore(row){//核心团队修改请求
+				if(row.id==undefined){
+					this.$message('不能为空')
+					return;
+				}
+				// this.crowdTeamAmendLoading = true
+				let params = {
+					url: 'ChangeAdCoreMember',
+					data: {
+						accountId: row.accountId,
+						advertId: row.advertId,
+						desc: row.desc,
+						id: row.id,
+						name: row.name,
+						title: row.title
+					},
+					type: 'put',
+					flag:true
+				}
+				Request.requestHandle(params, res => {
+					if(res.success==1){
+						this.$message('修改成功');
+						// this.crowdTeamAmendLoading = false;
+						this.QueryAdCoreMember();
+					}
+				});
+			},
+			deletedLink() {//核心团队删除请求
+				if(this.multipleSelection.length==0)
+					return;
+				this.crowdTeamDelLoading = true
+				for(let i=0;i<this.multipleSelection.length;i++){
+					let params = {
+						url: 'DeletedAdCoreMember',
+						data: {
+							advertId: this.multipleSelection[i].advertId,
+							id: this.multipleSelection[i].id
+						},
+						type: 'DELETE',
+						flag: true,
+					}
+					Request.requestHandle(params, res => {
+						if(res.success==1){
+							this.$message('删除成功');
+							this.crowdTeamDelLoading = false;
+							this.QueryAdCoreMember();
+						}	
+					});
+				}
+			},
+			saveLinkConsultant() {//顾问团队保存请求
+				if(this.multipleSelection.length==0)
+					return;
+				// this.consultantTeamSaveLoading = true
+				var id = this.$route.params.id;
+				for(let i=0;i<this.multipleSelection.length;i++){
+					let params = {
+						url: 'AddAdConsultant',
+						data: {
+							"accountId": this.accountId,
+							  "advertId": this.advertId,
+							  "desc": this.multipleSelection[i].desc,
+							  "name": this.multipleSelection[i].name,
+							  "title": this.multipleSelection[i].title
+						},
+						type: 'post',
+						flag: true,
+					}
+					Request.requestHandle(params, res => {
+						if(res.success == 1) {
+							// this.consultantTeamSaveLoading=false;
+							this.CrowdTeamDialogVisible = false;
+							this.$message('添加成功');
+							this.QueryAdConsultantMember()
+						}
+					});
+				}
+			},
+			recomposeConsultant(row){//顾问团队修改请求
+				if(row.id==undefined){
+					this.$message('不能为空')
+					return;
+				}
+				let params = {
+						url: 'ChangeAdConsultant',
+						data: {
+							advertId: this.advertId,
+							desc: row.desc,
+							id: row.id,
+							name: row.name,
+							title: row.title
+						},
+						type: 'put',
+						flag: true,
+					}
+					Request.requestHandle(params, res => {
+						if(res.success == 1) {
+							this.$message('修改成功');
+							this.QueryAdConsultantMember()
+						}
+					});
+			},
+			deletedLinkConsultant() {//顾问团队删除请求
+				if(this.multipleSelection.length==0)
+					return;
+				this.consultantTeamdeletedLoading = true;
+				for(let i=0;i<this.multipleSelection.length;i++){
+					let params = {
+						url: 'DeletedAdConsultant',
+						data: {
+							advertId: this.advertId,
+							id: this.multipleSelection[i].id
+						},
+						type: 'DELETE',
+						flag: true,
+					}
+					Request.requestHandle(params, res => {
+						if(res.success==1){
+							this.consultantTeamdeletedLoading = false;
+							this.$message('删除成功');
+							this.QueryAdConsultantMember();
+						}
+					});
+				}
 			},
 			QueryAdCoreMember(){//请求核心团队成员
 				let params = {
@@ -530,7 +659,7 @@
 				tmpPersions.push(this.newCore);
 				this.newCore = {};
 				this.coreTeam = tmpPersions;
-//				this.coreTeam.push(this.newCore)
+
 			},
 			addConsultant(){//顾问团队增添一行
 				var tmpPersions = this.consultantTeam;
@@ -538,127 +667,8 @@
 				this.newCore = {};
 				this.consultantTeam = tmpPersions;
 			},
-			recomposeCore(row){//核心团队修改请求
-				this.crowdTeamAmendLoading = true
-				if(row.id==undefined)
-					return;
-				let params = {
-					url: 'ChangeAdCoreMember',
-					data: {
-						accountId: row.accountId,
-						advertId: row.advertId,
-						desc: row.desc,
-						id: row.id,
-						name: row.name,
-						title: row.title
-					},
-					type: 'put',
-					flag:true
-				}
-				Request.requestHandle(params, res => {
-					if(res.success==1){
-						this.$message('修改成功');
-						this.crowdTeamAmendLoading = false;
-						this.QueryAdCoreMember();
-					}
-				});
-
-		
-			},
-			deletedLink() {//核心团队删除请求
-				this.crowdTeamDelLoading = true
-				for(let i=0;i<this.multipleSelection.length;i++){
-				
-					let params = {
-						url: 'DeletedAdCoreMember',
-						data: {
-							advertId: this.multipleSelection[i].advertId,
-							id: this.multipleSelection[i].id
-						},
-						type: 'DELETE',
-						flag: true,
-					}
-					Request.requestHandle(params, res => {
-						if(res.success==1){
-							this.$message('删除成功');
-							this.QueryAdCoreMember();
-						}	
-					});
-				}
-				this.crowdTeamDelLoading = false;
-
-				
-			},
-			deletedLinkConsultant() {//顾问团队删除请求
-//				var id = this.$route.params.id;
-				for(let i=0;i<this.multipleSelection.length;i++){
-					let params = {
-						url: 'DeletedAdConsultant',
-						data: {
-							advertId: this.advertId,
-							id: this.multipleSelection[i].id
-						},
-						type: 'DELETE',
-						flag: true,
-					}
-					Request.requestHandle(params, res => {
-						if(res.success==1)
-							this.$message('删除成功');
-							this.QueryAdConsultantMember()
-					});
-				}
-			},
-			saveLinkConsultant() {//顾问团队保存请求
-				var id = this.$route.params.id;
-				for(let i=0;i<this.multipleSelection.length;i++){
-					let params = {
-						url: 'AddAdConsultant',
-						data: {
-							"accountId": this.accountId,
-							  "advertId": this.advertId,
-							  "desc": this.multipleSelection[i].desc,
-							  "name": this.multipleSelection[i].name,
-							  "title": this.multipleSelection[i].title
-						},
-						type: 'post',
-						flag: true,
-					}
-					Request.requestHandle(params, res => {
-						if(res.success == 1) {
-							this.CrowdTeamDialogVisible = false;
-							this.$message('添加成功');
-							this.QueryAdConsultantMember()
-						}
-					});
-				}
-			},
-			recomposeConsultant(row){//顾问团队修改请求
-				if(row.id==undefined)
-						return;
-				let params = {
-						url: 'ChangeAdConsultant',
-						data: {
-							advertId: this.advertId,
-							desc: row.desc,
-							id: row.id,
-							name: row.name,
-							title: row.title
-						},
-						type: 'put',
-						flag: true,
-					}
-					Request.requestHandle(params, res => {
-						if(res.success == 1) {
-							this.$message('修改成功');
-							this.QueryAdConsultantMember()
-						}
-					});
-			},
-			
 			handleSelectionChange(val) {
-				
-				this.multipleSelection = val;
-				
+				this.multipleSelection = val;	
 			},
 			brforeGetFile(file){//白皮书上传之前
 				this.whitePaperSubBtnLoading = true
