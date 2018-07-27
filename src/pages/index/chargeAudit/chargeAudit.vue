@@ -1,110 +1,151 @@
 <template>
 	<div class="user-management-list">
-		<div class="user-management-list-title">
-			<!-- <h3>提现审核</h3> -->
-			<div style="margin-top: 20px;">
-				<el-button type="info" class='chargeAuditBtn' plain @click='tabs=true'>提现审核</el-button>
-				<el-button type="info" class='flowRecordBtn' plain @click='tabs=false'>流水记录</el-button>
-			</div>
-			<div>
-				<!-- <el-select v-model="state"  placeholder="全部" style="margin-right: 20px;float: left;">
-					<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-					</el-option>
-				</el-select> -->
-				<div style="width:217px;overflow: hidden;float: left;margin-right: 20px;">
-					<el-input v-model="searchStr" placeholder="请输入搜索内容"></el-input>
+       
+        <el-tabs v-model="activeName" type="border-card">
+		    <el-tab-pane label="提现审核" name="first">
+		    	<div class="sreach">
+					<div style="width:217px;overflow: hidden;float: left;margin-right: 20px;">
+						<el-input v-model="chargeSearchStr" placeholder="请输入搜索内容"></el-input>
+					</div>
+					<el-button @click="chargeSearchBtn">搜索</el-button>
 				</div>
-				<el-button @click="searchBtn">搜索</el-button>
-			</div>
-		</div>
-		<div>
-			<el-table v-if='tabs' ref="multipleTable" :data="chargeAuditData" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%;margin-top: 10px;">
-				<el-table-column prop="id" label="编号" align="center">
-				</el-table-column>
-				<el-table-column prop="name" label="姓名" align="center">
-				</el-table-column>
-				<el-table-column prop="users" label="账号" align="center">
-				</el-table-column>
-				<el-table-column prop="money" label="金额" align="center">
-				</el-table-column>
-				<el-table-column prop="status" label="身份证" align="center">
-				</el-table-column>
-				<el-table-column label="操作" align="center" >
-					<template slot-scope="scope">
-						<el-button size="mini" @click="upDetail">审核</el-button>
-					</template>
-				</el-table-column>
-			</el-table>
-			<el-table v-else ref="multipleTable" :data="flowRecordData" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%;margin-top: 10px;">
-				<el-table-column prop="name" label="编号" align="center">
-				</el-table-column>
-				<el-table-column prop="type" label="1" align="center">
-				</el-table-column>
-				<el-table-column prop="type" label="账号" align="center">
-				</el-table-column>
-				<el-table-column prop="type" label="金额" align="center">
-				</el-table-column>
-				<el-table-column prop="type" label="身份证" align="center">
-				</el-table-column>
-				<el-table-column label="操作" align="center" >
-					<template slot-scope="scope">
-						<el-button size="mini" @click="upDetail">审核</el-button>
+		    	<el-table  ref="multipleTable" :data="chargeAuditData" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%;margin-top: 10px;">
+					<el-table-column prop="accountNo" label="账号" align="center">
+					</el-table-column>
+					<el-table-column prop="accountName" label="姓名" align="center">
+					</el-table-column>
+					<el-table-column prop="accountIdCard" label="身份证" align="center">
+					</el-table-column>
 					
-					</template>
-				</el-table-column>
-			</el-table>
-		</div>
-		<el-pagination background
-                       layout="prev, pager, next"
-                       prev-text="上一页"
-                       next-text="下一页"
-                       :page-size="pageSize"
-                       @current-change="queryCurrentPageList"
-                       :total="pageTotal"
-                       style="text-align: center;">
-        </el-pagination>
+					<el-table-column prop="id" label="id" align="center">
+					</el-table-column>
+					
+					<el-table-column prop="money" label="金额" align="center">
+					</el-table-column>
+					<el-table-column label="操作" align="center" >
+						<template slot-scope="scope">
+							<el-button size="mini" @click="upDetail(scope.row)">审核</el-button>
+						</template>
+					</el-table-column>
+				</el-table>
+				<el-pagination background
+		                       layout="prev, pager, next"
+		                       prev-text="上一页"
+		                       next-text="下一页"
+		                       :page-size="pageSize"
+		                       @current-change="chargeHandleCurrent"
+		                       :total="pageTotal"
+		                       style="text-align: center;">
+		        </el-pagination>
+		    </el-tab-pane>
+		    <el-tab-pane label="流水记录" name="second">
+		    	<div class="sreach">
+					<div style="width:217px;overflow: hidden;float: left;margin-right: 20px;">
+						<el-input v-model="flowSearchStr" placeholder="请输入搜索内容"></el-input>
+					</div>
+					<el-button @click="flowSearchBtn">搜索</el-button>
+				</div>
+		    	<el-table  ref="multipleTable" :data="flowRecordData" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%;margin-top: 10px;">
+					<el-table-column prop="accountNo" label="账号" align="center">
+					</el-table-column>
+					<el-table-column prop="accountName" label="姓名" align="center">
+					</el-table-column>
+					<el-table-column prop="accountIdCard" label="身份证" align="center">
+					</el-table-column>
+					
+					<el-table-column prop="id" label="id" align="center">
+					</el-table-column>
+				
+					<el-table-column prop="money" label="金额" align="center">
+					</el-table-column>
+				</el-table>
+				<el-pagination background
+		                       layout="prev, pager, next"
+		                       prev-text="上一页"
+		                       next-text="下一页"
+		                       :page-size="pageSize"
+		                       @current-change="flowHandleCurrent"
+		                       :total="pageTotal"
+		                       style="text-align: center;">
+		        </el-pagination>
+		    </el-tab-pane>
+		  </el-tabs>
 	</div>
 </template>
 <script>
+	import Config from '@/utils/config';
+	import Cache from '@/utils/cache';
+	import Request from '@/utils/require';
+
+
 	export default{
 		name:'chargeAudit',
 		data(){
 			return{
-				tabs:true,
-				searchStr:'',//搜索
-				pageSize:1,//分页
-				pageTotal:1,
-				chargeAuditData:[{
-					id:1,
-					name:1,
-					users:1,
-					money:1,
-					status:1
-				}],
-				flowRecordData:[{
-					id:1,
-					name:1,
-					users:1,
-					money:1,
-					status:1
-				}]
+				activeName:"first",//选项卡
+				chargeSearchStr:'',//提现搜索
+				flowSearchStr:'',//流水搜索
+				pageSize:Config.pageSize,//分页
+				pageTotal:0,
+				page:1,//当前页
+				chargeAuditData:[],
+				flowRecordData:[]
 			}
 		},
-
+		created(){
+			this.queryData('charge')
+			this.queryData('flowRecord')
+		},
 		methods:{
-			upDetail(){
-				this.$router.push({
-					name:'chargeAuditDetail' ,
-					params:{
-						id:1
+			queryData(name,pageSize=Config.pageSize){//通用请求页面data
+				let type = 0
+				let searchStr = this.chargeSearchStr
+				if(name=="flowRecord"){
+					 type=1
+					 searchStr = this.flowSearchStr
+				}
+				let params = {
+					url:'QueryChargeAuditData',
+					data:{
+						page:this.page,
+						pageSize,
+						type,
+						searchStr
+					},
+					type:'get'
+				}
+				Request.requestHandle(params,res=>{
+					if(name=='flowRecord'){
+						this.flowRecordData = res.data;
+						this.pageTotal = res.total
+					}
+					else if (name=='charge') {
+						this.chargeAuditData = res.data;
+						this.pageTotal = res.total
 					}
 				})
 			},
-			searchBtn(){//搜索点击
-
+			upDetail(row){//审核跳转
+				this.$router.push({
+					name:'chargeAuditDetail',
+					params:{
+						id:row.id
+					}
+				})
 			},
-			queryCurrentPageList(){//分页器翻页
-
+			chargeSearchBtn(){//提现搜索
+				this.queryData('charge')
+			},
+			flowSearchBtn(){//流水搜索
+				this.queryData('flowRecord')
+			},
+			chargeHandleCurrent(val){//提现翻页改变
+				this.page = val
+				this.queryData('charge')
+			},
+			flowHandleCurrent(val){//流水翻页改变
+				this.page = val
+				this.queryData('flowRecord')
 			},
 			tableHeaderClassName({
 				row,
@@ -117,6 +158,11 @@
 </script>
 <style lang="scss" scoped>
 @import '../../../assets/css/variable.scss';
+	.sreach{
+		float:right;
+		margin-right:20px;
+		margin-bottom:20px;
+	}
 	.user-management-list {
 		&-title {
 			display: flex;

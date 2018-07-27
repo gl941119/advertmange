@@ -696,12 +696,15 @@
 				this.technologyDatas = technologyArr.join('-');
 			},
 			listenCondept(checked) {//概念组件绑定的事件
-				
 				var newCheckedData = [];
 				checked.forEach(function(item, index) {
 					newCheckedData.push(item.name);
 				})
 				this.conceptDatas = newCheckedData.join('-');
+
+			
+
+
 				this.conceptResult = checked;
 			  	
 				

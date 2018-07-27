@@ -30,7 +30,6 @@ async function ajaxRequest(url = '', data = {}, type = 'POST', isJson = false) {
             headers: {token},
         });
     } else if (type === 'PUT') {
-    	
         return axios.put(url, data, {
             headers: {'Content-Type': 'application/json', token},
         });

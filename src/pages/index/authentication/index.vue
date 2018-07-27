@@ -76,7 +76,6 @@
 			          confirmButtonText: '确定',
 			          cancelButtonText: '取消',
 			          inputPattern: /\S/,
-
 			          inputErrorMessage: '请输入理由'
 			        }).then(({ value }) => {
 			          	this.isPassQuery(id,type,value)

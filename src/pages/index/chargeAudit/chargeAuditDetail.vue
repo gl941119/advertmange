@@ -5,13 +5,13 @@
 		  		<el-row>
 		  			<div class="card">
 			  			<dt>收入累加金额</dt>
-			  			<dd>123</dd>
+			  			<dd>{{addMoney}}</dd>
 		  			</div>
 		  		</el-row>
 		  		<el-row style='margin-top: 30px;'>
 		  			<div class="card">
 			  			<dt>收入总金额</dt>
-			  			<dd>123</dd>
+			  			<dd>{{allMoney}}</dd>
 		  			</div>
 		  		</el-row>
 		  </el-col>
@@ -37,10 +37,15 @@
 	</div>
 </template>
 <script>
+	import Config from '@/utils/config';
+	import Cache from '@/utils/cache';
+	import Request from '@/utils/require';
 	export default{
 		name:'chargeAuditDetail',
 		data(){
 			return{
+				addMoney:0,
+				allMoney:0,
 				formInline:{
 					user:1,
 					name:2
@@ -61,7 +66,24 @@
 		          }]
 
 			}
+		},
+		created(){
+			
+		},
+		methods:{
+			// queryUserMoney(){
+			// 	let params={
+			// 		url:'QueryChargeAuditUserMoney',
+			// 		data:{
+					
+			// 		},
+			// 		type:'get'
+			// 	}
+
+
+			// }
 		}
+
 
 	}
 </script>

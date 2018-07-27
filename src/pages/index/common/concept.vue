@@ -38,7 +38,7 @@
 					if(length < 4) {
 					
 						var obj={};
-						obj.id=item.id;
+						obj.accountId=item.id;
 						obj.name=item.name;
 						this.checkedData.push(obj);
 					

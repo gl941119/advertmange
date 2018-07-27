@@ -49,5 +49,12 @@ export default {
     ChangeAdvertisingBanner:'advertmange/advertisement/addOrUpdateAddAdvertisement', //修改信息
     ChangeAdvertisingSort:'advertmange/advertisement/modifyAdvertSort', //修改项目顺序
     DeletedAdvertising:'advertmange/advertisement/removeAdvertise', //delted
+    //提现审核
+    QueryChargeAuditData:'advertmange/income-flow/withdraw/all',//查询Data
+    QueryChargeAuditUserMoney:'advertmange/income-flow/withdraw/account-withdraw/money',//查询用户金额
+    QueryChargeAuditUserFlowMoney:'advertmange/income-flow/withdraw/account-withdraw/all',//查询用户流水
+    amentChargeAuditIsPass:'advertmange/income-flow/withdraw/audit'//修改是否通过
+
+
 
 };
