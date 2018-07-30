@@ -17,22 +17,37 @@
 		  </el-col>
 		  <el-col :span="20">
 		  		<el-table :data="tableData" style="width: 100%" max-height='450px'>
-			      <el-table-column
+		  			
+		  			<el-table-column
+			        prop="accountNo"
+			        label="账号"
+			        >
+			      </el-table-column>
+			      <!-- <el-table-column
 			        prop="date"
 			        label="日期"
 			        >
-			      </el-table-column>
+			      </el-table-column> -->
 			      <el-table-column
-			        prop="name"
+			        prop="money"
 			        label="金额"
 			        >
 			      </el-table-column>
 			    </el-table>
+			    <el-pagination background
+		                       layout="prev, pager, next"
+		                       prev-text="上一页"
+		                       next-text="下一页"
+		                       :page-size="pageSize"
+		                       @current-change="chargeHandleCurrent"
+		                       :total="pageTotal"
+		                       style="text-align: center;">
+		        </el-pagination>
 		  </el-col>
 		</el-row>
 		<el-row class='isPass'>
-			<el-button class='pass'>通过</el-button>
-			<el-button class='notPass'>拒绝</el-button>
+			<el-button class='pass' @click='isPass(2)' :loading='isPassLoading'>通过</el-button>
+			<el-button class='notPass' @click='isPass(4)' :loading='isPassLoading'>拒绝</el-button>
 		</el-row>
 	</div>
 </template>
@@ -44,17 +59,22 @@
 		name:'chargeAuditDetail',
 		data(){
 			return{
+				accountId:this.$route.params.accountId,
+				id:Number(this.$route.params.id),
 				addMoney:0,
 				allMoney:0,
+				page:1,
+				pageSize:Config.pageSize,
+				pageTotal:0,
+				isPassLoading:false,
 				formInline:{
 					user:1,
 					name:2
 				},
 				handleChange:["1"],
-				 tableData: [{
+				tableData: [{
 		            date: '2016-05-02',
 		            name: '111'
-		            
 		          }, {
 		            date: '2016-05-04',
 		            name: '222'
@@ -68,20 +88,67 @@
 			}
 		},
 		created(){
-			console.log(this.$route.params.id)
+			this.queryUserMoney()
+			this.queryFlowMoney()
 		},
+		
 		methods:{
-			queryUserMoney(){
+			queryUserMoney(){//请求金额
 				let params={
 					url:'QueryChargeAuditUserMoney',
 					data:{
-						accountId:this.$route.params.id
+						accountId:this.accountId
 					},
 					type:'get'
 				}
 
-
-			}
+				Request.requestHandle(params,res=>{
+					this.addMoney = res.data.accountBalance;
+					this.allMoney = res.data.totalMoney; 
+				})
+			},
+			isPass(status){//是否通过
+				this.isPassLoading = true
+				let params = {
+					url:'amentChargeAuditIsPass',
+					data:{
+						id:this.id,
+						status
+					},
+					type:'put'
+					
+				}
+				Request.requestHandle(params,res=>{
+					if(res.success==1){
+						this.isPassLoading = false;
+						this.$message({
+							type:'success',
+							message:'成功'
+						})
+						this.$router.back(-1)
+					}	
+				})
+			},
+			chargeHandleCurrent(val){//点击翻页
+				this.page = val;
+				this.queryFlowMoney()
+			},
+			queryFlowMoney(){//请求流水
+				let params={
+					url:'QueryChargeAuditUserFlowMoney',
+					data:{
+						page:this.page,
+						pageSize:this.pageSize,
+						accountId:this.accountId
+					},
+					type:'get'
+				}
+				Request.requestHandle(params,res=>{
+					this.tableData=res.data
+					this.pageTotal = res.total
+				})
+			},
+			
 		}
 
 

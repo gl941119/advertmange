@@ -88,7 +88,7 @@ export default new Router({
                     name:'chargeAudit',
                     component:chargeAudit
                 },{
-                    path:'chargeAuditDetail/:id',
+                    path:'chargeAuditDetail/:accountId/:id',
                     name:'chargeAuditDetail',
                     component:chargeAuditDetail
                 }

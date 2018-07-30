@@ -129,6 +129,7 @@
 				this.$router.push({
 					name:'chargeAuditDetail',
 					params:{
+						accountId:row.accountId,
 						id:row.id
 					}
 				})
