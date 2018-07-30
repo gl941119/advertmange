@@ -701,15 +701,7 @@
 					newCheckedData.push(item.name);
 				})
 				this.conceptDatas = newCheckedData.join('-');
-
-			
-
-
 				this.conceptResult = checked;
-			  	
-				
-			
-				
 			},
 		}
 	}

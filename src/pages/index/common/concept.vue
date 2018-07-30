@@ -31,17 +31,14 @@
 				});
 			},
 			checked(item, index) {
-				
 				var length = this.checkedData.length;
 				item.isSelected = !item.isSelected;
 				if(item.isSelected) {
 					if(length < 4) {
-					
 						var obj={};
 						obj.accountId=item.id;
 						obj.name=item.name;
 						this.checkedData.push(obj);
-					
 						this.$emit('listenCondept',this.checkedData);
 					} else {
 						item.isSelected = false;

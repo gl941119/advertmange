@@ -374,7 +374,7 @@
 					let middleArr =[]//概念不做修改直接提交的处理
 					arr.forEach(item=>{
 						middleArr.push({
-							id:item
+							accountId:item
 						})
 					})
 					this.checkeData = middleArr;
@@ -400,10 +400,9 @@
 					flag:true
 				}
 				Request.requestHandle(params, res => {
-					console.log(res)
+					
 					var conceptLable = res.data
 					var newconceptLable = []
-					
 					arr.forEach(item=>{
 						conceptLable.forEach(row =>{
 							if(row.id == item){
@@ -427,15 +426,16 @@
 					}
 				}
 				this.checkeData = checkedData
+				
 				let params = {
 					url: 'ChangeCrowdfundingDetails',
 					data: {
 						accountId: this.details.accountId,
 						circulation: this.details.circulation,
-						concept1Id: this.checkeData[0].id,
-						concept2Id: this.checkeData[1].id,
-						concept3Id: this.checkeData[2].id,
-						concept4Id: this.checkeData[3].id,
+						concept1Id: this.checkeData[0].accountId,
+						concept2Id: this.checkeData[1].accountId,
+						concept3Id: this.checkeData[2].accountId,
+						concept4Id: this.checkeData[3].accountId,
 						currCirculation: this.details.currCirculation,
 						endTime: endTime,
 						fullEnName: this.details.fullEnName,
