@@ -17,7 +17,6 @@ async function ajaxRequest(url = '', data = {}, type = 'POST', isJson = false) {
     if (type === 'GET') {
     	return axios.get(url, {headers:{token},params: data});
     } else if (type === 'POST') {
-
         if (isJson) {
             return axios.post(url, data, {
                 headers: {

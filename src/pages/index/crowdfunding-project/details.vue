@@ -22,7 +22,7 @@
 				</li>
 				<!--核心团队dialog-->
 				<div class="project_review_details_item_li_info">
-					<el-dialog title="核心团队成员" :visible.sync="centerDialogVisible" size="small">
+					<el-dialog title="核心团队成员" :visible.sync="centerDialogVisible" >
 						<el-table :data="coreTeam" border class="tForm" ref="multipleTable" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 							<el-table-column type="selection" width="55">
 							</el-table-column>
@@ -62,7 +62,7 @@
 				</li>
 				<!--顾问团队dialog-->
 				<div class="project_review_details_item_li_info">
-					<el-dialog title="顾问团队成员" :visible.sync="CrowdTeamDialogVisible" size="small">
+					<el-dialog title="顾问团队成员" :visible.sync="CrowdTeamDialogVisible" >
 						<el-table :data="consultantTeam" border class="tForm" ref="multipleTable" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 							<el-table-column type="selection" width="55">
 							</el-table-column>
@@ -134,11 +134,11 @@
 			</ul>
 		</div>
 		<!--概念-->
-		<div v-if="concept" class="withdraw">
+		<div v-if="concept" class="withdraw">			
 			<div class="withdraw_box">
 				<span class="withdraw_box_back" @click="conceptFun"><i class="el-icon-close"></i></span>
 				<div>
-					<conceptCom @listenCondept="listenCondept"></conceptCom>
+					<conceptCom @listenCondept="listenCondept" :conceptResult="checkeData"></conceptCom>
 				</div>
 			</div>
 		</div>
@@ -255,7 +255,7 @@
 						:headers="requestToken" 
 						:multiple="false">
 							<span style="line-height: 30px;margin-right: 10px;">{{details.license}}</span>
-							<el-button size="small" :loading='licenseSubmitLoading'>上传</el-button>
+							<el-button  :loading='licenseSubmitLoading'>上传</el-button>
 						</el-upload>
 						
 					</div>
@@ -378,6 +378,7 @@
 						})
 					})
 					this.checkeData = middleArr;
+
 					this.getconceptData(arr)
 					var technologyArr = [];
 					if(res.data.technology1) {

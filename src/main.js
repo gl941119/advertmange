@@ -12,6 +12,7 @@ import Cache from './utils/cache';
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 
+
 router.beforeEach((to, from, next) => {
     let token = Cache.getSession('bier_token');
    

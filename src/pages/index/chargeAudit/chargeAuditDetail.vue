@@ -23,11 +23,11 @@
 			        label="账号"
 			        >
 			      </el-table-column>
-			      <!-- <el-table-column
-			        prop="date"
+			      <el-table-column
+			        prop="createTime"
 			        label="日期"
 			        >
-			      </el-table-column> -->
+			      </el-table-column>
 			      <el-table-column
 			        prop="money"
 			        label="金额"
@@ -47,7 +47,7 @@
 		</el-row>
 		<el-row class='isPass'>
 			<el-button class='pass' @click='isPass(2)' :loading='isPassLoading'>通过</el-button>
-			<el-button class='notPass' @click='isPass(4)' :loading='isPassLoading'>拒绝</el-button>
+			<el-button class='notPass' @click='notPass(4)' :loading='isPassLoading'>拒绝</el-button>
 		</el-row>
 	</div>
 </template>
@@ -107,20 +107,31 @@
 					this.allMoney = res.data.totalMoney; 
 				})
 			},
-			isPass(status){//是否通过
+			notPass(status){
+				 this.$prompt('', '拒绝理由', {
+			          confirmButtonText: '确定',
+			          cancelButtonText: '取消',
+			          inputPattern: /\S/,
+			          inputErrorMessage: '请输入理由'
+			        }).then(({ value }) => {
+			          this.isPass(status,value)
+			        }).catch(() => {});
+			},
+			isPass(status,value=null){//是否通过
 				this.isPassLoading = true
 				let params = {
 					url:'amentChargeAuditIsPass',
 					data:{
 						id:this.id,
-						status
+						status,
+						reason:value
 					},
 					type:'put'
 					
 				}
 				Request.requestHandle(params,res=>{
+					this.isPassLoading = false;
 					if(res.success==1){
-						this.isPassLoading = false;
 						this.$message({
 							type:'success',
 							message:'成功'

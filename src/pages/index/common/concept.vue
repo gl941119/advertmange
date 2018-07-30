@@ -27,6 +27,9 @@
 					flag:true
 				}
 				Request.requestHandle(params, res => {
+					res.data.forEach(item=>{
+						item.isSelected = false
+					})
 					this.concept = res.data;
 				});
 			},

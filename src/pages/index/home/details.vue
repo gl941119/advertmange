@@ -136,7 +136,7 @@
 			<div class="withdraw_box">
 				<span class="withdraw_box_back" @click="conceptFun"><i class="el-icon-close"></i></span>
 				<div>
-					<conceptCom @listenCondept="listenCondept"></conceptCom>
+					<conceptCom @listenCondept="listenCondept" :conceptResult='conceptResult'></conceptCom>
 				</div>
 			</div>
 		</div>

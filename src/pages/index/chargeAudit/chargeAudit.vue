@@ -19,12 +19,18 @@
 					
 					<el-table-column prop="id" label="id" align="center">
 					</el-table-column>
+					 
+					<el-table-column prop="createTime" label="时间" align="center">
+					</el-table-column>
 					
 					<el-table-column prop="money" label="金额" align="center">
 					</el-table-column>
 					<el-table-column label="操作" align="center" >
 						<template slot-scope="scope">
-							<el-button size="mini" @click="upDetail(scope.row)">审核</el-button>
+							<el-button size="mini" v-if='scope.row.status==3' @click="upDetail(scope.row)">审核</el-button>
+							<p v-if='scope.row.status==1'>成功</p>
+							<p v-if='scope.row.status==2'>待转账</p>
+							<p v-if='scope.row.status==4'>不通过</p>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -54,6 +60,8 @@
 					</el-table-column>
 					
 					<el-table-column prop="id" label="id" align="center">
+					</el-table-column>
+					<el-table-column prop="createTime" label="时间" align="center">
 					</el-table-column>
 				
 					<el-table-column prop="money" label="金额" align="center">
