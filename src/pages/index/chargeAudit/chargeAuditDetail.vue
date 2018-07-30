@@ -68,20 +68,20 @@
 			}
 		},
 		created(){
-			
+			console.log(this.$route.params.id)
 		},
 		methods:{
-			// queryUserMoney(){
-			// 	let params={
-			// 		url:'QueryChargeAuditUserMoney',
-			// 		data:{
-					
-			// 		},
-			// 		type:'get'
-			// 	}
+			queryUserMoney(){
+				let params={
+					url:'QueryChargeAuditUserMoney',
+					data:{
+						accountId:this.$route.params.id
+					},
+					type:'get'
+				}
 
 
-			// }
+			}
 		}
 
 

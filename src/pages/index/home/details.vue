@@ -400,6 +400,7 @@
 						})
 					}
 					this.websitesSubmit = arr
+					console.log(this.conceptResult)
 				let params = {url:'QuerydeitAdvertItem',data:{
 					  accountId: this.accountId,
 					  conceptManageList: this.conceptResult,
@@ -681,7 +682,6 @@
 				this.concept = !this.concept;
 			},
 			handleAvatarSuccess(res) {
-				
 				this.details.logo = res.data;
 			},
 			technologyFun() {//点击技术

@@ -374,7 +374,7 @@
 					let middleArr =[]//概念不做修改直接提交的处理
 					arr.forEach(item=>{
 						middleArr.push({
-							accountId:item
+							conceptId:item
 						})
 					})
 					this.checkeData = middleArr;
@@ -387,9 +387,6 @@
 						technologyArr.push(res.data.technology2);
 					}
 					this.technologyDatas = technologyArr.join('-');
-
-					
-
 					this.timeInterval = [res.data.startTime, res.data.endTime];
 				});
 			},
@@ -432,10 +429,10 @@
 					data: {
 						accountId: this.details.accountId,
 						circulation: this.details.circulation,
-						concept1Id: this.checkeData[0].accountId,
-						concept2Id: this.checkeData[1].accountId,
-						concept3Id: this.checkeData[2].accountId,
-						concept4Id: this.checkeData[3].accountId,
+						concept1Id: this.checkeData[0].conceptId,
+						concept2Id: this.checkeData[1].conceptId,
+						concept3Id: this.checkeData[2].conceptId,
+						concept4Id: this.checkeData[3].conceptId,
 						currCirculation: this.details.currCirculation,
 						endTime: endTime,
 						fullEnName: this.details.fullEnName,
