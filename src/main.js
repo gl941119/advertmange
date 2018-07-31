@@ -15,7 +15,6 @@ Vue.use(ElementUI);
 
 router.beforeEach((to, from, next) => {
     let token = Cache.getSession('bier_token');
-   
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!token) {
             next({name: 'login'});

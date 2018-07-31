@@ -180,12 +180,10 @@
 				this.clickId = id ;
 			},
 			submitAddress(){//修改合约地址
-		
 				if(this.formLabelAlign.abi == ''||this.formLabelAlign.address == ''){
 					this.$message('请填写完整')
 					return
 				}
-
 				let params = {
 					url: 'ChangeContract',
 					data: {
@@ -197,12 +195,12 @@
 					flag:true
 				}
 				Request.requestHandle(params, res => {
-				
-					
 					if(res.success==1){
 						this.$message('绑定成功')
 						this.$refs['bindForm'].resetFields()
 						this.dialogVisible = false
+						this.getDataInfo()
+
 					}
 				});
 			},

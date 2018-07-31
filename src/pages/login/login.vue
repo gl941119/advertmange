@@ -88,7 +88,7 @@
 							res => {
 								this.loading = false;
 								this.successHandle(res.data);
-								console.log(res.data)
+							
 								this.$router.push({
 									name: 'index'
 								});
