@@ -1,7 +1,7 @@
 <template>
 	<el-container>
 		<el-header class="bierinc-header">
-			<el-row class="bierinc-header-left">
+			<el-row class="bierinc-header-left" style='z-index: 100;'>
 				<el-col :span="8" class="bierinc-logo-content">
 					<img src="../../assets/img/logo.png" alt="logo">
 					<div>阿凡达超级管理员后台</div>
@@ -26,7 +26,19 @@
 			</el-row>
 		</el-header>
 		<el-container class="login-container">
-			<div class="login-container-content">
+			<div class="waveWrapper waveAnimation">
+			  <div class="waveWrapperInner bgTop">
+			    <div class="wave waveTop" ></div>
+			  </div>
+
+			  <div class="waveWrapperInner bgMiddle">
+			    <div class="wave waveMiddle" ></div>
+			  </div>
+			  <div class="waveWrapperInner bgBottom">
+			    <div class="wave waveBottom"></div>
+			  </div>
+			</div>
+			<div class="login-container-content" style="z-index: 100;">
 				<el-form :model="formLabelAlign" label-position="left" label-width="100px" class="login-container-content-right">
 					<h3>欢迎进入阿凡达超级管理员后台</h3>
 					<el-form-item label="用户名">
@@ -175,6 +187,9 @@
 </script>
 <style lang="scss" scoped>
 	@import '../../assets/css/variable.scss';
+	@import '../../assets/plug/css/normalize.css';
+	@import '../../assets/plug/css/style.css';
+
 	.login-container {
 		height: calc(100vh - 60px);
 		background: $basicColor;
@@ -199,6 +214,7 @@
 			&-right {
 				padding: 30px;
 				background: #fff;
+				border-radius: 10px;
 				&>h3 {
 					margin-bottom: 22px;
 					font-weight: normal;
