@@ -240,6 +240,7 @@
 	import conceptCom from '../common/concept';
 	import Cache from '../../../utils/cache';
 	import Request from '../../../utils/require';
+	import axios from 'axios';
 	export default {
 		data() {
 			return {  
@@ -313,6 +314,7 @@
 		},
 		mounted() {
 			this.queryDetails();
+			
 		},
 		methods: {
 			//通過ID查詢data
@@ -484,6 +486,7 @@
 						continue;
 					}
 					this.crowdTeamSaveLoading = true
+
 					let params = {
 						url: 'AddAdCoreMember',
 						data:{	
