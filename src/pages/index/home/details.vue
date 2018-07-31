@@ -237,7 +237,7 @@
 
 <script>
 	import Config from '../../../utils/config';
-	import conceptCom from '../common/concept.vue';
+	import conceptCom from '../common/concept';
 	import Cache from '../../../utils/cache';
 	import Request from '../../../utils/require';
 	export default {
@@ -476,18 +476,22 @@
 			        })
 			},
 			saveLink() {//核心团队新增请求
-				if(this.multipleSelection.length==0)
+				let mul = this.multipleSelection
+				if(mul.length==0)
 					return;
-				// this.crowdTeamSaveLoading = true
-				for(let i=0,len=this.multipleSelection.length;i<len;i++){
+				for(let i=0,len=mul.length;i<len;i++){
+					if(mul[i].title==''||mul[i].desc==''||mul[i].name==''){
+						continue;
+					}
+					this.crowdTeamSaveLoading = true
 					let params = {
 						url: 'AddAdCoreMember',
 						data:{	
-						  "accountId": this.accountId,	
-						  "advertId": this.advertId,	
-						  "desc": this.multipleSelection[i].desc,	
-						  "name": this.multipleSelection[i].name,	
-						  "title": this.multipleSelection[i].title
+						  accountId: this.accountId,	
+						  advertId: this.advertId,	
+						  desc: mul[i].desc,	
+						  name: mul[i].name,	
+						  title: mul[i].title
 						  },
 						type: 'post',
 						flag: true,
@@ -496,7 +500,7 @@
 						if(res.success == 1) {
 							this.centerDialogVisible= false;
 							this.$message('增添成功');
-							// this.crowdTeamSaveLoading = false;
+							this.crowdTeamSaveLoading = false;
 							this.QueryAdCoreMember();
 						}
 					});
@@ -533,8 +537,9 @@
 			deletedLink() {//核心团队删除请求
 				if(this.multipleSelection.length==0)
 					return;
-				this.crowdTeamDelLoading = true
+				
 				for(let i=0;i<this.multipleSelection.length;i++){
+					this.crowdTeamDelLoading = true
 					let params = {
 						url: 'DeletedAdCoreMember',
 						data: {
@@ -545,35 +550,40 @@
 						flag: true,
 					}
 					Request.requestHandle(params, res => {
+						this.crowdTeamDelLoading = false;
 						if(res.success==1){
 							this.$message('删除成功');
-							this.crowdTeamDelLoading = false;
+							
 							this.QueryAdCoreMember();
 						}	
 					});
 				}
 			},
 			saveLinkConsultant() {//顾问团队保存请求
-				if(this.multipleSelection.length==0)
+
+				let mul = this.multipleSelection
+				if(mul.length==0)
 					return;
-				// this.consultantTeamSaveLoading = true
-				var id = this.$route.params.id;
-				for(let i=0;i<this.multipleSelection.length;i++){
+				for(let i=0,len=mul.length;i<len;i++){
+					if(mul[i].title==''||mul[i].desc==''||mul[i].name==''){
+						continue;
+					}
+					this.consultantTeamSaveLoading = true
 					let params = {
 						url: 'AddAdConsultant',
 						data: {
 							"accountId": this.accountId,
 							  "advertId": this.advertId,
-							  "desc": this.multipleSelection[i].desc,
-							  "name": this.multipleSelection[i].name,
-							  "title": this.multipleSelection[i].title
+							  "desc": mul[i].desc,
+							  "name": mul[i].name,
+							  "title": mul[i].title
 						},
 						type: 'post',
 						flag: true,
 					}
 					Request.requestHandle(params, res => {
+						this.consultantTeamSaveLoading=false;
 						if(res.success == 1) {
-							// this.consultantTeamSaveLoading=false;
 							this.CrowdTeamDialogVisible = false;
 							this.$message('添加成功');
 							this.QueryAdConsultantMember()
@@ -610,6 +620,7 @@
 					return;
 				this.consultantTeamdeletedLoading = true;
 				for(let i=0;i<this.multipleSelection.length;i++){
+					
 					let params = {
 						url: 'DeletedAdConsultant',
 						data: {
@@ -620,8 +631,8 @@
 						flag: true,
 					}
 					Request.requestHandle(params, res => {
+						this.consultantTeamdeletedLoading = false;
 						if(res.success==1){
-							this.consultantTeamdeletedLoading = false;
 							this.$message('删除成功');
 							this.QueryAdConsultantMember();
 						}

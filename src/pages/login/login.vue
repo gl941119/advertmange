@@ -49,6 +49,7 @@
 <script>
 	import Request from '../../utils/require';
 	import Cache from '../../utils/cache';
+	
 	export default {
 		data() {
 			return {
@@ -59,6 +60,7 @@
 					type: true
 				},
 				loading: false
+			
 			};
 		},
 		methods: {

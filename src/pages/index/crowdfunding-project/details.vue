@@ -88,9 +88,9 @@
 							</el-table-column>
 						</el-table>
 						<div slot="footer" class="dialog-footer">
-							<el-button :disabled="disabled" @click="saveLinkConsultant">保存</el-button>
+							<el-button :disabled="disabled" :loading='saveTeamLoading' @click="saveLinkConsultant">保存</el-button>
 							<el-button :disabled="disabled" @click="addLinkConsultant">添加</el-button>
-							<el-button :disabled="disabled" @click="deletedLink('consultant')">删除</el-button>
+							<el-button :disabled="disabled" :loading='deleteTeamLoading' @click="deletedLink('consultant')">删除</el-button>
 						</div>
 					</el-dialog>
 				</div>
@@ -517,30 +517,33 @@
 		        })	
 			},
 			saveLink() {//核心团队新增请求
-				if(this.multipleSelection.length==0){
+				let mul = this.multipleSelection
+				if(mul.length==0){
 					this.$message('请勾选');
 					return;
 				}
-				// this.saveTeamLoading = true;
 				//数据id
-				for(var i=0;i<this.multipleSelection.length;i++){
+				for(let i=0,len=mul.length;i<len;i++){
+					if(mul[i].title==''|| mul[i].desc==''||mul[i].name==''){
+						continue;
+					}
+					this.saveTeamLoading = true;
 					let params = {
 						url: 'AddCoreMember',
 						data:{	
 						accountId: this.accountId,
 						crowdId: this.crowdId,
-						desc: this.multipleSelection[i].desc,
-						name: this.multipleSelection[i].name,
-						title: this.multipleSelection[i].title
+						desc: mul[i].desc,
+						name: mul[i].name,
+						title: mul[i].title
 						  },
 						type: 'post',
 						flag: true,
 					}
 					Request.requestHandle(params, res => {
-						
 						if(res.success == 1) {
 							this.$message('添加成功');
-							// this.saveTeamLoading = false
+							this.saveTeamLoading = false
 							this.centerDialogVisible = false;
 							this.getCrowdTeam()
 						}
@@ -549,16 +552,18 @@
 				
 			},
 			saveLinkConsultant() {//顾问团队新增请求
+
 				if(this.multipleSelection.length==0){
 					this.message('请勾选')
 					return;
 				}
 				let item = this.multipleSelection
-				
-				// this.saveTeamLoading = true;
-				// var id = this.$route.params.id;
-				for(let i=0;i<this.multipleSelection.length;i++){
-					
+			
+				for(let i=0,len=item.length;i<len;i++){
+					if(item[i].title == ''|| item[i].desc == ''||item[i].name==''){
+						continue;
+					}
+					this.saveTeamLoading = true;
 					let params = {
 						url: 'addConsultant',
 						data: {
@@ -574,13 +579,13 @@
 					Request.requestHandle(params, res => {
 						if(res.success == 1) {
 							this.$message('添加成功');
-							// this.saveTeamLoading = false;
+							this.saveTeamLoading = false;
 							this.CrowdTeamDialogVisible = false;
 							this.getCrowdTeam('consultant')	
 						}
 					});
 				}
-				this.CrowdTeamDialogVisible = false;
+				
 			},
 			ChangeCoreMember(row,name){//通用修改
 				if(row.id==undefined){
@@ -617,12 +622,11 @@
 					});
 			},
 			deletedLink(name) {//通用删除
-				// var id = this.$route.params.id;
+			
 				if(this.multipleSelection.length==0){
 					this.$message('请勾选');
 					return;
 				}
-
 				this.deleteTeamLoading = true;
 				let url = 'DeletedCoreMember';
 				if(name=="consultant")
