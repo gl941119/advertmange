@@ -402,7 +402,7 @@
 						})
 					}
 					this.websitesSubmit = arr
-					console.log(this.conceptResult)
+					
 				let params = {url:'QuerydeitAdvertItem',data:{
 					  accountId: this.accountId,
 					  conceptManageList: this.conceptResult,

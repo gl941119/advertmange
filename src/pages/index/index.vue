@@ -3,7 +3,7 @@
 		<el-header class="bierinc-header">
 			<el-row class="bierinc-header-left">
 				<el-col :span="8" class="bierinc-logo-content">
-					<div>Accurate Flow of Data</div>
+					<div>阿凡达运营管理后台</div>
 				</el-col>
 				<el-col :span="8" :offset="8" class="bierinc-lanuage">
 					<el-dropdown class="bierinc-lanuage-drop" @command="handleCommand">
@@ -27,6 +27,7 @@
 					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'authentication'}">身份认证审核</router-link>
 					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'concept'}">概念标签管理</router-link>
 					<router-link tag='li' class="bierinc-main-container-aside-menu-li" :to="{name:'chargeAudit'}">提现审核</router-link>
+					<router-link tag='li' class="bierinc-main-container-aside-menu-li" :to="{name:'usersVisit'}">用户访问</router-link>
 				</ul>
 			</el-aside>
 			<el-main class="bierinc-main-container-view">

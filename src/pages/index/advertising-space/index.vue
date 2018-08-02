@@ -16,7 +16,6 @@
 				</el-table-column>
 				<el-table-column label="图片" align="center">
 					<template slot-scope="scope">
-					
 						<el-upload class="avatar-uploader" 
 									:action="uploadImg" 
 									:headers="requestToken"
@@ -43,7 +42,6 @@
 					<template slot-scope="scope">
 						<el-button size="mini"  @click="addBannerLink(scope.row,1)">修改链接</el-button>
 						<el-button size="mini" slot="reference" @click="deleted(scope.row.id,1)">删除</el-button>
-						
 					</template>
 				</el-table-column>
 			</el-table>

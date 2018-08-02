@@ -19,6 +19,9 @@ import ConceptnCom from '@/pages/index/conceptLabel/concept';
 //充值审核
 import chargeAudit from '@/pages/index/chargeAudit/chargeAudit'
 import chargeAuditDetail from '@/pages/index/chargeAudit/chargeAuditDetail'
+//用户访问
+import usersVisit from '@/pages/index/usersVisit/usersVisit'
+
 //测试
 
 
@@ -91,7 +94,12 @@ export default new Router({
                     path:'chargeAuditDetail/:accountId/:id',
                     name:'chargeAuditDetail',
                     component:chargeAuditDetail
+                },{
+                	path:'usersVisit',
+                	name:'usersVisit',
+                	component:usersVisit
                 }
+                
             ],
         },	
     ],
