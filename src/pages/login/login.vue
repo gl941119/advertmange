@@ -4,7 +4,7 @@
 			<el-row class="bierinc-header-left" style='z-index: 100;'>
 				<el-col :span="8" class="bierinc-logo-content">
 					<img src="../../assets/img/logo.png" alt="logo">
-					<div>阿凡达超级管理员后台</div>
+					<div>阿凡达运营管理后台</div>
 				</el-col>
 				<el-col :span="8" :offset="8" class="bierinc-lanuage">
 					<div class="bierinc-lanuage-icon">
@@ -40,7 +40,7 @@
 			</div>
 			<div class="login-container-content" style="z-index: 100;">
 				<el-form :model="formLabelAlign" label-position="left" label-width="100px" class="login-container-content-right">
-					<h3>欢迎进入阿凡达超级管理员后台</h3>
+					<h3>欢迎进入阿凡达运营管理后台</h3>
 					<el-form-item label="用户名">
 						<el-input v-model="formLabelAlign.name" placeholder="请输入用户名"></el-input>
 					</el-form-item>
@@ -48,7 +48,7 @@
 						<el-input type="password" v-model="formLabelAlign.password" @keyup.enter.native="submitForm" placeholder="请输入密码"></el-input>
 					</el-form-item>
 					<el-checkbox-group v-model="formLabelAlign.type">
-						<el-checkbox label="《阿凡达大数据产品注意事项及法律声明》" name="type"></el-checkbox>
+						<!--<el-checkbox label="《阿凡达大数据产品注意事项及法律声明》" name="type"></el-checkbox>-->
 					</el-checkbox-group>
 					<el-form-item class="login-container-content-right-btn">
 						<el-button type="primary" :loading="loading" @click="submitForm">提交</el-button>

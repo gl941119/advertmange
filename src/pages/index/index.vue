@@ -3,7 +3,7 @@
 		<el-header class="bierinc-header">
 			<el-row class="bierinc-header-left">
 				<el-col :span="8" class="bierinc-logo-content">
-					<div>Accurate Flow of Data</div>
+					<div>阿凡达运营管理后台</div>
 				</el-col>
 				<el-col :span="8" :offset="8" class="bierinc-lanuage">
 					<el-dropdown class="bierinc-lanuage-drop" @command="handleCommand">
