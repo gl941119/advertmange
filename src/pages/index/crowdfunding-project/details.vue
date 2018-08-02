@@ -467,8 +467,9 @@
 				}
 			
 				Request.requestHandle(params, res => {
+					this.saveSubmitBtnLading = false;
 					if(res.success) {
-						this.saveSubmitBtnLading = false;
+						
 						this.$message('修改成功');
 						this.$router.back(-1)
 					}

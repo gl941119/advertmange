@@ -53,7 +53,10 @@ export default {
     QueryChargeAuditData:'advertmange/income-flow/withdraw/all',//查询Data
     QueryChargeAuditUserMoney:'advertmange/income-flow/withdraw/account-withdraw/money',//查询用户金额
     QueryChargeAuditUserFlowMoney:'advertmange/income-flow/withdraw/account-withdraw/all',//查询用户流水
-    amentChargeAuditIsPass:'advertmange/income-flow/withdraw/audit'//修改是否通过
+    amentChargeAuditIsPass:'advertmange/income-flow/withdraw/audit',//修改是否通过
+    
+    //用户访问采集
+    QueryUsersVisitData:'advertmange/busi-logs/all'
 
 
 

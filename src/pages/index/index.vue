@@ -27,6 +27,7 @@
 					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'authentication'}">身份认证审核</router-link>
 					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'concept'}">概念标签管理</router-link>
 					<router-link tag='li' class="bierinc-main-container-aside-menu-li" :to="{name:'chargeAudit'}">提现审核</router-link>
+					<router-link tag='li' class="bierinc-main-container-aside-menu-li" :to="{name:'usersVisit'}">用户访问</router-link>
 				</ul>
 			</el-aside>
 			<el-main class="bierinc-main-container-view">
