@@ -1,5 +1,5 @@
 const url = {
-    localTestUrl: 'http://192.168.1.254:8092/',
+    localTestUrl: 'http://192.168.1.119:8092/',
     productUrl: 'http://192.168.1.254:8092/',
     // productUrl: '/mapi/',
 };

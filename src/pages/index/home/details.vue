@@ -214,10 +214,10 @@
 					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.telegrameUrl"></el-input>
 				</li>
 				<li class="project_review_details_item_li" v-for="(item, index) in websites">
-					<label class="project_review_details_item_li_label">
-					<el-input placeholder="自定义站点名"  v-model="websites[index].websiteName" :disabled="disabled">
+					<el-input placeholder="自定义站点名"  v-model="websites[index].websiteName" :disabled="disabled" style='width: 200px;'>
 			        </el-input>
-					</label>
+					<el-input  placeholder="自定义英文站点名"  v-model="websites[index].websiteEnName" :disabled="disabled" style='width: 200px;'>
+			        </el-input>
 					<el-input placeholder="自定义站点地址"  v-model="websites[index].websiteAddress" :disabled="disabled">
 					</el-input>
 				</li>
@@ -366,8 +366,8 @@
 						})
 					}
 					
+					
 					this.conceptResult = res.data.concepManagetResultList;
-
 					var conceptData = [];
 					this.conceptResult.forEach(function(item, index){
 						conceptData.push(item.name);
@@ -396,12 +396,13 @@
 					if(this.websites.length>0){
 						this.websites.forEach(function(item, index){
 							item.advertProjId = thas.advertId;
-							if(item.websiteName){
+							if(item.websiteName||item.websiteEnName){
 								arr.push(item);
 							}
 						})
 					}
-					this.websitesSubmit = arr
+					this.websitesSubmit = arr;
+					
 					
 				let params = {url:'QuerydeitAdvertItem',data:{
 					  accountId: this.accountId,
@@ -428,7 +429,6 @@
 					flag:true}
 					
 				Request.requestHandle(params, res => {
-				
 					this.saveSubmitLoading = false;
 					if(res.success == 1){
 					this.$message('操作成功');

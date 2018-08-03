@@ -20,7 +20,7 @@
 		</el-header>
 		<el-container class="bierinc-main-container">
 			<el-aside width="200px" class="bierinc-main-container-aside">
-				<ul class="bierinc-main-container-aside-menu">
+				<ul class="bierinc-main-container-aside-menu" style="position: relative;">
 					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'home' }">广告项目审核</router-link>
 					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'crowdfunding'}">众筹项目审核</router-link>
 					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'advertising'}">广告位管理</router-link>
@@ -28,7 +28,10 @@
 					<router-link tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'concept'}">概念标签管理</router-link>
 					<router-link tag='li' class="bierinc-main-container-aside-menu-li" :to="{name:'chargeAudit'}">提现审核</router-link>
 					<router-link tag='li' class="bierinc-main-container-aside-menu-li" :to="{name:'usersVisit'}">用户访问</router-link>
+					<com-clock class='clock'></com-clock>
 				</ul>
+				
+				
 			</el-aside>
 			<el-main class="bierinc-main-container-view">
 				<router-view :key="$route.name"></router-view>
@@ -39,12 +42,16 @@
 <script>
 	import Cache from '../../utils/cache';
 	import Request from '../../utils/require';
+	import comClock from '@/pages/index/common/clock'
 	export default {
 		data() {
 			return {
 				userid: this.$store.state.userid || Cache.getSession('bier_userid'),
 				token: this.$store.state.token || Cache.getSession('bier_token')
 			};
+		},
+		components:{
+			comClock
 		},
 		computed: {
 			activeIndex() {
@@ -84,5 +91,12 @@
 	.bierinc-type {
 		font-size: 20px;
 		color: #69c390;
+	}
+	.clock{
+		position: absolute;
+		bottom: 30px;
+		width: 199px;
+		height: 100px;
+	
 	}
 </style>
