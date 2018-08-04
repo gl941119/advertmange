@@ -102,7 +102,8 @@
 							res => {
 								this.loading = false;
 								this.successHandle(res.data);
-							
+								
+								
 								this.$router.push({
 									name: 'index'
 								});
@@ -168,15 +169,18 @@
 					let {
 						userid,
 						username,
-						token
+						token,
+						userType
 					} = data;
 					
 					this.$store.commit('setUserUId', userid); // 主账户id
 					this.$store.commit('setUserName', username);
 					this.$store.commit('setToken', token);
+					this.$store.commit('setUserType', userType);
 					Cache.setSession('bier_token', token);
 					Cache.setSession('bier_username', username);
 					Cache.setSession('bier_userid', userid);
+					Cache.setSession('bier_userType', userType);
 					
 				} else {
 					console.error('login error');

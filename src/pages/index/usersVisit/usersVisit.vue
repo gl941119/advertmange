@@ -39,7 +39,8 @@
 	    :total="totalPage"
 	    @current-change='currentChange'
 	    :page-size="pageSize"
-	    background>
+	    background
+	    style="text-align: center;">
 	  </el-pagination>
 		
 	</div>

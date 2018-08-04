@@ -64,7 +64,6 @@ export default class Util {
         return str;
     }
    	clock(){
-   		
 		//gets current time and changes html to reflect it
 		function time(){
 			var date = new Date(),
@@ -123,5 +122,6 @@ export default class Util {
 			}, 1000);
 		
    	}
+   
   
 }

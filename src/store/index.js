@@ -8,6 +8,7 @@ export default new Vuex.Store({
         username: undefined,
         token: undefined,
         type: 'amazon',
+        userType:undefined
     },
     mutations: {
         setUserUId(state, val) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
         },
         setToken(state, val) {
             state.token = val;
+        },
+        setUserType(state,val){
+        	state.userType = val
         },
         setPlatformType(state, val) {
             state.type = val;
