@@ -255,6 +255,7 @@
 				});
 			},
 			addBannerLink(item, type) {
+				console.log(item)
 				this.$prompt('请输入链接', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
@@ -311,7 +312,6 @@
 							advertUrl: item.advertUrl,
 							banner: item.banner,
 							id: item.id
-							
 						}],
 						lang: this.lang
 					},
