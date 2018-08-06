@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-
 import LoginCom from '@/pages/login/login';
 import IndexCom from '@/pages/index/index';
 // index children广告项目管理
@@ -21,10 +20,10 @@ import chargeAudit from '@/pages/index/chargeAudit/chargeAudit'
 import chargeAuditDetail from '@/pages/index/chargeAudit/chargeAuditDetail'
 //用户访问
 import usersVisit from '@/pages/index/usersVisit/usersVisit'
+//后台用户访问
+import BackUsersVisit from '@/pages/index/backUsersVisit/backUsersVisit'
 
 //测试
-
-
 
 import PublicAccountCom from '@/pages/index/public-account';
 import BulletinCom from '@/pages/index/material/bulletin';
@@ -33,74 +32,81 @@ import FeedbackCom from '@/pages/index/material/feedback';
 Vue.use(Router);
 
 export default new Router({
-    routes: [
-    	
-        {
-            path: '/',
-            redirect: {name: 'login'},
-        },
-        {
-            path: '/login',
-            name: 'login',
-            component: LoginCom,
-        },
-        {
-            path: '/index',
-            name: 'index',
-            meta: {requiresAuth: true},
-            component: IndexCom,
-            redirect: {name: 'home'},
-            children: [
-                {
-                    path: 'home',
-                    name: 'home',
-                    component: HomeCom,
-                },
-                {
-                    path: 'advertDetails/:id/:value',
-                    name: 'advertDetails',
-                    component: advertDetails,
-                },
-                {
-                    path: 'crowdfunding',
-                    name: 'crowdfunding',
-                    component: CrowdfundingCom ,
-                },
-                {
-                    path: 'crowdfundingDetail/:id/:value',
-                    name: 'crowdfundingDetail',
-                    component: CrowdfundingDetail,
-                },
-                {
-                    path: 'advertising',
-                    name: 'advertising',
-                    component: AdvertisingCom,
-                },
-                {
-                    path: 'authentication',
-                    name: 'authentication',
-                    component: AuthenticationCom,
-                },
-                {
-                    path: 'concept',
-                    name: 'concept',
-                    component: ConceptnCom,
-                },
-                {
-                    path:'chargeAudit',
-                    name:'chargeAudit',
-                    component:chargeAudit
-                },{
-                    path:'chargeAuditDetail/:accountId/:id',
-                    name:'chargeAuditDetail',
-                    component:chargeAuditDetail
-                },{
-                	path:'usersVisit',
-                	name:'usersVisit',
-                	component:usersVisit
-                }
-                
-            ],
-        },	
-    ],
+	routes: [{
+			path: '/',
+			redirect: {
+				name: 'login'
+			},
+		},
+		{
+			path: '/login',
+			name: 'login',
+			component: LoginCom,
+		},
+		{
+			path: '/index',
+			name: 'index',
+			meta: {
+				requiresAuth: true
+			},
+			component: IndexCom,
+			redirect: {
+				name: 'home'
+			},
+			children: [{
+					path: 'home',
+					name: 'home',
+					component: HomeCom,
+				},
+				{
+					path: 'advertDetails/:id/:value',
+					name: 'advertDetails',
+					component: advertDetails,
+				},
+				{
+					path: 'crowdfunding',
+					name: 'crowdfunding',
+					component: CrowdfundingCom,
+				},
+				{
+					path: 'crowdfundingDetail/:id/:value',
+					name: 'crowdfundingDetail',
+					component: CrowdfundingDetail,
+				},
+				{
+					path: 'advertising',
+					name: 'advertising',
+					component: AdvertisingCom,
+				},
+				{
+					path: 'authentication',
+					name: 'authentication',
+					component: AuthenticationCom,
+				},
+				{
+					path: 'concept',
+					name: 'concept',
+					component: ConceptnCom,
+				},
+				{
+					path: 'chargeAudit',
+					name: 'chargeAudit',
+					component: chargeAudit
+				}, {
+					path: 'chargeAuditDetail/:accountId/:id',
+					name: 'chargeAuditDetail',
+					component: chargeAuditDetail
+				}, {
+					path: 'usersVisit',
+					name: 'usersVisit',
+					component: usersVisit
+				}, {
+					path: 'backUsersVisit',
+					name: 'backUsersVisit',
+					component: BackUsersVisit
+				}
+
+			],
+		},
+	],
 });

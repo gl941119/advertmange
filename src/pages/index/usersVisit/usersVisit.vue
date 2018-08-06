@@ -13,36 +13,15 @@
 				<el-button @click="queryData">搜索</el-button>
 			</div>
 		</div>
-		<el-table :data="tableData" style="width: 100%;margin-top: 20px;" tooltip-effect="dark" border stripe  :header-cell-class-name="tableHeaderClassName">
-		    <el-table-column label="访问者Id" prop='createId'>
-		     
-		    </el-table-column>
-		    <el-table-column label="账号" prop='createName'>
-		     
-		    </el-table-column>
-		    <el-table-column label="动作" prop='action'>
-		     
-		    </el-table-column>
-		    <el-table-column label="访问网页" prop='pageName'>
-		     
-		    </el-table-column>
-		    
-		    <el-table-column label="时间" prop='createDate'>
-		     
-		    </el-table-column>
-		   
-	  </el-table>
-	  <el-pagination
-	    layout="prev, pager, next"
-	    prev-text='上一页'
-	    next-text="下一页"
-	    :total="totalPage"
-	    @current-change='currentChange'
-	    :page-size="pageSize"
-	    background
-	    style="text-align: center;">
-	  </el-pagination>
-		
+		<el-table :data="tableData" style="width: 100%;margin-top: 20px;" tooltip-effect="dark" border stripe :header-cell-class-name="tableHeaderClassName">
+			<el-table-column label="访问者Id" prop='createId'></el-table-column>
+			<el-table-column label="账号" prop='createName'></el-table-column>
+			<el-table-column label="动作" prop='action'></el-table-column>
+			<el-table-column label="访问网页" prop='pageName'></el-table-column>
+			<el-table-column label="时间" prop='createDate'></el-table-column>
+		</el-table>
+		<el-pagination layout="prev, pager, next" prev-text='上一页' next-text="下一页" :total="totalPage" @current-change='currentChange' :page-size="pageSize" background style="text-align: center;">
+		</el-pagination>
 	</div>
 </template>
 
@@ -50,40 +29,40 @@
 	import Config from '../../../utils/config';
 	import Request from '../../../utils/require';
 	import Cache from '../../../utils/cache';
-	export default{
-		name:'usersVisit',
-		data(){
+	export default {
+		name: 'usersVisit',
+		data() {
 			return {
-				searchStr:undefined,
-				tableData:null,
-				totalPage:undefined,
-				page:1,//当前页
-				pageSize:Config.pageSize
-				
+				searchStr: undefined,
+				tableData: null,
+				totalPage: undefined,
+				page: 1, //当前页
+				pageSize: Config.pageSize
+
 			}
 		},
-		created(){
+		created() {
 			this.queryData()
 		},
-		methods:{
-			queryData(){
+		methods: {
+			queryData() {
 				Request.requestHandle({
-					url:'QueryUsersVisitData',
-					data:{
-						page:this.page,
-						pageSize:this.pageSize,
-						searchStr:this.searchStr
+					url: 'QueryUsersVisitData',
+					data: {
+						page: this.page,
+						pageSize: this.pageSize,
+						searchStr: this.searchStr
 					},
-					type:'get'
-				},res=>{
+					type: 'get'
+				}, res => {
 					this.tableData = res.data
 					this.totalPage = res.total
 				})
 			},
-			currentChange(val){
+			currentChange(val) {
 				this.page = val;
 				this.queryData()
-				
+
 			},
 			tableHeaderClassName({
 				row,
@@ -92,13 +71,12 @@
 				return 'custom-header';
 			},
 		}
-		
-		
+
 	}
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/variable.scss';
+	@import '../../../assets/css/variable.scss';
 	.user-management-list {
 		&-title {
 			display: flex;
