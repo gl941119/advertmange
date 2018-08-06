@@ -1,14 +1,22 @@
 <template>
 	<div class="user-management-list">
+
 		<div>
 			<div class="user-management-list-title">
-				<h3>首页钻展位</h3>
-				<el-button @click="saveAllChange">保存更改</el-button>
+				<h3>中国首页钻展位</h3>
+				<!--<el-button @click="saveAllChange">保存更改</el-button>-->
 			</div>
+			<el-menu :default-active="activeIndex" ref='qq' class="el-menu-demo" mode="horizontal" @select="handleSelect" background-color="#555c67" text-color='white' active-text-color='rgb(255, 208, 75)'>
+				<el-submenu index="1">
+					<template slot="title">{{menuDefault}}</template>
+					<el-menu-item index="中文">中文</el-menu-item>
+					<el-menu-item index="英文">英文</el-menu-item>
+				</el-submenu>
+			</el-menu>
 			<el-table ref="multipleTable" :data="bannerListData" @cell-click="bannerCellClick" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%">
 				<el-table-column label="位次" align="center">
 					<template slot-scope="scope">
-						<el-select v-model="scope.row.advertSort" @change="change(scope.row,scope.$index)"  placeholder="请选择">
+						<el-select v-model="scope.row.advertSort" @change="change(scope.row,scope.$index)" placeholder="请选择">
 							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 							</el-option>
 						</el-select>
@@ -16,19 +24,9 @@
 				</el-table-column>
 				<el-table-column label="图片" align="center">
 					<template slot-scope="scope">
-						<el-upload class="avatar-uploader" 
-									:action="uploadImg" 
-									:headers="requestToken"
-									:show-file-list="false" 
-									:on-success="getImg"
-									:limit="1"
-									accept='.jpg,jpeg,.png'
-									>
+						<el-upload class="avatar-uploader" :action="uploadImg" :headers="requestToken" :show-file-list="false" :on-success="getImg" :limit="1" accept='.jpg,jpeg,.png'>
 							<img v-if="scope.row.banner" :src="scope.row.banner" class="avatar">
-							<button v-else size="small" 
-									class="avatar-uploader-icon" 
-									type="primary"
-									>点击上传</button>
+							<button v-else size="small" class="avatar-uploader-icon" type="primary">点击上传</button>
 						</el-upload>
 					</template>
 				</el-table-column>
@@ -40,7 +38,7 @@
 				</el-table-column>
 				<el-table-column label="操作" align="center" show-overflow-tooltip>
 					<template slot-scope="scope">
-						<el-button size="mini"  @click="addBannerLink(scope.row,1)">修改链接</el-button>
+						<el-button size="mini" @click="addBannerLink(scope.row,1)">修改链接</el-button>
 						<el-button size="mini" slot="reference" @click="deleted(scope.row.id,1)">删除</el-button>
 					</template>
 				</el-table-column>
@@ -50,13 +48,12 @@
 		<div>
 			<div class="user-management-list-title">
 				<h3>项目二级页</h3>
-				<el-button @click="saveAllChange">保存更改</el-button>
+				<!--<el-button @click="saveAllChange">保存更改</el-button>-->
 			</div>
 			<el-table ref="multipleTable" :data="advertListData" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%" @cell-click="advertCellClick">
 				<el-table-column prop="type" label="位次" align="center">
 					<template slot-scope="scope">
-						<el-select v-model="advertOptions[0].value" 
-						placeholder="请选择" >
+						<el-select v-model="advertOptions[0].value" placeholder="请选择">
 							<el-option v-for="item in advertOptions" :key="item.value" :label="item.label" :value="item.value">
 							</el-option>
 						</el-select>
@@ -64,12 +61,7 @@
 				</el-table-column>
 				<el-table-column label="图片" align="center">
 					<template slot-scope="scope">
-						<el-upload class="avatar-uploader"
-									:action="uploadImg" 
-									:show-file-list="false" 
-									:on-success="advertGetImg"
-									:headers="requestToken"
-									accept='.jpg,jpeg,.png'>
+						<el-upload class="avatar-uploader" :action="uploadImg" :show-file-list="false" :on-success="advertGetImg" :headers="requestToken" accept='.jpg,jpeg,.png'>
 							<img v-if="scope.row.banner" :src="scope.row.banner" class="avatar">
 							<button v-else size="small" class="avatar-uploader-icon" type="primary">点击上传</button>
 						</el-upload>
@@ -83,7 +75,7 @@
 				</el-table-column>
 				<el-table-column label="操作" align="center" show-overflow-tooltip>
 					<template slot-scope="scope">
-						<el-button  size="mini" @click="addBannerLink(scope.row,3)">修改链接</el-button>
+						<el-button size="mini" @click="addBannerLink(scope.row,3)">修改链接</el-button>
 						<el-button size="mini" slot="reference" @click="deleted(scope.row.id,3)">删除</el-button>
 					</template>
 				</el-table-column>
@@ -93,7 +85,7 @@
 		<div>
 			<div class="user-management-list-title">
 				<h3>众筹二级页</h3>
-				<el-button @click="saveAllChange">保存更改</el-button>
+				<!--<el-button @click="saveAllChange">保存更改</el-button>-->
 			</div>
 			<el-table ref="multipleTable" :data="crowdListData" border tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%" @cell-click="crowdCellClick">
 				<el-table-column prop="type" label="位次" align="center">
@@ -106,13 +98,7 @@
 				</el-table-column>
 				<el-table-column label="图片" align="center">
 					<template slot-scope="scope">
-						<el-upload class="avatar-uploader" 
-									:action="uploadImg" 
-									:show-file-list="false" 
-									:on-success="crowdGetImg"
-									:headers="requestToken"
-									accept='.jpg,jpeg,.png'
-									>
+						<el-upload class="avatar-uploader" :action="uploadImg" :show-file-list="false" :on-success="crowdGetImg" :headers="requestToken" accept='.jpg,jpeg,.png'>
 							<img v-if="scope.row.banner" :src="scope.row.banner" class="avatar" />
 							<button v-else size="small" class="avatar-uploader-icon" type="primary">点击上传</button>
 						</el-upload>
@@ -123,11 +109,11 @@
 						<div v-if="scope.row.advertUrl">{{scope.row.advertUrl}}</div>
 						<el-button size="mini" v-else @click='addBannerLink(scope.row,2)'>添加</el-button>
 					</template>
-					
+
 				</el-table-column>
 				<el-table-column label="操作" align="center" show-overflow-tooltip>
 					<template slot-scope="scope">
-						<el-button size="mini"  @click='addBannerLink(scope.row,2)'>修改链接</el-button>
+						<el-button size="mini" @click='addBannerLink(scope.row,2)'>修改链接</el-button>
 						<el-button size="mini" slot="reference" @click="deleted(scope.row.id,2)">删除</el-button>
 					</template>
 				</el-table-column>
@@ -139,6 +125,7 @@
 	import Request from '../../../utils/require';
 	import Config from '../../../utils/config';
 	import Cache from '../../../utils/cache';
+	import axios from 'axios'
 	export default {
 		data() {
 			return {
@@ -159,85 +146,100 @@
 					value: '5',
 					label: '5'
 				}],
-				advertOptions:[{
-					value:'1',
-					label:'1'
+				advertOptions: [{
+					value: '1',
+					label: '1'
 				}],
-				crowdOptions:[{
-					value:'1',
-					label:'1'
+				crowdOptions: [{
+					value: '1',
+					label: '1'
 				}],
 				homeListData: [{}],
-				bannerListData: [],//banner列表数据
-				crowdListData:[],//众筹列表
-				advertListData:[],//广告列表
+				bannerListData: [], //banner列表数据
+				crowdListData: [], //众筹列表
+				advertListData: [], //广告列表
 				banner: '',
 				pageSize: 5,
 				imageUrl: '',
 				accountId: this.$store.state.userid || Cache.getSession('bier_userid'),
-				id:'',
-				advertProjId:'',
-				advertSort:'',
+				id: '',
+				advertProjId: '',
+				advertSort: '',
 				uploadImg: Config.UploadImg,
 				requestToken: {
-					token:this.$store.state.token ||Cache.getSession('bier_token')
+					token: this.$store.state.token || Cache.getSession('bier_token')
 				},
-				crowdImg:'',
-				bannerCellClickData:'',
-				advertCellClickData:'',
-				crowdCellClickData:''
-			
+				crowdImg: '',
+				bannerCellClickData: '',
+				advertCellClickData: '',
+				crowdCellClickData: '',
+				activeIndex: '1', //下拉菜单默认
+				menuDefault: '中文',
+				lang: 'zh'
+
 			}
 		},
 		created() {
 			this.getAdvertisingInfo();
 		},
+		mounted(){
+			
+		},
 		methods: {
-			bannerCellClick(row){
+			handleSelect(key, keyPath) {
+				
+				this.menuDefault = key;
+				if(key == '中文')
+					this.lang = 'zh';
+				if(key == '英文')
+					this.lang = 'EN';
+
+				this.getAdvertisingInfo();
+			},
+			bannerCellClick(row) {
 				this.bannerCellClickData = row
 			},
-			crowdCellClick(row){
+			crowdCellClick(row) {
 				this.crowdCellClickData = row
 			},
-			advertCellClick(row){
+			advertCellClick(row) {
 				this.advertCellClickData = row
 			},
-			saveAllChange(){
-				this.getadvertising(1,1)//banner
+			saveAllChange() {
+				this.getadvertising(1, 1) //banner
 				this.$message('保存成功')
 			},
-			getAdvertisingInfo() {//请求
-				this.getadvertising(1,1)//banner
-				this.getadvertising(1,2)//众筹
-				this.getadvertising(1,3)//项目
+			getAdvertisingInfo() { //请求
+				this.getadvertising(1, 1) //banner
+				this.getadvertising(1, 2) //众筹
+				this.getadvertising(1, 3) //项目
 			},
-			getadvertising(page,advertPosition){
+			getadvertising(page, advertPosition) {
 				let params = {
 					url: 'QueryAdvertisingBanner',
 					data: {
 						page,
 						advertPosition,
 						pagesize: this.pageSize,
+						lang: this.lang
 					},
 					type: 'get',
 				}
 				Request.requestHandle(params, res => {
 					
-					if(advertPosition==1){
+					if(advertPosition == 1) {
 						this.bannerListData = res.data;
 					}
-					if(advertPosition==2){
+					if(advertPosition == 2) {
 						this.crowdListData = res.data;
-						
 					}
-					if(advertPosition==3){
-						this.advertListData = res.data;	
-					
-					}
+					if(advertPosition == 3) {
+						this.advertListData = res.data;
 
+					}
 				});
 			},
-			deleted(id,type) {//banner删除
+			deleted(id, type) { //banner删除
 				let params = {
 					url: 'DeletedAdvertising',
 					data: {
@@ -248,160 +250,152 @@
 				Request.requestHandle(params, res => {
 					if(res.success == 1) {
 						this.$message('删除成功');
-						this.flush(type)//刷新
+						this.flush(type) //刷新
 					}
 				});
 			},
-			addBannerLink(item,type) {
+			addBannerLink(item, type) {
 				this.$prompt('请输入链接', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 				}).then(({
 					value
 				}) => {
-					
-					if(value==null){
+
+					if(value == null) {
 						this.$message('输入不能为空')
 						return;
 					}
-					if(type==1){
+					if(type == 1) {
 						this.bannerCellClickData.advertUrl = value
 						this.saveChange(item);
 					}
-					if(type==2){
+					if(type == 2) {
 						this.crowdCellClickData.advertUrl = value
 						this.corwdSaveChange(item);
 					}
-					if(type==3){
+					if(type == 3) {
 						this.advertCellClickData.advertUrl = value
 						this.advertSaveChange(item)
 					}
 				})
 			},
-			corwdSaveChange(item) {//修改增加接口众筹
+			saveChange(item) { //修改增加接口
 				let params = {
 					url: 'ChangeAdvertisingBanner',
 					data: {
-						advertisements:[{
+						advertisements: [{
 							advertSort: item.advertSort,
 							advertUrl: item.advertUrl,
 							banner: item.banner,
-							id: item.id
-						}]
+							id: item.id,
+						}],
+						lang: this.lang
 					},
 					type: 'post',
-					flag:true
+					flag: true
 				}
-		
 				Request.requestHandle(params, res => {
-					if(res.success == 1){
-					
+					if(res.success == 1) {
 						this.$message('保存成功');
-						this.flush(2)//众筹
+							this.flush(1); //banner
 					}
 				});
 			},
-			advertSaveChange(item) {//修改增加接口广告
+			corwdSaveChange(item) { //修改增加接口众筹		
 				let params = {
 					url: 'ChangeAdvertisingBanner',
 					data: {
-						advertisements:[{
+						advertisements: [{
 							advertSort: item.advertSort,
 							advertUrl: item.advertUrl,
 							banner: item.banner,
 							id: item.id
-						}]
+							
+						}],
+						lang: this.lang
 					},
 					type: 'post',
-					flag:true
+					flag: true
 				}
-				
+
 				Request.requestHandle(params, res => {
-					
-					if(res.success == 1){
+					if(res.success == 1) {
 						this.$message('保存成功');
-						this.flush(3)//广告
+						this.flush(2) //众筹
 					}
 				});
 			},
 
-			saveChange(item) {//修改增加接口
+			advertSaveChange(item) { //修改增加接口广告
 				let params = {
 					url: 'ChangeAdvertisingBanner',
 					data: {
-						advertisements:[{
+						advertisements: [{
 							advertSort: item.advertSort,
 							advertUrl: item.advertUrl,
 							banner: item.banner,
 							id: item.id
-						}]
+							
+						}],
+						lang: this.lang
 					},
 					type: 'post',
-					flag:true
+					flag: true
 				}
-			
+
 				Request.requestHandle(params, res => {
-					if(res.success == 1){
+
+					if(res.success == 1) {
 						this.$message('保存成功');
-						this.flush(1)//banner
+						this.flush(3) //广告
 					}
 				});
 			},
-			change(row,index) {//点击位次改变
-			
+			change(row, index) { //点击位次改变
+
 				let params = {
-					url:'ChangeAdvertisingSort',
-					data:{
-					advertSort: parseInt(row.advertSort),
-					advertUrl: row.advertUrl,
-					banner: row.banner,
-					id: row.id
+					url: 'ChangeAdvertisingSort',
+					data: {
+						advertSort: parseInt(row.advertSort),
+						advertUrl: row.advertUrl,
+						banner: row.banner,
+						id: row.id
 					},
-					type:'post',
-					flag:true
+					type: 'post',
+					flag: true
 				}
-				Request.requestHandle(params,res=>{
-					
+				Request.requestHandle(params, res => {
 					this.$message('修改成功')
-					this.flush(1)//banner
+					this.flush(1) //banner
 				})
 			},
 			getImg(res) {
-			
-				
-				let len = this.bannerCellClickData.advertSort-1
+				let len = this.bannerCellClickData.advertSort - 1
 				this.bannerListData[len].banner = res.data
 				let cen = this.bannerCellClickData
 				this.saveChange(cen)
 			},
-			advertGetImg(res){
-			
+			advertGetImg(res) {
 				this.advertListData[0].banner = res.data
 				let cen = this.advertCellClickData
 				this.advertSaveChange(cen)
-				
+
 			},
-			crowdGetImg(res){
-				
+			crowdGetImg(res) {
+
 				this.crowdListData[0].banner = res.data
 				let cen = this.crowdCellClickData
 				this.corwdSaveChange(cen)
-			
-			},
-			flush(type){//刷新
-				if(type==1)
-					this.getadvertising(1,1)//banner
-				if(type==2)
-					this.getadvertising(1,2);//众筹
-				if(type==3)
-					this.getadvertising(1,3);//项目
 
 			},
-
-			saveChangeProject() {
-
-			},
-			saveChangeCrowdfunding() {
+			flush(type) { //刷新
+				if(type == 1)
+					this.getadvertising(1, 1) //banner
+				if(type == 2)
+					this.getadvertising(1, 2); //众筹
+				if(type == 3)
+					this.getadvertising(1, 3); //项目
 
 			},
 			tableHeaderClassName({
@@ -463,4 +457,11 @@
 		height: 80px;
 		display: block;
 	}
+	
+	.el-submenu{
+		border: 1px solid #a99898;
+		border-radius: 30px;
+	}
+	
+	
 </style>

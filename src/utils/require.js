@@ -14,6 +14,8 @@ async function ajaxRequest(url = '', data = {}, type = 'POST', isJson = false) {
     let platformType = Cache.getSession('platform_type') || store.state.type;
     url = indexURL[url];
     let token = store.state.token || Cache.getSession('bier_token');
+//  	lang = store.state.lang || Cache.getSession('bier_lang');
+    
     if (type === 'GET') {
     	return axios.get(url, {headers:{token},params: data});
     } else if (type === 'POST') {
@@ -21,12 +23,12 @@ async function ajaxRequest(url = '', data = {}, type = 'POST', isJson = false) {
             return axios.post(url, data, {
                 headers: {
                     'Content-Type': 'application/json',
-                    token,
+                    token
                 },
             });
         }
         return axios.post(url, qs.stringify(data), {
-            headers: {token},
+            headers: {token}
         });
     } else if (type === 'PUT') {
         return axios.put(url, data, {
