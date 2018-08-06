@@ -16,7 +16,7 @@
 		    <el-table-column label="账号" prop='createName'>
 		     
 		    </el-table-column>
-		    <el-table-column label="动作" prop='action'>
+		    <el-table-column label="动作" prop='action' width='500px'>
 		     
 		    </el-table-column>
 		    <el-table-column label="访问网页" prop='pageName'>

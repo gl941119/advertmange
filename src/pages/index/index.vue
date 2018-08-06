@@ -30,8 +30,6 @@
 					<!--<router-link v-if='' tag='li' class="bierinc-main-container-aside-menu-li" :to="{name:'usersVisit'}">前台用户访问</router-link>-->
 					<router-link v-if='userType==0' tag='li' class="bierinc-main-container-aside-menu-li" :to="{name:'backUsersVisit'}">后台用户访问</router-link>
 				</ul>
-				
-				
 			</el-aside>
 			<el-main class="bierinc-main-container-view">
 				<router-view :key="$route.name"></router-view>
