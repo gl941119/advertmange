@@ -1,6 +1,6 @@
 <template>
 	<div class="user-management-list">
-       
+
         <el-tabs v-model="activeName" type="border-card">
 		    <el-tab-pane label="提现审核" name="first">
 		    	<div class="sreach">
@@ -16,13 +16,13 @@
 					</el-table-column>
 					<el-table-column prop="accountIdCard" label="身份证" align="center">
 					</el-table-column>
-					
+
 					<el-table-column prop="id" label="id" align="center">
 					</el-table-column>
-					 
+
 					<el-table-column prop="createTime" label="时间" align="center">
 					</el-table-column>
-					
+
 					<el-table-column prop="money" label="金额" align="center">
 					</el-table-column>
 					<el-table-column label="操作" align="center" >
@@ -58,12 +58,12 @@
 					</el-table-column>
 					<el-table-column prop="accountIdCard" label="身份证" align="center">
 					</el-table-column>
-					
+
 					<el-table-column prop="id" label="id" align="center">
 					</el-table-column>
 					<el-table-column prop="createTime" label="时间" align="center">
 					</el-table-column>
-				
+
 					<el-table-column prop="money" label="金额" align="center">
 					</el-table-column>
 				</el-table>
@@ -101,15 +101,15 @@
 			}
 		},
 		created(){
-			this.queryData('charge')
+			this.queryData('charge');
 			this.queryData('flowRecord')
 		},
 		methods:{
 			queryData(name,pageSize=Config.pageSize){//通用请求页面data
-				let type = 0
-				let searchStr = this.chargeSearchStr
+				let type = 0;
+				let searchStr = this.chargeSearchStr;
 				if(name=="flowRecord"){
-					 type=1
+					 type=1;
 					 searchStr = this.flowSearchStr
 				}
 				let params = {
@@ -121,7 +121,7 @@
 						searchStr
 					},
 					type:'get'
-				}
+				};
 				Request.requestHandle(params,res=>{
 					if(name=='flowRecord'){
 						this.flowRecordData = res.data;
@@ -149,11 +149,11 @@
 				this.queryData('flowRecord')
 			},
 			chargeHandleCurrent(val){//提现翻页改变
-				this.page = val
+				this.page = val;
 				this.queryData('charge')
 			},
 			flowHandleCurrent(val){//流水翻页改变
-				this.page = val
+				this.page = val;
 				this.queryData('flowRecord')
 			},
 			tableHeaderClassName({
@@ -181,7 +181,7 @@
 			&>button {
 				color: $textColor;
 				font-size: 24px;
-				
+
 			}
 		}
 		&-link {
@@ -190,5 +190,5 @@
 			margin-left: 20px;
 		}
 	}
-	
+
 </style>

@@ -25,11 +25,11 @@
 					url: 'QueryAllConceptLink',
 					type: 'post',
 					flag:true
-				}
+				};
 				Request.requestHandle(params, res => {
 					res.data.forEach(item=>{
 						item.isSelected = false
-					})
+					});
 					this.concept = res.data;
 				});
 			},
@@ -61,7 +61,7 @@
 	.concept-personal-button {
 		margin-bottom: 15px;
 	}
-	
+
 	.button-selected {
 		background: #2096f3;
 		color: #FFFFFF;

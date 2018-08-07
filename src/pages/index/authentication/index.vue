@@ -21,7 +21,7 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			
+
 			<!--审核弹窗-->
 			<el-dialog title="身份证审核" :visible.sync="dialogFormVisible" custom-class='auditDialog'>
 				<p style="font-size: 20px;">姓名:<span>{{dialog.realname}}</span></p>
@@ -38,7 +38,7 @@
 				    <el-button type="primary" @click="isPass(1)">通过</el-button>
 				</div>
 			</el-dialog>
-			
+
 			<!--分页器-->
 			<el-pagination background layout="prev, pager, next" prev-text="上一页" next-text="下一页" :page-size="pageSize" @current-change="queryCurrentPageList" :total="pageTotal" style="text-align: center;">
 			</el-pagination>
@@ -61,14 +61,14 @@
 		},
 		created() {
 			this.getDataInfo();
-			
+
 		},
 		methods: {
 			auditBtn(row){//dialog弹窗
 				this.dialogFormVisible = true;
 				this.dialog = row;
-				
-				let arr = this.dialog.idImg.split(',')
+
+				let arr = this.dialog.idImg.split(',');
 				this.dialog.idFront = arr[0];
 				this.dialog.idSite = arr[1];
 				this.dialog.idHeader = arr[2];
@@ -81,11 +81,11 @@
 						pagesize: this.pageSize,
 					},
 					type: 'get',
-				}
+				};
 				Request.requestHandle(params, res => {
 					this.authenticationData = res.data;
 					this.pageTotal = res.total;
-				
+
 				});
 			},
 			queryCurrentPageList(page) {
@@ -115,7 +115,7 @@
 						noPassReason:value
 					},
 					flag: true,
-				}
+				};
 				Request.requestHandle(params, res => {
 					if(res.success == 1) {
 						this.$message('提交成功');
@@ -155,7 +155,7 @@
 			margin-left: 20px;
 		}
 	}
-	
+
 	.avatar-uploader .el-upload {
 		border: 1px dashed #d9d9d9;
 		border-radius: 6px;
@@ -163,11 +163,11 @@
 		position: relative;
 		overflow: hidden;
 	}
-	
+
 	.avatar-uploader .el-upload:hover {
 		border-color: #409EFF;
 	}
-	
+
 	.avatar-uploader-icon {
 		font-size: 14px;
 		color: black;
@@ -178,18 +178,18 @@
 		border: 1px solid #eeeeee;
 		text-align: center;
 	}
-	
+
 	.avatar {
 		width: 260px;
 		height: 80px;
 		display: block;
 	}
 	.auditDialog{
-		
+
 	}
 	.idFrontAndSite{
 		width: 175px;
-		float: left;	
-		
+		float: left;
+
 	}
 </style>

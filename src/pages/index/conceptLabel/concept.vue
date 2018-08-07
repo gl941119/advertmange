@@ -66,7 +66,7 @@
 		        })
 			},
 			addConceptLink(name){//增加概念标签
-			
+
 				let params = {
 					url:'addConceptLink',
 					data: {
@@ -74,9 +74,9 @@
 					},
 					type:'post',
 					flag:true
-				}
+				};
 				Request.requestHandle(params, res => {
-				
+
 					if(res.success==1){
 			        	this.$message({
 				        	message:'新增成功',
@@ -86,7 +86,7 @@
 				})
 			},
 			deleteConcept(id){
-				
+
 				let params={
 					url:'deleteConceptLink',
 					data:{
@@ -94,11 +94,11 @@
 					},
 					type:'post',
 					flag:true
-				}
-			
+				};
+
 				Request.requestHandle(params,res=>{
 					if(res.success==1){
-						
+
 						this.$message('删除成功')
 					}
 				})
@@ -114,18 +114,18 @@
 						pagesize: this.pageSize,
 					},
 					type: 'get'
-				}
+				};
 				Request.requestHandle(params, res => {
 					this.conceptListData = res.data;
 					this.pageTotal = res.total;
-					
+
 				});
 			},
 			queryCurrentPageList(page) {
 				this.currPage = page;
 				this.getDataInfo(page);
 			},
-			
+
 			refuse(id) {
 				this.$prompt('编辑概念名', '提示', {
 					confirmButtonText: '确定',
@@ -133,7 +133,7 @@
 				}).then(({
 					value
 				}) => {
-			
+
 					this.confirm(value, id);
 				}).catch(() => {
 					this.$message({
@@ -141,7 +141,7 @@
 						message: '取消输入'
 					});
 				});
-				
+
 			},
 			confirm(value,id) {//修改概念名请求
 				let params = {
@@ -152,7 +152,7 @@
 					},
 					type:'post',
 					flag:true
-				}
+				};
 				Request.requestHandle(params, res => {
 					if(res.success==1){
 						this.getDataInfo();
@@ -161,7 +161,7 @@
 				        	type:'success'
 			        	})
 		        	}
-					
+
 				});
 			},
 			tableHeaderClassName({

@@ -45,6 +45,8 @@
 						<el-button size="mini" v-if="scope.row.isCheck == 0" @click="openDetails(scope.row.id,2)">审核</el-button>
 						<el-button size="mini" v-if="scope.row.isCheck == 2" disabled>审核</el-button>
 					</div>
+
+
 				</template>
 			</el-table-column>
 			<el-table-column prop="updateTime" label="时间" align="center">
@@ -56,97 +58,95 @@
 	</div>
 </template>
 <script>
-	import Config from '../../../utils/config';
-	import Request from '../../../utils/require';
-	export default {
-		data() {
-			return {
-				pageTotal: 0,
-				pageSize: Config.pageSize,
-				bulletinListData: [],
-				currPage:1,//现在页面
-				options: [{
-					value: '-1',
-					label: '全部',
-				}, {
-					value: '0',
-					label: '待审核',
-				}, {
-					value: '2',
-					label: '修改中',
-				}, {
-					value: '1',
-					label: '已上架',
-				},{
-					value:'3',
-					label:'已下架'
-				}],
-				state: '-1',
-				searchStr: '',
-			}
-		},
-		created() {
-			this.getDataInfo();
-		},
-		watch:{
-			state(){
-				this.getDataInfo()
-			}
-		},
-		methods: {
-			openDetails(id,value) {
-				//传入数据id
-				this.$router.push({
-					path: 'advertDetails/' + id + '/' + value,
-					params: {
-						id: id,
-						value: value
-					}
-				});
-			},
-			//请求data
-			getDataInfo() {
-				if(this.state == '')
-					this.state = -1
-				let params = {
-					url: 'QueryHome',
-					data: {
-						page:this.currPage,
-						pageSize:Config.pageSize,
-						state: parseInt(this.state),
-						searchStr: this.searchStr,
-					},
-					type: 'get'
-				}
-			
-				Request.requestHandle(params, res => {
-					this.bulletinListData = res.data;
-					this.pageTotal = res.total;
-				
-				});
-			},
-			//分页器翻页
-			queryCurrentPageList(page) {
-				this.currPage = page;
-				this.getDataInfo();
-			},
-			showPublicAccount(item) {
-				this.$router.push({
-					name: 'tikpublic',
-					query: {
-						subusername: item.username,
-						id: item.id
-					}
-				});
-			},
-			tableHeaderClassName({
-				row,
-				rowIndex
-			}) {
-				return 'custom-header';
-			},
-		}
-	};
+import Config from '../../../utils/config';
+import Request from '../../../utils/require';
+export default {
+    data() {
+        return {
+            pageTotal: 0,
+            pageSize: Config.pageSize,
+            bulletinListData: [],
+            currPage: 1, // 现在页面
+            options: [{
+                value: '-1',
+                label: '全部',
+            }, {
+                value: '0',
+                label: '待审核',
+            }, {
+                value: '2',
+                label: '修改中',
+            }, {
+                value: '1',
+                label: '已上架',
+            }, {
+                value: '3',
+                label: '已下架',
+            }],
+            state: '-1',
+            searchStr: '',
+        };
+    },
+    created() {
+        this.getDataInfo();
+    },
+    watch: {
+        state() {
+            this.getDataInfo();
+        },
+    },
+    methods: {
+        openDetails(id, value) {
+            // 传入数据id
+            this.$router.push({
+                path: 'advertDetails/' + id + '/' + value,
+                params: {
+                    id: id,
+                    value: value,
+                },
+            });
+        },
+        // 请求data
+        getDataInfo() {
+            if (this.state == '') {this.state = -1;}
+            let params = {
+                url: 'QueryHome',
+                data: {
+                    page: this.currPage,
+                    pageSize: Config.pageSize,
+                    state: parseInt(this.state),
+                    searchStr: this.searchStr,
+                },
+                type: 'get',
+            };
+
+            Request.requestHandle(params, res => {
+                this.bulletinListData = res.data;
+                this.pageTotal = res.total;
+            });
+        },
+        // 分页器翻页
+        queryCurrentPageList(page) {
+            this.currPage = page;
+            this.getDataInfo();
+        },
+        showPublicAccount(item) {
+            this.$router.push({
+                name: 'tikpublic',
+                query: {
+                    subusername: item.username,
+                    id: item.id,
+                },
+            });
+        },
+        tableHeaderClassName({
+            row,
+            rowIndex,
+        }) {
+            return 'custom-header';
+        },
+    },
+};
 </script>
 <style lang="scss" scoped>
 	@import '../../../assets/css/variable.scss';

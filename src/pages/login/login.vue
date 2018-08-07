@@ -61,7 +61,7 @@
 <script>
 	import Request from '../../utils/require';
 	import Cache from '../../utils/cache';
-	
+
 	export default {
 		data() {
 			return {
@@ -72,7 +72,7 @@
 					type: true
 				},
 				loading: false
-			
+
 			};
 		},
 		methods: {
@@ -102,8 +102,8 @@
 							res => {
 								this.loading = false;
 								this.successHandle(res.data);
-								
-								
+
+
 								this.$router.push({
 									name: 'index'
 								});
@@ -133,10 +133,10 @@
 												},
 												type:'post',
 												flag:true
-											}
+											};
 											Request.requestHandle(paramsAgain, res => {
 												this.successHandle(res.data);
-											
+
 												this.$router.push({
 													name: 'index'
 												});
@@ -172,7 +172,7 @@
 						token,
 						userType
 					} = data;
-					
+
 					this.$store.commit('setUserUId', userid); // 主账户id
 					this.$store.commit('setUserName', username);
 					this.$store.commit('setToken', token);
@@ -181,7 +181,7 @@
 					Cache.setSession('bier_username', username);
 					Cache.setSession('bier_userid', userid);
 					Cache.setSession('bier_userType', userType);
-					
+
 				} else {
 					console.error('login error');
 				}
@@ -192,7 +192,7 @@
 <style lang="scss" scoped>
 	@import '../../assets/css/variable.scss';
 	@import '../../assets/css/loginBack.css';
-	
+
 
 	.login-container {
 		height: calc(100vh - 60px);

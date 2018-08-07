@@ -11,22 +11,22 @@
 		</div>
 		<el-table :data="tableData" style="width: 100%;margin-top: 20px;" tooltip-effect="dark" border stripe  :header-cell-class-name="tableHeaderClassName">
 		    <el-table-column label="访问者Id" prop='createId'>
-		     
+
 		    </el-table-column>
 		    <el-table-column label="账号" prop='createName'>
-		     
+
 		    </el-table-column>
 		    <el-table-column label="动作" prop='action' width='500px'>
-		     
+
 		    </el-table-column>
 		    <el-table-column label="访问网页" prop='pageName'>
-		     
+
 		    </el-table-column>
-		    
+
 		    <el-table-column label="时间" prop='createDate'>
-		     
+
 		    </el-table-column>
-		   
+
 	  </el-table>
 	  <el-pagination
 	    layout="prev, pager, next"
@@ -38,7 +38,7 @@
 	    background
 	    style="text-align: center;">
 	  </el-pagination>
-		
+
 	</div>
 </template>
 
@@ -55,7 +55,7 @@
 				totalPage:undefined,
 				page:1,//当前页
 				pageSize:Config.pageSize
-				
+
 			}
 		},
 		created(){
@@ -72,14 +72,14 @@
 					},
 					type:'get'
 				},res=>{
-					this.tableData = res.data
+					this.tableData = res.data;
 					this.totalPage = res.total
 				})
 			},
 			currentChange(val){
 				this.page = val;
 				this.queryData()
-				
+
 			},
 			tableHeaderClassName({
 				row,
@@ -88,8 +88,8 @@
 				return 'custom-header';
 			},
 		}
-		
-		
+
+
 	}
 </script>
 

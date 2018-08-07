@@ -44,7 +44,7 @@
 							<el-table-column property="address" align="center" label="操作">
 								<template slot-scope="scope">
 									<el-button :disabled="disabled" @click="ChangeCoreMember(scope.row)">修改</el-button>
-								
+
 								</template>
 							</el-table-column>
 						</el-table>
@@ -134,7 +134,7 @@
 			</ul>
 		</div>
 		<!--概念-->
-		<div v-if="concept" class="withdraw">			
+		<div v-if="concept" class="withdraw">
 			<div class="withdraw_box">
 				<span class="withdraw_box_back" @click="conceptFun"><i class="el-icon-close"></i></span>
 				<div>
@@ -170,9 +170,9 @@
 				</li>
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">logo</label>
-					<el-upload class="avatar-uploader" 
-									:action="uploadImg" 
-									:show-file-list="false" 
+					<el-upload class="avatar-uploader"
+									:action="uploadImg"
+									:show-file-list="false"
 									:on-success="handleAvatarSuccess"
 									:headers="requestToken"
 									:limit="1"
@@ -232,7 +232,7 @@
 		</div>
 		<div class="project_review_details_team">
 			<div class="project_review_details_title">合规性文件</div>
-			
+
 			<div class="project_review_details_item_li">
 				<label class="project_review_details_item_li_label">公司名称</label>
 					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.companyName"></el-input>
@@ -246,18 +246,18 @@
 					<label class="project_review_details_item_li_label">相关牌照</label>
 					<a v-if="disabled && details.license" :href="details.license" download>下载</a>
 					<div v-if="!disabled">
-						<el-upload class="upload-demo" 
-						:action="uploadImg" 
+						<el-upload class="upload-demo"
+						:action="uploadImg"
 						:before-upload='beforeGetFile'
 						:limit='1'
 						accept=".jpg,.jpeg,.png,.pdf"
 						:on-success="handleAvatarSuccessFile"
-						:headers="requestToken" 
+						:headers="requestToken"
 						:multiple="false">
 							<span style="line-height: 30px;margin-right: 10px;">{{details.license}}</span>
 							<el-button  :loading='licenseSubmitLoading'>上传</el-button>
 						</el-upload>
-						
+
 					</div>
 				</li>
 			</ul>
@@ -357,7 +357,7 @@
 						id: id
 					},
 					type: 'get',
-				}
+				};
 				Request.requestHandle(params, res => {
 					this.details = res.data;
 					this.accountId = res.data.accountId;
@@ -370,16 +370,16 @@
 						concept3Id,
 						concept4Id,
 					} = res.data;
-					let arr = [concept1Id, concept2Id, concept3Id, concept4Id]
-					let middleArr =[]//概念不做修改直接提交的处理
+					let arr = [concept1Id, concept2Id, concept3Id, concept4Id];
+					let middleArr =[];//概念不做修改直接提交的处理
 					arr.forEach(item=>{
 						middleArr.push({
 							conceptId:item
 						})
-					})
+					});
 					this.checkeData = middleArr;
 
-					this.getconceptData(arr)
+					this.getconceptData(arr);
 					var technologyArr = [];
 					if(res.data.technology1) {
 						technologyArr.push(res.data.technology1);
@@ -396,35 +396,35 @@
 					url: 'QueryAllConceptLink',
 					type: 'post',
 					flag:true
-				}
+				};
 				Request.requestHandle(params, res => {
-					
-					var conceptLable = res.data
-					var newconceptLable = []
+
+					var conceptLable = res.data;
+					var newconceptLable = [];
 					arr.forEach(item=>{
 						conceptLable.forEach(row =>{
 							if(row.id == item){
 								newconceptLable.push(row.name)
 							}
 						})
-					})
+					});
 					this.conceptDatas=newconceptLable.join("-")
 				});
 			},
 			changeDetails() {//修改保存
-				this.saveSubmitBtnLading = true; 
+				this.saveSubmitBtnLading = true;
 				var startTime = this.util.format(this.timeInterval[0], 'yyyy-MM-dd HH:mm:ss');
 				var endTime = this.util.format(this.timeInterval[1], 'yyyy-MM-dd HH:mm:ss');
-				let checkedData = this.checkeData
+				let checkedData = this.checkeData;
 				if(checkedData.length<4){
 					for(let i=0,len=4-checkedData.length;i<len;i++){
 						checkedData.push({
 						id:-1
-					})	
+					})
 					}
 				}
-				this.checkeData = checkedData
-				
+				this.checkeData = checkedData;
+
 				let params = {
 					url: 'ChangeCrowdfundingDetails',
 					data: {
@@ -464,12 +464,12 @@
 					},
 					type: 'put',
 					flag:true,
-				}
-			
+				};
+
 				Request.requestHandle(params, res => {
 					this.saveSubmitBtnLading = false;
 					if(res.success) {
-						
+
 						this.$message('修改成功');
 						this.$router.back(-1)
 					}
@@ -483,7 +483,7 @@
 						id: id
 					},
 					type: 'get',
-				}
+				};
 				Request.requestHandle(params, res => {
 					if(res.success == 1) {
 						this.$message('操作成功');
@@ -506,18 +506,18 @@
 							description:value
 						},
 						type: 'get',
-					}
+					};
 					Request.requestHandle(params, res => {
 						if(res.success == 1) {
 							this.$message('提交成功');
-					
+
 							this.$router.back(-1)
 						}
 					});
-		        })	
+		        })
 			},
 			saveLink() {//核心团队新增请求
-				let mul = this.multipleSelection
+				let mul = this.multipleSelection;
 				if(mul.length==0){
 					this.$message('请勾选');
 					return;
@@ -530,7 +530,7 @@
 					this.saveTeamLoading = true;
 					let params = {
 						url: 'AddCoreMember',
-						data:{	
+						data:{
 						accountId: this.accountId,
 						crowdId: this.crowdId,
 						desc: mul[i].desc,
@@ -539,26 +539,26 @@
 						  },
 						type: 'post',
 						flag: true,
-					}
+					};
 					Request.requestHandle(params, res => {
 						if(res.success == 1) {
 							this.$message('添加成功');
-							this.saveTeamLoading = false
+							this.saveTeamLoading = false;
 							this.centerDialogVisible = false;
 							this.getCrowdTeam()
 						}
 					});
 				}
-				
+
 			},
 			saveLinkConsultant() {//顾问团队新增请求
 
 				if(this.multipleSelection.length==0){
-					this.message('请勾选')
+					this.message('请勾选');
 					return;
 				}
-				let item = this.multipleSelection
-			
+				let item = this.multipleSelection;
+
 				for(let i=0,len=item.length;i<len;i++){
 					if(item[i].title == ''|| item[i].desc == ''||item[i].name==''){
 						continue;
@@ -575,29 +575,29 @@
 						},
 						type: 'post',
 						flag: true
-					}
+					};
 					Request.requestHandle(params, res => {
 						if(res.success == 1) {
 							this.$message('添加成功');
 							this.saveTeamLoading = false;
 							this.CrowdTeamDialogVisible = false;
-							this.getCrowdTeam('consultant')	
+							this.getCrowdTeam('consultant')
 						}
 					});
 				}
-				
+
 			},
 			ChangeCoreMember(row,name){//通用修改
 				if(row.id==undefined){
-					this.$message('不能为空')
+					this.$message('不能为空');
 					return;
 				}
-				let url = 'ChangeCoreMember'
+				let url = 'ChangeCoreMember';
 				if(name == "consultant")
 					url = 'ChangeConsultant';
 				let params = {
 						url,
-						data:{	
+						data:{
 						accountId: row.accountId,
 						crowdId: row.crowdId,
 						desc: row.desc,
@@ -607,7 +607,7 @@
 						  },
 						type: 'put',
 						flag: true,
-					}
+					};
 					Request.requestHandle(params, res => {
 						if(res.success == 1) {
 							this.$message('修改成功');
@@ -622,7 +622,7 @@
 					});
 			},
 			deletedLink(name) {//通用删除
-			
+
 				if(this.multipleSelection.length==0){
 					this.$message('请勾选');
 					return;
@@ -641,7 +641,7 @@
 						},
 						type: 'DELETE',
 						flag: true
-					}
+					};
 					Request.requestHandle(params, res => {
 						if(res.success == 1) {
 							this.$message('删除成功');
@@ -653,20 +653,20 @@
 								this.getCrowdTeam()
 							}
 						}
-					});		
+					});
 				}
 			},
 			getCrowdTeam(type){//通用请求众筹团队
-				let url = "QueryCrowdCoreTeam"
+				let url = "QueryCrowdCoreTeam";
 				if(type == 'consultant')
-					url = "QueryCrowdConsultantTeam"
+					url = "QueryCrowdConsultantTeam";
 				let params = {
 					url,
 					data:{
 						crowdId:this.crowdId
 					},
 					type:'get'
-				}
+				};
 				Request.requestHandle(params,res=>{
 					if(type == 'consultant'){
 						return this.consultantTeam = res.data
@@ -680,8 +680,8 @@
 				this.newCore = {};
 				this.coreTeam = tmpPersions;
 			},
-			
-			
+
+
 			// deletedConsultant(value) { //顾问团队
 			// 	var length = this.consultantTeam.length;
 			// 	if(length <= 1) {
@@ -696,15 +696,15 @@
 				this.newConsultant = {};
 				this.consultantTeam = tmpPersions;
 			},
-			
+
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
 			},
 			handleAvatarSuccess(res) {
-				this.details.logo = res.data;	
+				this.details.logo = res.data;
 			},
 			beforeGetFile(){
-				this.licenseSubmitLoading = true ; 
+				this.licenseSubmitLoading = true ;
 			},
 			handleAvatarSuccessFile(res) {
 				this.licenseSubmitLoading = false;
@@ -728,7 +728,7 @@
 				var newCheckedData = [];
 				checkedData.forEach(function(item, index) {
 					newCheckedData.push(item.name);
-				})
+				});
 				this.conceptDatas = newCheckedData.join('-');
 				this.checkeData = checkedData;
 			}
@@ -748,7 +748,7 @@
 		box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.06);
 		border: 1px solid rgba(228, 231, 237, 1);
 	}
-	
+
 	.project_review_details_item_li {
 		display: flex;
 		font-size: 14px;
@@ -766,7 +766,7 @@
 			margin: 10px 0;
 		}
 	}
-	
+
 	.check {
 		border-radius: 4px;
 		color: rgba(16, 16, 16, 1);
@@ -776,7 +776,7 @@
 		padding: 5px 10px;
 		background: #ffffff;
 	}
-	
+
 	.avatar-uploader .el-upload {
 		border: 1px dashed #d9d9d9;
 		border-radius: 6px;
@@ -784,11 +784,11 @@
 		position: relative;
 		overflow: hidden;
 	}
-	
+
 	.avatar-uploader .el-upload:hover {
 		border-color: #409EFF;
 	}
-	
+
 	.avatar-uploader-icon {
 		font-size: 28px;
 		color: #8c939d;
@@ -797,7 +797,7 @@
 		line-height: 178px;
 		text-align: center;
 	}
-	
+
 	.avatar {
 		width: 178px;
 		height: 178px;

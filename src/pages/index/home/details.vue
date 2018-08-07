@@ -1,11 +1,11 @@
 <template>
 	<div class="project_review_details">
-	
+
 		<div class="project_review_details_team">
 			<div class="project_review_details_title">团队</div>
 			<ul class="project_review_details_team_item">
-				
-				
+
+
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">团队名称</label>
 					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.teamName"></el-input>
@@ -23,7 +23,7 @@
 					<label class="project_review_details_item_li_label">核心团队成员</label>
 					<el-button type="text" @click="centerDialogVisible = true">点击打开核心团队成员</el-button>
 				</li>
-				
+
 				<!--核心团队成员弹框-->
 				<div class="project_review_details_item_li_info">
 					<el-dialog title="核心团队成员" :visible.sync="centerDialogVisible" size="small">
@@ -58,7 +58,7 @@
 						</div>
 					</el-dialog>
 				</div>
-				
+
 				<!--顾问团队按钮-->
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">顾问团队</label>
@@ -112,7 +112,7 @@
 					<label class="project_review_details_item_li_label">项目简介</label>
 					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.proDesc"></el-input>
 				</li>
-				
+
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">概念</label>
 					<div class="project_review_details_item_li_intro" style="position: relative;">
@@ -167,13 +167,13 @@
 					<label class="project_review_details_item_li_label">中文简写</label>
 					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.shotCnName"></el-input>
 				</li>
-				
+
 
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">logo</label>
-					<el-upload class="avatar-uploader" 
-									:action="uploadImg" 
-									:show-file-list="false" 
+					<el-upload class="avatar-uploader"
+									:action="uploadImg"
+									:show-file-list="false"
 									:on-success="handleAvatarSuccess"
 									:headers="requestToken"
 									:limit="1"
@@ -187,7 +187,7 @@
 		<div class="project_review_details_project">
 			<div class="project_review_details_title">相关链接</div>
 			<ul class="project_review_details_item">
-				
+
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">官方网站</label>
 					<el-input class="project_review_details_item_li_intro" :disabled="disabled" v-model="details.website"></el-input>
@@ -196,9 +196,9 @@
 					<label class="project_review_details_item_li_label">白皮书</label>
 					<a :href="details.whitePaper" download  style="line-height: 30px;margin-right: 10px;">{{details.whitePaper}}</a>
 					<div v-if="!disabled">
-						<el-upload class="upload-demo" 
-									:action="uploadImg" 
-									:on-success="getFile" 
+						<el-upload class="upload-demo"
+									:action="uploadImg"
+									:on-success="getFile"
 									:headers="requestToken"
 									:before-upload='brforeGetFile'
 									:limit='1'
@@ -207,7 +207,7 @@
 							<el-button size="small" :loading='whitePaperSubBtnLoading'>上传</el-button>
 						</el-upload>
 					</div>
-					
+
 				</li>
 				<li class="project_review_details_item_li">
 					<label class="project_review_details_item_li_label">Telegram</label>
@@ -223,7 +223,7 @@
 				</li>
 			</ul>
 		</div>
-		 
+
 		<div v-if="disabled">
 			<el-button class="check" @click="passed">审核通过</el-button>
 			<el-button class="check" @click="notPassed">审核不通过</el-button>
@@ -243,7 +243,7 @@
 	import axios from 'axios';
 	export default {
 		data() {
-			return {  
+			return {
 //				网站数据
 				details: {
 					fullEnName: '',
@@ -314,7 +314,7 @@
 		},
 		mounted() {
 			this.queryDetails();
-			
+
 		},
 		methods: {
 			//通過ID查詢data
@@ -332,31 +332,31 @@
 						id: id
 					},
 					type: 'get',
-				}
+				};
 				Request.requestHandle(params, res => {
-					this.details = res.data;					
-					this.accountId = res.data.accountId
-					this.advertId = res.data.id
+					this.details = res.data;
+					this.accountId = res.data.accountId;
+					this.advertId = res.data.id;
 
 					// this.QueryAdCoreMember() //请求核心团队
-					this.coreTeam =  res.data.advertTeamMemberResults
+					this.coreTeam =  res.data.advertTeamMemberResults;
 					this.newCore={
 						accountId:res.data.accountId,
 						advertId:res.data.id,
 						desc: '',
 						name: '',
 						title: ''
-					}
+					};
 					// this.QueryAdConsultantMember()//请求概念团队
-					this.consultantTeam = res.data.advertTeamConsultantsResults
+					this.consultantTeam = res.data.advertTeamConsultantsResults;
 					this.newConsultant={
 						accountId:res.data.accountId,
 						advertId:res.data.advertId,
 						desc: '',
 						name: '',
 						title: ''
-					}
-					
+					};
+
 					var that = this;//请求回后覆盖websites
 					if(res.data.websiteResultList.length>0){
 						let number = -1;
@@ -365,16 +365,16 @@
 							that.websites.splice(number,1,item);
 						})
 					}
-					
-					
+
+
 					this.conceptResult = res.data.concepManagetResultList;
 					var conceptData = [];
 					this.conceptResult.forEach(function(item, index){
 						conceptData.push(item.name);
-					})
+					});
 					this.conceptDatas = conceptData.join('-');
-					
-					
+
+
 					var technologyArr = [];//请求回技术后将字符串连接显示
 					if(res.data.technology1) {
 						technologyArr.push(res.data.technology1);
@@ -383,7 +383,7 @@
 						technologyArr.push(res.data.technology2);
 					}
 					this.technologyDatas = technologyArr.join('-');
-	
+
 				});
 			},
 			deitAdvertItem(){//提交编辑广告
@@ -392,7 +392,7 @@
 					this.newconcept = this.details.concepManagetResultList
 				}
 				var arr = [],
-					thas = this
+					thas = this;
 					if(this.websites.length>0){
 						this.websites.forEach(function(item, index){
 							item.advertProjId = thas.advertId;
@@ -402,8 +402,8 @@
 						})
 					}
 					this.websitesSubmit = arr;
-					
-					
+
+
 				let params = {url:'QuerydeitAdvertItem',data:{
 					  accountId: this.accountId,
 					  conceptManageList: this.conceptResult,
@@ -426,8 +426,8 @@
 					  telegrameUrl:this.details.telegrameUrl
 					},
 					type:'post',
-					flag:true}
-					
+					flag:true};
+
 				Request.requestHandle(params, res => {
 					this.saveSubmitLoading = false;
 					if(res.success == 1){
@@ -444,7 +444,7 @@
 						id: id
 					},
 					type: 'get',
-				}
+				};
 				Request.requestHandle(params, res => {
 					if(res.success) {
 						this.$message('操作成功');
@@ -467,38 +467,38 @@
 							noPassReason:value
 						},
 						type: 'get',
-					}
+					};
 					Request.requestHandle(params, res => {
 						if(res.success) {
 							this.$message('提交成功');
 							this.$router.back(-1)
 						}
 					});
-			           
+
 			        })
 			},
 			saveLink() {//核心团队新增请求
-				let mul = this.multipleSelection
+				let mul = this.multipleSelection;
 				if(mul.length==0)
 					return;
 				for(let i=0,len=mul.length;i<len;i++){
 					if(mul[i].title==''||mul[i].desc==''||mul[i].name==''){
 						continue;
 					}
-					this.crowdTeamSaveLoading = true
+					this.crowdTeamSaveLoading = true;
 
 					let params = {
 						url: 'AddAdCoreMember',
-						data:{	
-						  accountId: this.accountId,	
-						  advertId: this.advertId,	
-						  desc: mul[i].desc,	
-						  name: mul[i].name,	
+						data:{
+						  accountId: this.accountId,
+						  advertId: this.advertId,
+						  desc: mul[i].desc,
+						  name: mul[i].name,
 						  title: mul[i].title
 						  },
 						type: 'post',
 						flag: true,
-					}
+					};
 					Request.requestHandle(params, res => {
 						if(res.success == 1) {
 							this.centerDialogVisible= false;
@@ -508,11 +508,11 @@
 						}
 					});
 				}
-				
+
 			},
 			recomposeCore(row){//核心团队修改请求
 				if(row.id==undefined){
-					this.$message('不能为空')
+					this.$message('不能为空');
 					return;
 				}
 				// this.crowdTeamAmendLoading = true
@@ -528,7 +528,7 @@
 					},
 					type: 'put',
 					flag:true
-				}
+				};
 				Request.requestHandle(params, res => {
 					if(res.success==1){
 						this.$message('修改成功');
@@ -540,9 +540,9 @@
 			deletedLink() {//核心团队删除请求
 				if(this.multipleSelection.length==0)
 					return;
-				
+
 				for(let i=0;i<this.multipleSelection.length;i++){
-					this.crowdTeamDelLoading = true
+					this.crowdTeamDelLoading = true;
 					let params = {
 						url: 'DeletedAdCoreMember',
 						data: {
@@ -551,27 +551,27 @@
 						},
 						type: 'DELETE',
 						flag: true,
-					}
+					};
 					Request.requestHandle(params, res => {
 						this.crowdTeamDelLoading = false;
 						if(res.success==1){
 							this.$message('删除成功');
-							
+
 							this.QueryAdCoreMember();
-						}	
+						}
 					});
 				}
 			},
 			saveLinkConsultant() {//顾问团队保存请求
 
-				let mul = this.multipleSelection
+				let mul = this.multipleSelection;
 				if(mul.length==0)
 					return;
 				for(let i=0,len=mul.length;i<len;i++){
 					if(mul[i].title==''||mul[i].desc==''||mul[i].name==''){
 						continue;
 					}
-					this.consultantTeamSaveLoading = true
+					this.consultantTeamSaveLoading = true;
 					let params = {
 						url: 'AddAdConsultant',
 						data: {
@@ -583,7 +583,7 @@
 						},
 						type: 'post',
 						flag: true,
-					}
+					};
 					Request.requestHandle(params, res => {
 						this.consultantTeamSaveLoading=false;
 						if(res.success == 1) {
@@ -596,7 +596,7 @@
 			},
 			recomposeConsultant(row){//顾问团队修改请求
 				if(row.id==undefined){
-					this.$message('不能为空')
+					this.$message('不能为空');
 					return;
 				}
 				let params = {
@@ -610,7 +610,7 @@
 						},
 						type: 'put',
 						flag: true,
-					}
+					};
 					Request.requestHandle(params, res => {
 						if(res.success == 1) {
 							this.$message('修改成功');
@@ -623,7 +623,7 @@
 					return;
 				this.consultantTeamdeletedLoading = true;
 				for(let i=0;i<this.multipleSelection.length;i++){
-					
+
 					let params = {
 						url: 'DeletedAdConsultant',
 						data: {
@@ -632,7 +632,7 @@
 						},
 						type: 'DELETE',
 						flag: true,
-					}
+					};
 					Request.requestHandle(params, res => {
 						this.consultantTeamdeletedLoading = false;
 						if(res.success==1){
@@ -645,12 +645,12 @@
 			QueryAdCoreMember(){//请求核心团队成员
 				let params = {
 						url: 'QueryAdCoreMember',
-						data:{	
+						data:{
 						  advertId: this.advertId,
 						  },
 						type: 'get',
 						flag: true,
-					}
+					};
 					Request.requestHandle(params, res => {
 					   this.coreTeam = res.data;//核心團隊
 					});
@@ -658,16 +658,16 @@
 			QueryAdConsultantMember(){//顾问团队成员
 				let params = {
 						url: 'QueryAdConsultant',
-						data:{	
+						data:{
 						  advertId: this.advertId,
 						  },
 						type: 'get',
 						flag: true,
-					}
+					};
 					Request.requestHandle(params, res => {
 					   	this.consultantTeam = res.data;//顾问团队
 					});
-				
+
 			},
 			addCore() {//核心团队增添一行
 				var tmpPersions = this.coreTeam;
@@ -683,14 +683,14 @@
 				this.consultantTeam = tmpPersions;
 			},
 			handleSelectionChange(val) {
-				this.multipleSelection = val;	
+				this.multipleSelection = val;
 			},
 			brforeGetFile(file){//白皮书上传之前
 				this.whitePaperSubBtnLoading = true
 			},
 			getFile(res) {
-				this.details.whitePaper = res.data;	
-				this.whitePaperSubBtnLoading = false		
+				this.details.whitePaper = res.data;
+				this.whitePaperSubBtnLoading = false
 			},
 			conceptFun() { //概念弹出窗
 				this.concept = !this.concept;
@@ -713,7 +713,7 @@
 				var newCheckedData = [];
 				checked.forEach(function(item, index) {
 					newCheckedData.push(item.name);
-				})
+				});
 				this.conceptDatas = newCheckedData.join('-');
 				this.conceptResult = checked;
 			},
@@ -743,7 +743,7 @@
 			margin: 10px 0;
 		}
 	}
-	
+
 	.check {
 		border-radius: 4px;
 		color: rgba(16, 16, 16, 1);
@@ -753,7 +753,7 @@
 		padding: 5px 10px;
 		background: #ffffff;
 	}
-	
+
 	.avatar-uploader .el-upload {
 		border: 1px dashed #d9d9d9;
 		border-radius: 6px;
@@ -761,11 +761,11 @@
 		position: relative;
 		overflow: hidden;
 	}
-	
+
 	.avatar-uploader .el-upload:hover {
 		border-color: #409EFF;
 	}
-	
+
 	.avatar-uploader-icon {
 		font-size: 28px;
 		color: #8c939d;
@@ -775,7 +775,7 @@
 		line-height: 178px;
 		text-align: center;
 	}
-	
+
 	.avatar {
 		width: 178px;
 		height: 178px;
@@ -783,6 +783,6 @@
 		border-radius: 50%;
 	}
 	.el-form-item__label{
-		
+
 	}
 </style>

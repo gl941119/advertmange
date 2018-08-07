@@ -17,7 +17,7 @@
 		  </el-col>
 		  <el-col :span="20">
 		  		<el-table :data="tableData" style="width: 100%" max-height='450px'>
-		  			
+
 		  			<el-table-column
 			        prop="accountNo"
 			        label="账号"
@@ -78,20 +78,20 @@
 		          }, {
 		            date: '2016-05-04',
 		            name: '222'
-		         
+
 		          }, {
 		            date: '2016-05-01',
 		            name: '333'
-		            
+
 		          }]
 
 			}
 		},
 		created(){
-			this.queryUserMoney()
+			this.queryUserMoney();
 			this.queryFlowMoney()
 		},
-		
+
 		methods:{
 			queryUserMoney(){//请求金额
 				let params={
@@ -100,11 +100,11 @@
 						accountId:this.accountId
 					},
 					type:'get'
-				}
+				};
 
 				Request.requestHandle(params,res=>{
 					this.addMoney = res.data.accountBalance;
-					this.allMoney = res.data.totalMoney; 
+					this.allMoney = res.data.totalMoney;
 				})
 			},
 			notPass(status){
@@ -118,7 +118,7 @@
 			        }).catch(() => {});
 			},
 			isPass(status,value=null){//是否通过
-				this.isPassLoading = true
+				this.isPassLoading = true;
 				let params = {
 					url:'amentChargeAuditIsPass',
 					data:{
@@ -127,17 +127,17 @@
 						reason:value
 					},
 					type:'put'
-					
-				}
+
+				};
 				Request.requestHandle(params,res=>{
 					this.isPassLoading = false;
 					if(res.success==1){
 						this.$message({
 							type:'success',
 							message:'成功'
-						})
+						});
 						this.$router.back(-1)
-					}	
+					}
 				})
 			},
 			chargeHandleCurrent(val){//点击翻页
@@ -153,13 +153,13 @@
 						accountId:this.accountId
 					},
 					type:'get'
-				}
+				};
 				Request.requestHandle(params,res=>{
-					this.tableData=res.data
+					this.tableData=res.data;
 					this.pageTotal = res.total
 				})
 			},
-			
+
 		}
 
 
@@ -173,12 +173,12 @@
 		box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.06);
 		padding-left: 5px;
 	}
-	
+
 		.isPass{
 			position: absolute;
 			bottom: 50px;
 		}
-	
+
 	dd{
 		margin-top:10px;
 		font-size:24px;

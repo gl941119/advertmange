@@ -137,9 +137,9 @@ export default {
                     role: 'trill',
                     county,
                 }
-            }
+            };
             Request.requestHandle(params, res => {
-                this.$message({message: res.message, type: 'success'})
+                this.$message({message: res.message, type: 'success'});
                 this.bindDevice.visible = false;
                 this.getDataInfo(this.currPage)
             })

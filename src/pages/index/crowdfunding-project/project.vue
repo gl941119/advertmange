@@ -135,10 +135,10 @@
 						searchStr: this.searchStr,
 					},
 					type: 'get',
-				}
-			
+				};
+
 				Request.requestHandle(params, res => {
-					
+
 					this.projectData = res.data;
 					this.pageTotal = res.total;
 				});
@@ -158,9 +158,9 @@
 						address: value,
 					},
 					type: 'get',
-				}
+				};
 				Request.requestHandle(params, res => {
-				
+
 					this.projectData = res.data;
 					this.pageTotal = res.total;
 				});
@@ -174,14 +174,14 @@
 					}
 				});
 			},
-			
+
 			openDialog(id){
 				this.dialogVisible = true;
 				this.clickId = id ;
 			},
 			submitAddress(){//修改合约地址
 				if(this.formLabelAlign.abi == ''||this.formLabelAlign.address == ''){
-					this.$message('请填写完整')
+					this.$message('请填写完整');
 					return
 				}
 				let params = {
@@ -193,12 +193,12 @@
 					},
 					type: 'post',
 					flag:true
-				}
+				};
 				Request.requestHandle(params, res => {
 					if(res.success==1){
-						this.$message('绑定成功')
-						this.$refs['bindForm'].resetFields()
-						this.dialogVisible = false
+						this.$message('绑定成功');
+						this.$refs['bindForm'].resetFields();
+						this.dialogVisible = false;
 						this.getDataInfo()
 
 					}
@@ -224,7 +224,7 @@
 
 			},
 			selectChange(){
-				
+
 			},
 			tableHeaderClassName({
 				row,

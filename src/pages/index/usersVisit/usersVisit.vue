@@ -55,7 +55,7 @@
 					},
 					type: 'get'
 				}, res => {
-					this.tableData = res.data
+					this.tableData = res.data;
 					this.totalPage = res.total
 				})
 			},
