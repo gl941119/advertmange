@@ -1,7 +1,7 @@
 <template>
 	<div class="user-management-list">
 		<div class="user-management-list-title">
-			<h3>项目审核</h3>
+            <h3>众筹项目审核</h3>
 			<div>
 				<el-select v-model="state"  placeholder="全部" style="margin-right: 20px;float: left;">
 					<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
@@ -244,12 +244,10 @@
 			align-items: center;
 			padding-right: 15px;
 			&>h3 {
-				color: $textColor;
-				height: 23px;
-				line-height: 23px;
-				/*color: rgba(16, 16, 16, 1);*/
-				font-size: 16px;
-				text-align: left;
+
+                color: $textColor;
+                font-size: 24px;
+                margin: 20px 0;
 			}
 		}
 	}

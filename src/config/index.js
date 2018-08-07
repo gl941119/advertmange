@@ -1,4 +1,5 @@
 // const ajaxURL
+// noinspection JSDuplicatedDeclaration
 export default {
 	Login: 'advertmange/mange-user/login',
 	SignOut: 'advertmange/mange-user/signout',

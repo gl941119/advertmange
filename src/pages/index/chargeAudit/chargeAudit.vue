@@ -1,8 +1,8 @@
 <template>
 	<div class="user-management-list">
-
         <el-tabs v-model="activeName" type="border-card">
-		    <el-tab-pane label="提现审核" name="first">
+            <el-tab-pane name="first">
+                <span slot="label"><i class="iconfont icon-money"></i> 提现审核</span>
 		    	<div class="sreach">
 					<div style="width:217px;overflow: hidden;float: left;margin-right: 20px;">
 						<el-input v-model="chargeSearchStr" placeholder="请输入搜索内容"></el-input>
@@ -44,7 +44,8 @@
 		                       style="text-align: center;">
 		        </el-pagination>
 		    </el-tab-pane>
-		    <el-tab-pane label="流水记录" name="second">
+            <el-tab-pane name="second">
+                <span slot="label"><i class="iconfont icon-qianbao1"></i> 流水记录</span>
 		    	<div class="sreach">
 					<div style="width:217px;overflow: hidden;float: left;margin-right: 20px;">
 						<el-input v-model="flowSearchStr" placeholder="请输入搜索内容"></el-input>

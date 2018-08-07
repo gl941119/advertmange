@@ -101,7 +101,6 @@
 					},
 					type:'get'
 				};
-
 				Request.requestHandle(params,res=>{
 					this.addMoney = res.data.accountBalance;
 					this.allMoney = res.data.totalMoney;

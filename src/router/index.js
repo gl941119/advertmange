@@ -22,6 +22,9 @@ import chargeAuditDetail from '@/pages/index/chargeAudit/chargeAuditDetail'
 import usersVisit from '@/pages/index/usersVisit/usersVisit'
 //后台用户访问
 import BackUsersVisit from '@/pages/index/backUsersVisit/backUsersVisit'
+//对账
+import Reconciliation from '@/pages/index/reconciliation/reconciliation';
+import ReconciliationDetail from '@/pages/index/reconciliation/reconciliationDetail';
 
 //测试
 
@@ -87,16 +90,23 @@ export default new Router({
 					path: 'concept',
 					name: 'concept',
 					component: ConceptnCom,
-				},
-				{
+                }, {//提现审核
 					path: 'chargeAudit',
 					name: 'chargeAudit',
 					component: chargeAudit
-				}, {
+                }, {//提现审核详情
 					path: 'chargeAuditDetail/:accountId/:id',
 					name: 'chargeAuditDetail',
 					component: chargeAuditDetail
-				}, {
+                }, {//对账
+                    path: 'reconciliation',
+                    name: 'reconciliation',
+                    component: Reconciliation,
+                }, {//对账详情
+                    path: 'reconciliationDetail/:accountId/:id',
+                    name: 'reconciliationDetail',
+                    component: ReconciliationDetail,
+                }, {
 					path: 'usersVisit',
 					name: 'usersVisit',
 					component: usersVisit

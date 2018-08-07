@@ -3,8 +3,8 @@ import App from './App';
 import router from './router';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'; // 引入element-ui的样式
-import './assets/css/reset.css';
-import './assets/css/global.scss';
+import '@/assets/css/reset.css';
+import '@/assets/css/global.scss';
 
 import store from './store';
 import Cache from './utils/cache';

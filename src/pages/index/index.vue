@@ -27,6 +27,9 @@
 					<router-link v-if='userType==2||userType==0'  tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'authentication'}">身份认证审核</router-link>
 					<router-link v-if='userType==1||userType==0||userType==2'  tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'concept'}">概念标签管理</router-link>
 					<router-link v-if='userType==1||userType==0'  tag='li' class="bierinc-main-container-aside-menu-li" :to="{name:'chargeAudit'}">提现审核</router-link>
+                    <router-link v-if='userType==0' tag='li' class="bierinc-main-container-aside-menu-li"
+                                 :to="{name:'reconciliation'}">对账
+                    </router-link>
 					<!--<router-link v-if='' tag='li' class="bierinc-main-container-aside-menu-li" :to="{name:'usersVisit'}">前台用户访问</router-link>-->
 					<router-link v-if='userType==0'  tag='li' class="bierinc-main-container-aside-menu-li" :to="{name:'backUsersVisit'}">后台用户访问</router-link>
 				</ul>

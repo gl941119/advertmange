@@ -334,7 +334,6 @@
                     type: 'post',
                     flag: true,
                 };
-
                 Request.requestHandle(params, res => {
                     if (res.success == 1) {
                         this.$message('保存成功');
