@@ -59,6 +59,10 @@ export default {
 	//用户访问采集
 	QueryUsersVisitData: 'advertmange/busi-logs/all',
 	//后台访问采集
-	QueryBackUsersVisitData: 'advertmange/mange-log/all'
+    QueryBackUsersVisitData: 'advertmange/mange-log/all',
+    //账号交易
+    QueryAdvertIdTeal: 'advertmange/trade-warning/all',
+    QuerycowrdIdTeal: 'advertmange/trade-warning/compay-trade/all',
+
 
 };

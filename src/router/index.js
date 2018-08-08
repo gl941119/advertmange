@@ -24,7 +24,7 @@ import usersVisit from '@/pages/index/usersVisit/usersVisit'
 import BackUsersVisit from '@/pages/index/backUsersVisit/backUsersVisit'
 //对账
 import Reconciliation from '@/pages/index/reconciliation/reconciliation';
-import ReconciliationDetail from '@/pages/index/reconciliation/reconciliationDetail';
+
 
 //测试
 
@@ -102,10 +102,6 @@ export default new Router({
                     path: 'reconciliation',
                     name: 'reconciliation',
                     component: Reconciliation,
-                }, {//对账详情
-                    path: 'reconciliationDetail/:accountId/:id',
-                    name: 'reconciliationDetail',
-                    component: ReconciliationDetail,
                 }, {
 					path: 'usersVisit',
 					name: 'usersVisit',
