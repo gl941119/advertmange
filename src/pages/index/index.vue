@@ -18,7 +18,8 @@
 				</el-col>
 			</el-row>
 		</el-header>
-		<el-container class="bierinc-main-container">
+        
+        <el-container class="bierinc-main-container">
 			<el-aside width="200px" class="bierinc-main-container-aside">
 				<ul class="bierinc-main-container-aside-menu" style="position: relative;">
 					<router-link v-if='userType==1||userType==0' tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'home' }">广告项目审核</router-link>
@@ -28,9 +29,9 @@
 					<router-link v-if='userType==1||userType==0||userType==2'  tag="li" class="bierinc-main-container-aside-menu-li" :to="{ name:'concept'}">概念标签管理</router-link>
 					<router-link v-if='userType==1||userType==0'  tag='li' class="bierinc-main-container-aside-menu-li" :to="{name:'chargeAudit'}">提现审核</router-link>
                     <router-link v-if='userType==0' tag='li' class="bierinc-main-container-aside-menu-li"
-                                 :to="{name:'reconciliation'}">对账
+                                 :to="{name:'reconciliation'}">账号交易
                     </router-link>
-					<!--<router-link v-if='' tag='li' class="bierinc-main-container-aside-menu-li" :to="{name:'usersVisit'}">前台用户访问</router-link>-->
+                    <!--<router-link v-if='userType==0' tag='li' class="bierinc-main-container-aside-menu-li" :to="{name:'usersVisit'}">前台用户访问</router-link>-->
 					<router-link v-if='userType==0'  tag='li' class="bierinc-main-container-aside-menu-li" :to="{name:'backUsersVisit'}">后台用户访问</router-link>
 				</ul>
 			</el-aside>
@@ -63,17 +64,17 @@
 		},
 		methods: {
 			handleCommand(command) {
-				if(command === 'out') {
-					let params = {
-						url: 'SignOut',
-						data: {
-							userid: this.userid,
-							token: this.token
-						},
-						type:'get',
-						flag:true,
-					};
-					Cache.removeSession('bier_username');
+                if (command === 'out') {
+                    let params = {
+                        url: 'SignOut',
+                        data: {
+                            userid: this.userid,
+                            token: this.token,
+                        },
+                        type: 'get',
+                        flag: true,
+                    };
+                    Cache.removeSession('bier_username');
 					Cache.removeSession('bier_token');
 					Request.requestHandle(params, res => {
 						this.$router.push({

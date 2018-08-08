@@ -1,40 +1,34 @@
 <template>
     <div class="user-management-list">
         <i></i>
-        <el-tabs v-model="activeName" type="border-card">
-            <el-tab-pane name="first">
-                <span slot="label"><i class="iconfont icon-guanggaozu"></i> 广告</span>
+        <el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
+            <el-tab-pane name="advert">
+                <span slot="label"><i class="iconfont icon-guanggaozu"></i> 广告账户</span>
                 <div class="sreach">
                     <div style="width:217px;overflow: hidden;float: left;margin-right: 20px;">
-                        <el-input v-model="chargeSearchStr" placeholder="请输入搜索内容"></el-input>
+                        <el-input v-model="advertSearch" placeholder="请输入搜索内容"></el-input>
                     </div>
                     <el-button @click="chargeSearchBtn">搜索</el-button>
                 </div>
-                <el-table ref="multipleTable" :data="chargeAuditData" border tooltip-effect="dark" stripe
-                          :header-cell-class-name="tableHeaderClassName" style="width: 100%;margin-top: 10px;">
+                <el-table ref="singleTable" :data="advertData" border tooltip-effect="dark" stripe
+                          :header-cell-class-name="tableHeaderClassName" style="width: 100%;margin-top: 10px;"
+                          :row-class-name="tableRowClassName">
+
                     <el-table-column prop="accountNo" label="账号" align="center">
                     </el-table-column>
                     <el-table-column prop="accountName" label="姓名" align="center">
                     </el-table-column>
                     <el-table-column prop="accountIdCard" label="身份证" align="center">
                     </el-table-column>
-
-                    <el-table-column prop="id" label="id" align="center">
+                    <el-table-column prop="accountId" label=" 账号ID" align="center">
                     </el-table-column>
-
-                    <el-table-column prop="createTime" label="时间" align="center">
+                    <el-table-column prop="rechargeTotal" label="充值总额" align="center">
                     </el-table-column>
-
-                    <el-table-column prop="money" label="金额" align="center">
+                    <el-table-column prop="tradeRechargeTotal" label="充值记录总金额" align="center">
                     </el-table-column>
-                    <el-table-column label="操作" align="center">
-                        <template slot-scope="scope">
-                            <el-button size="mini" v-if='scope.row.status==3' @click="upDetail(scope.row)">审核
-                            </el-button>
-                            <p v-if='scope.row.status==1'>成功</p>
-                            <p v-if='scope.row.status==2'>待转账</p>
-                            <p v-if='scope.row.status==4'>不通过</p>
-                        </template>
+                    <el-table-column prop="withdrawalTotal" label="提现总额" align="center">
+                    </el-table-column>
+                    <el-table-column prop="tradeWithdrawalTotal" label="提现记录总金额" align="center">
                     </el-table-column>
                 </el-table>
                 <el-pagination background
@@ -47,29 +41,19 @@
                                style="text-align: center;">
                 </el-pagination>
             </el-tab-pane>
-            <el-tab-pane name="second">
-                <span slot="label"><i class="iconfont icon-zhongchou"></i> 众筹</span>
-                <div class="sreach">
-                    <div style="width:217px;overflow: hidden;float: left;margin-right: 20px;">
-                        <el-input v-model="flowSearchStr" placeholder="请输入搜索内容"></el-input>
-                    </div>
-                    <el-button @click="flowSearchBtn">搜索</el-button>
-                </div>
-                <el-table ref="multipleTable" :data="flowRecordData" border tooltip-effect="dark" stripe
-                          :header-cell-class-name="tableHeaderClassName" style="width: 100%;margin-top: 10px;">
-                    <el-table-column prop="accountNo" label="账号" align="center">
-                    </el-table-column>
-                    <el-table-column prop="accountName" label="姓名" align="center">
-                    </el-table-column>
-                    <el-table-column prop="accountIdCard" label="身份证" align="center">
+            <el-tab-pane name="corwd">
+                <span slot="label"><i class="iconfont icon-zhongchou"></i> 公司账号</span>
+                <el-table ref="multipleTable" :data="corwdData" border tooltip-effect="dark" stripe
+                          :header-cell-class-name="tableHeaderClassName" style="width: 100%;margin-top: 10px;"
+                          :row-class-name="tableRowClassName">
+                    <el-table-column prop="rechargeTotal" label="充值总额" align="center">
                     </el-table-column>
 
-                    <el-table-column prop="id" label="id" align="center">
+                    <el-table-column prop="tradeRechargeTotal" label="充值记录总金额" align="center">
                     </el-table-column>
-                    <el-table-column prop="createTime" label="时间" align="center">
+                    <el-table-column prop="withdrawalTotal" label="提现总额" align="center">
                     </el-table-column>
-
-                    <el-table-column prop="money" label="金额" align="center">
+                    <el-table-column prop="tradeWithdrawalTotal" label="提现记录总金额" align="center">
                     </el-table-column>
                 </el-table>
                 <el-pagination background
@@ -95,71 +79,85 @@
         name: 'chargeAudit',
         data() {
             return {
-                activeName: 'first',//选项卡
-                chargeSearchStr: '',//提现搜索
-                flowSearchStr: '',//流水搜索
+                activeName: 'advert',//选项卡
+                tabName: 'advert',
+                advertSearch: '',//提现搜索
+                corwdSearch: '',//流水搜索
                 pageSize: Config.pageSize,//分页
                 pageTotal: 0,
-                page: 1,//当前页
-                chargeAuditData: [],
-                flowRecordData: [],
+                advertPage: 1,//当前页
+                corwdPage: 1,
+                corwdData: [],
+                advertData: [],
+
+
             };
         },
         created() {
-            this.queryData('charge');
-            this.queryData('flowRecord');
+            this.queryData();
+
         },
         methods: {
-            queryData(name, pageSize = Config.pageSize) {//通用请求页面data
-                let type = 0;
-                let searchStr = this.chargeSearchStr;
-                if (name == 'flowRecord') {
-                    type = 1;
-                    searchStr = this.flowSearchStr;
+            queryData(pageSize = Config.pageSize) {//通用请求页面data
+                let url,
+                    searchStr,
+                    page,
+                    name = this.tabName;
+
+                if (name == 'advert') {
+                    url = 'QueryAdvertIdTeal';
+                    page = this.advertPage;
+                    searchStr = this.advertSearch;
                 }
-                let params = {
-                    url: 'QueryChargeAuditData',
+                if (name == 'corwd') {
+                    url = 'QuerycowrdIdTeal';
+                    page = this.corwdPage;
+                    searchStr = this.corwdSearch;
+                }
+                Request.requestHandle({
+                    url,
                     data: {
-                        page: this.page,
+                        page,
                         pageSize,
-                        type,
                         searchStr,
                     },
                     type: 'get',
-                };
-                Request.requestHandle(params, res => {
-                    if (name == 'flowRecord') {
-                        this.flowRecordData = res.data;
-                        this.pageTotal = res.total;
+                }, res => {
+                    if (name == 'advert') {
+                        this.advertData = res.data;
+                    } else if (name == 'corwd') {
+                        this.corwdData = res.data;
                     }
-                    else if (name == 'charge') {
-                        this.chargeAuditData = res.data;
-                        this.pageTotal = res.total;
-                    }
+                    this.pageTotal = res.total;
+
+
                 });
             },
-            upDetail(row) {//审核跳转
-                this.$router.push({
-                    name: 'reconciliationDetail',
-                    params: {
-                        accountId: row.accountId,
-                        id: row.id,
-                    },
-                });
+            handleClick(tab, event) {
+                this.tabName = tab.name;
+                this.queryData();
+
+            },
+            tableRowClassName({row, rowIndex}) {
+                if (row.status === 1) {
+                    return 'warning-row';
+                } else if (rowIndex === 3) {
+                    return 'success-row';
+                }
+                return '';
             },
             chargeSearchBtn() {//提现搜索
-                this.queryData('charge');
+                this.queryData();
             },
             flowSearchBtn() {//流水搜索
-                this.queryData('flowRecord');
+                this.queryData();
             },
-            chargeHandleCurrent(val) {//提现翻页改变
-                this.page = val;
-                this.queryData('charge');
+            chargeHandleCurrent(val) {//广告翻页改变
+                this.advertPage = val;
+                this.queryData();
             },
-            flowHandleCurrent(val) {//流水翻页改变
-                this.page = val;
-                this.queryData('flowRecord');
+            flowHandleCurrent(val) {//众筹翻页改变
+
             },
             tableHeaderClassName({
                                      row,
@@ -170,7 +168,7 @@
         },
     };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
     @import '../../../assets/css/variable.scss';
 
     .sreach {
@@ -196,6 +194,10 @@
             color: $anchorColor;
             margin-left: 20px;
         }
+    }
+
+    .warning-row {
+        color: red;
     }
 
 </style>
