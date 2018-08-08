@@ -96,7 +96,6 @@
 				flowSearchStr:'',//流水搜索
 				pageSize:Config.pageSize,//分页
 				pageTotal:0,
-				page:1,//当前页
 				chargeAuditData:[],
 				flowRecordData:[]
 			}
@@ -106,7 +105,7 @@
 			this.queryData('flowRecord')
 		},
 		methods:{
-			queryData(name,pageSize=Config.pageSize){//通用请求页面data
+            queryData(name, page = 0, pageSize = Config.pageSize) {//通用请求页面data
 				let type = 0;
 				let searchStr = this.chargeSearchStr;
 				if(name=="flowRecord"){
@@ -116,7 +115,7 @@
 				let params = {
 					url:'QueryChargeAuditData',
 					data:{
-						page:this.page,
+                        page,
 						pageSize,
 						type,
 						searchStr
@@ -150,12 +149,10 @@
 				this.queryData('flowRecord')
 			},
 			chargeHandleCurrent(val){//提现翻页改变
-				this.page = val;
-				this.queryData('charge')
+                this.queryData('charge', val);
 			},
 			flowHandleCurrent(val){//流水翻页改变
-				this.page = val;
-				this.queryData('flowRecord')
+                this.queryData('flowRecord', val);
 			},
 			tableHeaderClassName({
 				row,

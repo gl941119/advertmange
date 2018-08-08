@@ -6,21 +6,16 @@
                 <span slot="label"><i class="iconfont icon-guanggaozu"></i> 广告账户</span>
                 <div class="sreach">
                     <div style="width:217px;overflow: hidden;float: left;margin-right: 20px;">
-                        <el-input v-model="advertSearch" placeholder="请输入搜索内容"></el-input>
+                        <el-input v-model="advertSearch" placeholder="请输入账号"></el-input>
                     </div>
                     <el-button @click="chargeSearchBtn">搜索</el-button>
                 </div>
                 <el-table ref="singleTable" :data="advertData" border tooltip-effect="dark" stripe
                           :header-cell-class-name="tableHeaderClassName" style="width: 100%;margin-top: 10px;"
                           :row-class-name="tableRowClassName">
-
-                    <el-table-column prop="accountNo" label="账号" align="center">
-                    </el-table-column>
-                    <el-table-column prop="accountName" label="姓名" align="center">
-                    </el-table-column>
-                    <el-table-column prop="accountIdCard" label="身份证" align="center">
-                    </el-table-column>
                     <el-table-column prop="accountId" label=" 账号ID" align="center">
+                    </el-table-column>
+                    <el-table-column prop="accountNo" label="账号" align="center">
                     </el-table-column>
                     <el-table-column prop="rechargeTotal" label="充值总额" align="center">
                     </el-table-column>
@@ -56,15 +51,15 @@
                     <el-table-column prop="tradeWithdrawalTotal" label="提现记录总金额" align="center">
                     </el-table-column>
                 </el-table>
-                <el-pagination background
-                               layout="prev, pager, next"
-                               prev-text="上一页"
-                               next-text="下一页"
-                               :page-size="pageSize"
-                               @current-change="flowHandleCurrent"
-                               :total="pageTotal"
-                               style="text-align: center;">
-                </el-pagination>
+                <!--<el-pagination background-->
+                <!--layout="prev, pager, next"-->
+                <!--prev-text="上一页"-->
+                <!--next-text="下一页"-->
+                <!--:page-size="pageSize"-->
+                <!--@current-change="flowHandleCurrent"-->
+                <!--:total="pageTotal"-->
+                <!--style="text-align: center;">-->
+                <!--</el-pagination>-->
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -85,33 +80,24 @@
                 corwdSearch: '',//流水搜索
                 pageSize: Config.pageSize,//分页
                 pageTotal: 0,
-                advertPage: 1,//当前页
-                corwdPage: 1,
                 corwdData: [],
                 advertData: [],
-
-
             };
         },
         created() {
             this.queryData();
-
         },
         methods: {
-            queryData(pageSize = Config.pageSize) {//通用请求页面data
+            queryData(page = 1, pageSize = Config.pageSize) {//通用请求页面data
                 let url,
                     searchStr,
-                    page,
                     name = this.tabName;
-
                 if (name == 'advert') {
                     url = 'QueryAdvertIdTeal';
-                    page = this.advertPage;
                     searchStr = this.advertSearch;
                 }
                 if (name == 'corwd') {
                     url = 'QuerycowrdIdTeal';
-                    page = this.corwdPage;
                     searchStr = this.corwdSearch;
                 }
                 Request.requestHandle({
@@ -153,8 +139,8 @@
                 this.queryData();
             },
             chargeHandleCurrent(val) {//广告翻页改变
-                this.advertPage = val;
-                this.queryData();
+
+                this.queryData(val);
             },
             flowHandleCurrent(val) {//众筹翻页改变
 
