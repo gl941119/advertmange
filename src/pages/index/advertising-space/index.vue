@@ -14,6 +14,11 @@
                     <el-menu-item index="中国">中国</el-menu-item>
                     <el-menu-item index="英文">英文</el-menu-item>
                 </el-submenu>
+                <el-submenu index="2">
+                    <template slot="title">{{pcOrMobile}}</template>
+                    <el-menu-item index="0">PC</el-menu-item>
+                    <el-menu-item index="1">Wap</el-menu-item>
+                </el-submenu>
             </el-menu>
             <el-table ref="multipleTable" :data="bannerListData" @cell-click="bannerCellClick" border
                       tooltip-effect="dark" stripe :header-cell-class-name="tableHeaderClassName" style="width: 100%">
@@ -188,8 +193,9 @@
                 crowdCellClickData: '',
                 activeIndex: '1', //下拉菜单默认
                 menuDefault: '中国',
+                pcOrMobile: 'PC',
                 lang: 'zh',
-
+                advertType:'0',
             };
         },
         created() {
@@ -200,15 +206,18 @@
         },
         methods: {
             handleSelect(key, keyPath) {
-
-                this.menuDefault = key;
-                if (key == '中国') {
-                    this.lang = 'zh';
+                if(keyPath[0] === '1'){
+                    console.log(keyPath)
+                    this.menuDefault = key;
+                    if (key == '中国') {
+                        this.lang = 'zh';
+                    }
+                    if (key == '英文') {
+                        this.lang = 'EN';
+                    }
+                }else{
+                    this.advertType = key;
                 }
-                if (key == '英文') {
-                    this.lang = 'EN';
-                }
-
                 this.getAdvertisingInfo();
             },
             bannerCellClick(row) {
@@ -237,6 +246,7 @@
                         advertPosition,
                         pagesize: this.pageSize,
                         lang: this.lang,
+                        advertType:this.advertType
                     },
                     type: 'get',
                 };
@@ -259,6 +269,7 @@
                     url: 'DeletedAdvertising',
                     data: {
                         id: id,
+                        advertType:this.advertType
                     },
                     type: 'post',
                 };
@@ -270,7 +281,7 @@
                 });
             },
             addBannerLink(item, type) {
-                console.log(item);
+                // console.log(item);
                 this.$prompt('请输入链接', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -304,6 +315,7 @@
                         advertisements: [{
                             advertSort: item.advertSort,
                             advertUrl: item.advertUrl,
+                            advertType:this.advertType,
                             banner: item.banner,
                             id: item.id,
                         }],
@@ -326,6 +338,7 @@
                         advertisements: [{
                             advertSort: item.advertSort,
                             advertUrl: item.advertUrl,
+                            advertType:this.advertType,
                             banner: item.banner,
                             id: item.id,
                         }],
@@ -349,6 +362,7 @@
                         advertisements: [{
                             advertSort: item.advertSort,
                             advertUrl: item.advertUrl,
+                            advertType:this.advertType,
                             banner: item.banner,
                             id: item.id,
 
@@ -374,6 +388,7 @@
                     data: {
                         advertSort: parseInt(row.advertSort),
                         advertUrl: row.advertUrl,
+                        advertType:this.advertType,
                         banner: row.banner,
                         id: row.id,
                     },

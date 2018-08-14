@@ -1,5 +1,5 @@
 const url = {
-    localTestUrl: 'http://192.168.1.180:8092/',
+    localTestUrl: 'http://192.168.1.254:8092/',
     productUrl: 'http://192.168.1.254:8092/',
     // productUrl: '/mapi/',
 };
@@ -10,5 +10,5 @@ export default {
     miniPageSize: 10, // 小量
     pageStart: 1,
     UploadBulletinFileUrl: (process.env.NODE_ENV === 'development' ? url.localTestUrl : url.productUrl) + 'amazonsuper/pagehome/uploadfile',
-    UploadImg: (process.env.NODE_ENV === 'development' ? url.localTestUrl : url.productUrl) + 'advertmange/common/upload-file'
+    UploadImg: (process.env.NODE_ENV === 'development' ? url.localTestUrl : url.productUrl) + 'advertmange/common/upload-file',
 };
