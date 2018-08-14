@@ -16,8 +16,8 @@
                 </el-submenu>
                 <el-submenu index="2">
                     <template slot="title">{{pcOrMobile}}</template>
-                    <el-menu-item index="0">PC</el-menu-item>
-                    <el-menu-item index="1">Wap</el-menu-item>
+                    <el-menu-item index="PC">PC</el-menu-item>
+                    <el-menu-item index="Wap">Wap</el-menu-item>
                 </el-submenu>
             </el-menu>
             <el-table ref="multipleTable" :data="bannerListData" @cell-click="bannerCellClick" border
@@ -207,7 +207,6 @@
         methods: {
             handleSelect(key, keyPath) {
                 if(keyPath[0] === '1'){
-                    console.log(keyPath)
                     this.menuDefault = key;
                     if (key == '中国') {
                         this.lang = 'zh';
@@ -216,7 +215,13 @@
                         this.lang = 'EN';
                     }
                 }else{
-                    this.advertType = key;
+                    this.pcOrMobile = key;
+                    if (key == 'PC') {
+                        this.advertType = '0';
+                    }
+                    if (key == 'Wap') {
+                        this.advertType = '1';
+                    }
                 }
                 this.getAdvertisingInfo();
             },
