@@ -42,26 +42,26 @@ data.table_819_data = table_819_data;
 // let zx__819_gmv_data = [653589];
 // let zx__819_register_data = [287138];
 // let zx__819_month_data = ['8'];
-let zx__816_pv_data = [6435397];
+let zx__816_pv_data = [6685397];
 let zx__816_uv_data = [2603894];
 let zx__816_gmv_data = [412913];
 let zx__816_register_data = [259950];
 let zx__816_month_data = ['8' ,'9', '10','11'];
 
-let zx__817_pv_data = [7052051];
-let zx__817_uv_data = [2837350];
+let zx__817_pv_data = [7422051];
+let zx__817_uv_data = [2867350];
 let zx__817_gmv_data = [492457];
 let zx__817_register_data = [287630];
 let zx__817_month_data = ['8' ,'9', '10','11'];
 
-let zx__818_pv_data = [7657716];
-let zx__818_uv_data = [3075226];
+let zx__818_pv_data = [8207716];
+let zx__818_uv_data = [3145226];
 let zx__818_gmv_data = [576585];
 let zx__818_register_data = [313308];
 let zx__818_month_data = ['8' ,'9', '10','11'];
 
-let zx__819_pv_data = [7113194];
-let zx__819_uv_data = [2842938];
+let zx__819_pv_data = [7883194];
+let zx__819_uv_data = [2982938];
 let zx__819_gmv_data = [653589];
 let zx__819_register_data = [287138];
 let zx__819_month_data =['8' ,'9', '10','11'];

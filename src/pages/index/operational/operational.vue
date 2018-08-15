@@ -17,7 +17,7 @@
 				<el-table-column label="UV" prop='uv'></el-table-column>
 				<el-table-column label="GMV" prop='gmv'></el-table-column>
 				<el-table-column label="新增注册" prop='register'></el-table-column>
-				<el-table-column label="日活" prop='daylive'></el-table-column>
+				<el-table-column label="日活(不包含新增注册)" prop='daylive'></el-table-column>
 			</el-table>
 			<el-pagination
 			layout="prev, pager, next"
@@ -272,7 +272,7 @@
 				 },
 				 daylivedata:{
 					title: {
-						text: '日活 折线图',
+						text: '日活((不包含新增注册)) 折线图',
 						// subtext: '我是子标题'
 					},
 					tooltip: {
