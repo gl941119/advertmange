@@ -25,6 +25,8 @@ import BackUsersVisit from '@/pages/index/backUsersVisit/backUsersVisit'
 //对账
 import Reconciliation from '@/pages/index/reconciliation/reconciliation';
 
+//运行数据
+import Operational from '@/pages/index/operational/operational';
 
 //测试
 
@@ -110,6 +112,10 @@ export default new Router({
 					path: 'backUsersVisit',
 					name: 'backUsersVisit',
 					component: BackUsersVisit
+				}, {
+					path: 'operational',
+					name: 'operational',
+					component: Operational
 				}
 
 			],

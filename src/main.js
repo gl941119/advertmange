@@ -12,6 +12,9 @@ import Cache from './utils/cache';
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 
+import ECharts from 'vue-echarts/components/ECharts' //引入 
+require('echarts');//引入所有表 
+Vue.component('chart', ECharts) //注册组件
 
 router.beforeEach((to, from, next) => {
     let token = Cache.getSession('bier_token');
