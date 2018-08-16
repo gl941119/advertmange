@@ -272,7 +272,7 @@
 				 },
 				 daylivedata:{
 					title: {
-						text: '日活((不包含新增注册)) 折线图',
+						text: '日活((不包含新增注册) 折线图',
 						// subtext: '我是子标题'
 					},
 					tooltip: {
