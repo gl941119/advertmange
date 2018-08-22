@@ -63,5 +63,7 @@ export default {
     QueryAdvertIdTeal: 'advertmange/trade-warning/all',
     QuerycowrdIdTeal: 'advertmange/trade-warning/compay-trade/all',
 
+    // 运营数据
+    QueryAllReportData: 'advertmange/account-report/account/all',
 
 };
