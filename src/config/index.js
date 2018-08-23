@@ -65,5 +65,9 @@ export default {
 
     // 运营数据
     QueryAllReportData: 'advertmange/account-report/account/all',
-
+    // 广告主管理
+    QueryAdvertiserAll: 'advertmange/advert-account/advert/all',
+    QueryAdvertiser: 'advertmange/advert-account/account',
+    AddAdvertiser: 'advertmange/advert-account/add',
+    ChangeAdvertiser: 'advertmange/advert-account/update',
 };
