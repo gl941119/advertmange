@@ -31,7 +31,7 @@
 						<img :src="dialog.idFront" alt="" />
 						<img :src="dialog.idSite" style="margin-top: 9px;"/>
 					</div>
-					<img :src="dialog.idHeader" alt=""  style="float: left;margin-left: 5px;"/>
+					<img :src="dialog.idHeader" alt=""  style="float: left;margin-left: 5px;width: 400px;height: 609px;"/>
 				</div>
 				<div slot="footer" class="dialog-footer">
 				    <el-button @click="isPass(3)">拒绝</el-button>
@@ -188,8 +188,12 @@
 
 	}
 	.idFrontAndSite{
-		width: 175px;
+        width: 500px;
 		float: left;
+        img{
+            width: 500px;
+            height: 300px;
+        }
 
 	}
 </style>
