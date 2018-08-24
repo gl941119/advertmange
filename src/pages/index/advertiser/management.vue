@@ -38,6 +38,8 @@
             </template>
 </el-table-column>
 </el-table>
+<el-pagination background layout="prev, pager, next" prev-text="上一页" next-text="下一页" :page-size="pageSize" @current-change="queryCurrentPageList" :total="pageTotal" style="text-align: center;">
+</el-pagination>
 <el-dialog title="广告主" width="600px" :visible.sync="dialogFormVisible">
     <el-form :model="form">
         <el-form-item label="名称" :label-width="formLabelWidth">
@@ -76,7 +78,7 @@
                 form: {
                     name: '',
                     email: '',
-                    id:'',
+                    id: '',
                 },
                 logo: '',
                 formLabelWidth: '50px',
@@ -85,25 +87,33 @@
                     token: this.$store.state.token ||
                         Cache.getSession('bier_token')
                 },
+                currPage:1,
+                pageTotal: 0,
+				pageSize: Config.pageSize,
             }
         },
         mounted() {
             this.advertiser();
         },
         methods: {
-            advertiser() {
+            queryCurrentPageList(page) {
+				this.currPage = page;
+				this.advertiser();
+			},
+            advertiser(pageSize = Config.pageSize) {
                 let params = {
                     url: 'QueryAdvertiserAll',
                     data: {
-                        id: 900,
-                        page: 1,
-                        pageSize: 10,
+                        id: this.userid,
+                        page: this.currPage,
+                        pageSize,
                         searchStr: '',
                     },
                     type: 'get',
                 };
                 Request.requestHandle(params, res => {
                     this.tableData = res.data;
+                    this.pageTotal = res.total;
                 });
             },
             showTime(value) {
@@ -126,7 +136,7 @@
                     type: 'warning'
                 });
             },
-            add(){
+            add() {
                 let params = {
                     url: 'AddAdvertiser',
                     data: {
