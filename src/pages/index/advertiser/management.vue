@@ -22,8 +22,6 @@
                 <img class="management-image" :src="scope.row.logo" />
             </template>
 </el-table-column>
-<el-table-column align="center" prop="url" label="URL链接">
-</el-table-column>
 <el-table-column align="center" prop="balance" label="账户余额（）">
 </el-table-column>
 <el-table-column align="center" prop="yesterdayConsume" label="昨日消费（AFDT）">
