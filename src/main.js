@@ -9,10 +9,10 @@ import '@/assets/css/global.scss';
 import store from './store';
 import Cache from './utils/cache';
 
-import ECharts from 'vue-echarts/components/ECharts'
+import ECharts from 'vue-echarts/components/ECharts';
 
 Vue.config.productionTip = false;
-Vue.use(ElementUI);; // 引入
+Vue.use(ElementUI); // 引入
 require('echarts');// 引入所有表
 Vue.component('chart', ECharts); // 注册组件
 
