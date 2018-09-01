@@ -1,7 +1,7 @@
 const url = {
-    localTestUrl: 'http://192.168.1.254:8092/',
-    // productUrl: 'http://192.168.1.254:8092/',
-    productUrl: '/mapi/',
+    // localTestUrl: 'http://192.168.1.254:6080/',
+    productUrl: 'http://192.168.1.254:6080/',
+    // productUrl: '/mapi/',
 };
 
 export default {
