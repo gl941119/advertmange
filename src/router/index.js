@@ -30,6 +30,12 @@ import Operational from '@/pages/index/operational/operational';
 // 运行数据
 import Management from '@/pages/index/advertiser/Management';
 
+//运营绩效
+import operationalPer from '@/pages/index/operationalPer/operationalPer';
+//查看运营绩效数据
+import queryOperational from '@/pages/index/operationalPer/pages/queryOperational';
+
+
 // 测试
 
 import PublicAccountCom from '@/pages/index/public-account';
@@ -45,86 +51,87 @@ export default new Router({
             name: 'login',
         },
     },
-    {
-        path: '/login',
-        name: 'login',
-        component: LoginCom,
-    },
-    {
-        path: '/index',
-        name: 'index',
-        meta: {
-            requiresAuth: true,
-        },
-        component: IndexCom,
-        redirect: {
-            name: 'home',
-        },
-        children: [{
-            path: 'home',
-            name: 'home',
-            component: HomeCom,
+        {
+            path: '/login',
+            name: 'login',
+            component: LoginCom,
         },
         {
-            path: 'advertDetails/:id/:value',
-            name: 'advertDetails',
-            component: advertDetails,
+            path: '/index',
+            name: 'index',
+            meta: {
+                requiresAuth: true,
+            },
+            component: IndexCom,
+            redirect: {
+                name: 'home',
+            },
+            children: [{
+                path: 'home',
+                name: 'home',
+                component: HomeCom,
+            }, {
+                path: 'advertDetails/:id/:value',
+                name: 'advertDetails',
+                component: advertDetails,
+            }, {
+                path: 'crowdfunding',
+                name: 'crowdfunding',
+                component: CrowdfundingCom,
+            }, {
+                path: 'crowdfundingDetail/:id/:value',
+                name: 'crowdfundingDetail',
+                component: CrowdfundingDetail,
+            }, {
+                path: 'advertising',
+                name: 'advertising',
+                component: AdvertisingCom,
+            }, {
+                path: 'authentication',
+                name: 'authentication',
+                component: AuthenticationCom,
+            }, {
+                path: 'concept',
+                name: 'concept',
+                component: ConceptnCom,
+            }, {// 提现审核
+                path: 'chargeAudit',
+                name: 'chargeAudit',
+                component: chargeAudit,
+            }, {// 提现审核详情
+                path: 'chargeAuditDetail/:accountId/:id',
+                name: 'chargeAuditDetail',
+                component: chargeAuditDetail,
+            }, {// 对账
+                path: 'reconciliation',
+                name: 'reconciliation',
+                component: Reconciliation,
+            }, {
+                path: 'usersVisit',
+                name: 'usersVisit',
+                component: usersVisit,
+            }, {
+                path: 'backUsersVisit',
+                name: 'backUsersVisit',
+                component: BackUsersVisit,
+            }, {
+                path: 'operational',
+                name: 'operational',
+                component: Operational,
+            }, {
+                path: 'management',
+                name: 'management',
+                component: Management,
+            }, {//运营绩效
+                path: 'operationalPer',
+                name: 'operationalPer',
+                component: operationalPer,
+            }, {//运营绩效查询
+                path: 'queryOperational',
+                name: 'queryOperational',
+                component: queryOperational,
+            },
+            ],
         },
-        {
-            path: 'crowdfunding',
-            name: 'crowdfunding',
-            component: CrowdfundingCom,
-        },
-        {
-            path: 'crowdfundingDetail/:id/:value',
-            name: 'crowdfundingDetail',
-            component: CrowdfundingDetail,
-        },
-        {
-            path: 'advertising',
-            name: 'advertising',
-            component: AdvertisingCom,
-        },
-        {
-            path: 'authentication',
-            name: 'authentication',
-            component: AuthenticationCom,
-        },
-        {
-            path: 'concept',
-            name: 'concept',
-            component: ConceptnCom,
-        }, {// 提现审核
-            path: 'chargeAudit',
-            name: 'chargeAudit',
-            component: chargeAudit,
-        }, {// 提现审核详情
-            path: 'chargeAuditDetail/:accountId/:id',
-            name: 'chargeAuditDetail',
-            component: chargeAuditDetail,
-        }, {// 对账
-            path: 'reconciliation',
-            name: 'reconciliation',
-            component: Reconciliation,
-        }, {
-            path: 'usersVisit',
-            name: 'usersVisit',
-            component: usersVisit,
-        }, {
-            path: 'backUsersVisit',
-            name: 'backUsersVisit',
-            component: BackUsersVisit,
-        }, {
-            path: 'operational',
-            name: 'operational',
-            component: Operational,
-        },
-        {
-            path: 'management',
-            name: 'management',
-            component: Management,
-        },
-        ],
-    },
     ],
 });

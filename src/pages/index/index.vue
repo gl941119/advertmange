@@ -69,6 +69,10 @@
                                  tag='li'
                                  class="bierinc-main-container-aside-menu-li"
                                  :to="{name:'management'}">广告主管理</router-link>
+                    <router-link v-if='userType==0'
+                                 tag='li'
+                                 class="bierinc-main-container-aside-menu-li"
+                                 :to="{name:'operationalPer'}">运营绩效</router-link>
                 </ul>
             </el-aside>
             <el-main class="bierinc-main-container-view">

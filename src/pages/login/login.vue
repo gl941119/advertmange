@@ -72,7 +72,6 @@
 					type: true
 				},
 				loading: false
-
 			};
 		},
 		methods: {

@@ -70,4 +70,10 @@ export default {
     QueryAdvertiser: 'advertmange/advert-account/account',
     AddAdvertiser: 'advertmange/advert-account/add',
     ChangeAdvertiser: 'advertmange/advert-account/update',
+
+    //运营绩效
+    getAllOperater: 'advertmange/account/getAllOperater',//运营账号--分页查询
+    addAccountOperater:'advertmange/account/addAccountOperater',//新增运营商务账号
+    updateAccountOperater:'advertmange/account/updateAccountOperater',//修改运营商务账号
+
 };
