@@ -1,10 +1,10 @@
 <template>
     <div class="user-management-list">
         <div class="user-management-list-title">
-            <span>数据截至时间:{{titleData.abortDate}}</span>
-            <span>员工:{{titleData.staffName}}</span>
-            <span>注册总人数:{{titleData.allRegisterNumber}}</span>
-            <span>总点击量:{{titleData.allClickNumber}}</span>
+            <span>数据截至时间:&nbsp;&nbsp;{{titleData.abortDate}}</span>
+            <span>员工:&nbsp;&nbsp;{{titleData.staffName}}</span>
+            <span>注册总人数:&nbsp;&nbsp;{{titleData.allRegisterNumber}}</span>
+            <span>总点击量:&nbsp;&nbsp;{{titleData.allClickNumber}}</span>
         </div>
         <div class="user-management-list-back">
             <el-button size="medium" @click="Back">返回</el-button>
