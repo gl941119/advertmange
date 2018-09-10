@@ -73,7 +73,9 @@ export default {
 
     //运营绩效
     getAllOperater: 'advertmange/account/getAllOperater',//运营账号--分页查询
-    addAccountOperater:'advertmange/account/addAccountOperater',//新增运营商务账号
-    updateAccountOperater:'advertmange/account/updateAccountOperater',//修改运营商务账号
-
+    addAccountOperater: 'advertmange/account/addAccountOperater',//新增运营商务账号
+    updateAccountOperater: 'advertmange/account/updateAccountOperater',//修改运营商务账号
+    deleteAccountOperater: 'advertmange/account/deleteAccountOperater',//删除运营商务账号
+    getDetailsWithId: 'advertmange/account/getDetailsWithId',//运营账号--点击查看，表头信息
+    getDetailsTable: 'advertmange/account/getDetailsTable',//运营账号--点击查看，表格数据信息
 };

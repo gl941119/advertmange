@@ -23,12 +23,12 @@ import usersVisit from '@/pages/index/usersVisit/usersVisit';
 // 后台用户访问
 import BackUsersVisit from '@/pages/index/backUsersVisit/backUsersVisit';
 // 对账
-import Reconciliation from '@/pages/index/reconciliation/reconciliation';
+import Reconciliation from '@/pages/index/reconciliation/Reconciliation';
 
 // 运行数据
 import Operational from '@/pages/index/operational/operational';
 // 运行数据
-import Management from '@/pages/index/advertiser/Management';
+import Management from '@/pages/index/advertiser/management';
 
 //运营绩效
 import operationalPer from '@/pages/index/operationalPer/operationalPer';
