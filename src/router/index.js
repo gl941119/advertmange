@@ -35,6 +35,9 @@ import operationalPer from '@/pages/index/operationalPer/operationalPer';
 //查看运营绩效数据
 import queryOperational from '@/pages/index/operationalPer/pages/queryOperational';
 
+//数据字典
+ import dictionaries from '@/pages/index/dictionaries';
+
 
 // 测试
 
@@ -130,7 +133,12 @@ export default new Router({
                 path: 'queryOperational',
                 name: 'queryOperational',
                 component: queryOperational,
-            },
+            },{
+                path:'dictionaries',
+                name:'dictionaries',
+                component:dictionaries
+
+            }
             ],
         },
     ],

@@ -78,4 +78,14 @@ export default {
     deleteAccountOperater: 'advertmange/account/deleteAccountOperater',//删除运营商务账号
     getDetailsWithId: 'advertmange/account/getDetailsWithId',//运营账号--点击查看，表头信息
     getDetailsTable: 'advertmange/account/getDetailsTable',//运营账号--点击查看，表格数据信息
+
+    //数据字典
+    getDictionaries:'advertmange/dict/getAll',//数据字典分页查询
+    addDictionaries:'advertmange/dict/add',//增加数据
+    updataDictionaties:'advertmange/dict/update',//更新字典
+    deleteDictionaties:'advertmange/dict/delete',//删除字典
+    queryDictionaties:'advertmange/dict/get',//根据主键查询字典
+
+
+
 };

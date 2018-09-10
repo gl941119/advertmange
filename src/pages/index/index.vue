@@ -30,27 +30,33 @@
                     <router-link v-if='userType==1||userType==0'
                                  tag="li"
                                  class="bierinc-main-container-aside-menu-li"
-                                 :to="{ name:'home' }">广告项目审核</router-link>
+                                 :to="{ name:'home' }">广告项目审核
+                    </router-link>
                     <router-link v-if='userType==2||userType==0'
                                  tag="li"
                                  class="bierinc-main-container-aside-menu-li"
-                                 :to="{ name:'crowdfunding'}">众筹项目审核</router-link>
+                                 :to="{ name:'crowdfunding'}">众筹项目审核
+                    </router-link>
                     <router-link v-if='userType==1||userType==0'
                                  tag="li"
                                  class="bierinc-main-container-aside-menu-li"
-                                 :to="{ name:'advertising'}">广告位管理</router-link>
+                                 :to="{ name:'advertising'}">广告位管理
+                    </router-link>
                     <router-link v-if='userType==2||userType==0'
                                  tag="li"
                                  class="bierinc-main-container-aside-menu-li"
-                                 :to="{ name:'authentication'}">身份认证审核</router-link>
+                                 :to="{ name:'authentication'}">身份认证审核
+                    </router-link>
                     <router-link v-if='userType==1||userType==0||userType==2'
                                  tag="li"
                                  class="bierinc-main-container-aside-menu-li"
-                                 :to="{ name:'concept'}">概念标签管理</router-link>
+                                 :to="{ name:'concept'}">概念标签管理
+                    </router-link>
                     <router-link v-if='userType==1||userType==0'
                                  tag='li'
                                  class="bierinc-main-container-aside-menu-li"
-                                 :to="{name:'chargeAudit'}">提现审核</router-link>
+                                 :to="{name:'chargeAudit'}">提现审核
+                    </router-link>
                     <router-link v-if='userType==0'
                                  tag='li'
                                  class="bierinc-main-container-aside-menu-li"
@@ -60,19 +66,28 @@
                     <router-link v-if='userType==0'
                                  tag='li'
                                  class="bierinc-main-container-aside-menu-li"
-                                 :to="{name:'backUsersVisit'}">后台用户访问</router-link>
+                                 :to="{name:'backUsersVisit'}">后台用户访问
+                    </router-link>
                     <router-link v-if='userType==0'
                                  tag='li'
                                  class="bierinc-main-container-aside-menu-li"
-                                 :to="{name:'operational'}">运营数据</router-link>
+                                 :to="{name:'operational'}">运营数据
+                    </router-link>
                     <router-link v-if='userType==1||userType==0'
                                  tag='li'
                                  class="bierinc-main-container-aside-menu-li"
-                                 :to="{name:'management'}">广告主管理</router-link>
+                                 :to="{name:'management'}">广告主管理
+                    </router-link>
                     <router-link v-if='userType==0'
                                  tag='li'
                                  class="bierinc-main-container-aside-menu-li"
-                                 :to="{name:'operationalPer'}">运营绩效</router-link>
+                                 :to="{name:'operationalPer'}">运营绩效
+                    </router-link>
+                    <router-link v-if='userType==0'
+                                 tag='li'
+                                 class="bierinc-main-container-aside-menu-li"
+                                 :to="{name:'dictionaries'}">数据字典
+                    </router-link>
                 </ul>
             </el-aside>
             <el-main class="bierinc-main-container-view">
@@ -82,28 +97,29 @@
     </el-container>
 </template>
 <script>
-	import Cache from '../../utils/cache';
-	import Request from '../../utils/require';
-	export default {
-		data() {
-			return {
-				userid: this.$store.state.userid || Cache.getSession('bier_userid'),
-				token: this.$store.state.token || Cache.getSession('bier_token'),
-				userType:this.$store.state.userType || Cache.getSession('bier_userType')
-			};
-		},
-		computed: {
-			activeIndex() {
-				return this.$route.name;
-			},
-			userName() {
-				return(
-					this.$store.state.username || Cache.getSession('bier_username')
-				);
-			}
-		},
-		methods: {
-			handleCommand(command) {
+    import Cache from '../../utils/cache';
+    import Request from '../../utils/require';
+
+    export default {
+        data() {
+            return {
+                userid: this.$store.state.userid || Cache.getSession('bier_userid'),
+                token: this.$store.state.token || Cache.getSession('bier_token'),
+                userType: this.$store.state.userType || Cache.getSession('bier_userType'),
+            };
+        },
+        computed: {
+            activeIndex() {
+                return this.$route.name;
+            },
+            userName() {
+                return (
+                    this.$store.state.username || Cache.getSession('bier_username')
+                );
+            },
+        },
+        methods: {
+            handleCommand(command) {
                 if (command === 'out') {
                     let params = {
                         url: 'SignOut',
@@ -115,26 +131,27 @@
                         flag: true,
                     };
                     Cache.removeSession('bier_username');
-					Cache.removeSession('bier_token');
-					Request.requestHandle(params, res => {
-						this.$router.push({
-							name: 'login'
-						});
-					});
-				}
-			}
-		},
-	};
+                    Cache.removeSession('bier_token');
+                    Request.requestHandle(params, res => {
+                        this.$router.push({
+                            name: 'login',
+                        });
+                    });
+                }
+            },
+        },
+    };
 </script>
 <style lang="scss" scoped>
-.bierinc-type {
-    font-size: 20px;
-    color: #69c390;
-}
-.clock {
-    position: absolute;
-    bottom: 30px;
-    width: 199px;
-    height: 100px;
-}
+    .bierinc-type {
+        font-size: 20px;
+        color: #69c390;
+    }
+
+    .clock {
+        position: absolute;
+        bottom: 30px;
+        width: 199px;
+        height: 100px;
+    }
 </style>
