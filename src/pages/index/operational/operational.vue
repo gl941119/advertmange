@@ -97,9 +97,9 @@
 				<div class="user-management-list-title">
 					<h3>折线图</h3>
 				</div>
-				<chart :options="pvdata_month" theme="ovilia-green" style="width 100%"></chart>
-				<chart :options="uvdata_month" theme="ovilia-green" style="width 100%"></chart>
-				<chart :options="registerdata_month" theme="ovilia-green" style="width 100%"></chart>
+				<chart :options="pvdata_month" theme="ovilia-green" style="width:100%"></chart>
+				<chart :options="uvdata_month" theme="ovilia-green" style="width:100%"></chart>
+				<chart :options="registerdata_month" theme="ovilia-green" style="width:100%"></chart>
 			</div>
 		</div>
 	</div>

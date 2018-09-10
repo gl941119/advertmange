@@ -33,13 +33,13 @@
             </el-table-column>
             <el-table-column label="数据报表" align="center">
                 <template slot-scope="scope">
-                    <el-button size="mini" @click="">查看</el-button>
+                    <el-button size="mini" @click="query(scope.row.id)">查看</el-button>
                 </template>
             </el-table-column>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
                     <el-button size="mini" @click="editBtn(scope.row)">编辑</el-button>
-                    <el-button size="mini" @click="Delete">删除</el-button>
+                    <el-button size="mini" @click="DeleteBtn(scope.row.id)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -84,14 +84,15 @@
             </div>
         </el-dialog>
 
-        <el-pagination background
-                       layout="prev, pager, next"
-                       prev-text="上一页"
-                       next-text="下一页"
-                       :page-size="pageSize"
-                       @current-change="queryCurrentPageList"
-                       :total="total"
-                       style="text-align: center;">
+        <el-pagination
+            layout="prev, pager, next"
+            prev-text='上一页'
+            next-text="下一页"
+            :total="total"
+            @current-change='currentChange'
+            :page-size="pageSize"
+            background
+            style="text-align: center;">
         </el-pagination>
     </div>
 </template>
@@ -165,6 +166,10 @@
                     flag:true
                 }, res => {
                     if (res.success = 1) {
+                        this.$message({
+                            message:'修改成功',
+                            type:"success"
+                        });
                         this.dialogFormVisible = false;
                         this.ReuqestData()
                     }
@@ -186,16 +191,14 @@
                 });
 
             },
-            Delete() {
+            // 删除
+            DeleteBtn(id) {
                 this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning',
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!',
-                    });
+                  this.Delete(id)
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -204,8 +207,32 @@
                 });
 
             },
+            Delete(id){
+                Request.requestHandle({
+                    url: 'addAccountOperater',
+                    data: {
+                        "id": id
+                    },
+                    type: 'post',
+                    flag:true
+                }, res => {
+                    if (res.success = 1) {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!',
+                        });
+                        this.ReuqestData()
+                    }
+                });
+            },
+            query(id){
+                console.log(id)
+                this.$router.push({name:'queryOperational',query:{id}})
+            },
             //分页
-            queryCurrentPageList(val) {
+            currentChange(val){
+                this.page = val;
+                this.ReuqestData()
             },
             tableHeaderClassName({
                                      row,
