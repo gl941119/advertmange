@@ -1,7 +1,9 @@
 const url = {
+
     // localTestUrl: 'http://192.168.1.15:6080/',
     localTestUrl: 'http://192.168.1.254:6080/',
     productUrl: 'http://192.168.1.254:6080/',
+
     // productUrl: '/mapi/',
 };
 
