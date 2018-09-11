@@ -88,6 +88,11 @@
                                  class="bierinc-main-container-aside-menu-li"
                                  :to="{name:'dictionaries'}">数据字典
                     </router-link>
+                    <!--<router-link v-if='userType==0'-->
+                                 <!--tag='li'-->
+                                 <!--class="bierinc-main-container-aside-menu-li"-->
+                                 <!--:to="{name:'private'}">私募发行-->
+                    <!--</router-link>-->
                 </ul>
             </el-aside>
             <el-main class="bierinc-main-container-view">

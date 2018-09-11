@@ -26,7 +26,6 @@
             <!--<el-table-column prop="" label="【交易】人均点击量" align="center"></el-table-column>-->
             <el-table-column  label="工作状态" align="center">
                 <template slot-scope="scope">
-
                    <p v-if="scope.row.workStatus==1">正常</p>
                    <p v-if="scope.row.workStatus==2">离职</p>
                 </template>
@@ -57,7 +56,6 @@
                 </el-form-item>
                 <el-form-item label="工作状态" :label-width="formLabelWidth">
                     <el-select v-model="DialogForm.workStatus" placeholder="请选择活动区域">
-
                         <el-option label="正常" value="1"></el-option>
                         <el-option label="离职" value="2"></el-option>
                     </el-select>
@@ -69,7 +67,7 @@
             </div>
         </el-dialog>
         <!--新增弹窗-->
-        <el-dialog title="收货地址" :visible.sync="addDialog" v-if="addDialog" width="400px">
+        <el-dialog title="新增" :visible.sync="addDialog" v-if="addDialog" width="400px">
             <el-form :model="addForm">
                 <el-form-item label="员工姓名" :label-width="formLabelWidth">
                     <el-input v-model="addForm.nickname" auto-complete="off"></el-input>
@@ -185,6 +183,10 @@
                     flag:true
                 }, res => {
                     if (res.success = 1) {
+                        this.$message({
+                            type: 'success',
+                            message: '新增成功!',
+                        });
                         this.addDialog = false;
                         this.ReuqestData()
                     }
@@ -209,7 +211,7 @@
             },
             Delete(id){
                 Request.requestHandle({
-                    url: 'addAccountOperater',
+                    url: 'deleteAccountOperater',
                     data: {
                         "id": id
                     },

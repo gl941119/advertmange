@@ -36,7 +36,9 @@ import operationalPer from '@/pages/index/operationalPer/operationalPer';
 import queryOperational from '@/pages/index/operationalPer/pages/queryOperational';
 
 //数据字典
- import dictionaries from '@/pages/index/dictionaries';
+import dictionaries from '@/pages/index/dictionaries';
+//私募
+import Private from '@/pages/index/private';
 
 
 // 测试
@@ -48,12 +50,13 @@ import FeedbackCom from '@/pages/index/material/feedback';
 Vue.use(Router);
 
 export default new Router({
-    routes: [{
-        path: '/',
-        redirect: {
-            name: 'login',
+    routes: [
+        {
+            path: '/',
+            redirect: {
+                name: 'login',
+            },
         },
-    },
         {
             path: '/login',
             name: 'login',
@@ -133,13 +136,15 @@ export default new Router({
                 path: 'queryOperational',
                 name: 'queryOperational',
                 component: queryOperational,
+            }, {
+                path: 'dictionaries',
+                name: 'dictionaries',
+                component: dictionaries,
             },{
-                path:'dictionaries',
-                name:'dictionaries',
-                component:dictionaries
-
-            }
-            ],
+             path:'private',
+             name:'private',
+             component:Private
+            }],
         },
     ],
 });
